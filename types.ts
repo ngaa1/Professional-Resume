@@ -5,6 +5,7 @@ export interface Project {
 
 export interface Experience {
   company: string;
+  logo?: string;
   position: string;
   year: string;
   description: string;

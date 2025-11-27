@@ -3,7 +3,7 @@ import { ResumeData } from './types';
 export const RESUME_DATA: ResumeData = {
     "lang": "zh",
     "name": "李楚龙",
-    "title": "结构工程师",
+    "title": "项目负责人/结构工程师",
     "email": "nglichulong@outlook.com",
     "phone": "13865379680",
     "wechat": "nglichulong",
@@ -12,7 +12,7 @@ export const RESUME_DATA: ResumeData = {
         "土木工程", "结构力学", "代尔夫特理工硕士", "雅思7.5", 
         "GAD绿城设计院", "住宅公建项目", "参数化设计", "天合光能", 
         "项目工程负责人", "团队管理", "光伏支架", "python开发", 
-        "软件专著", "有限元理论", "西班牙外派", "海外项目实施", "欧美规范计算"
+        "软件专著", "有限元理论", "海外项目实施", "欧标计算", "美标计算"
     ],
     "labels": {
         "about_me": "个人简介",
@@ -52,6 +52,7 @@ export const RESUME_DATA: ResumeData = {
     "experience": [
         {
             "company": "天合光能股份有限公司",
+            "logo": "https://static.trinasolar.com/sites/default/files/logo_0.png",
             "position": "欧洲/南美/北美区项目工程负责人&结构工程师",
             "year": "2023 六月~至今",
             "description": "在跟踪支架工程技术中心工作，负责全球项目技术支持、支架结构设计与优化，以及工具开发。支持横跨欧美50多个项目，实施20个重点项目（总容量600MW），提供定制化解决方案并平衡成本与质量。熟练掌握美标、欧标等多种规范，对基础设计、施工定位等问题提供专业解决方案。",
@@ -83,6 +84,8 @@ export const RESUME_DATA: ResumeData = {
         },
         {
             "company": "GAD 杰地设计集团重庆公司",
+            // Use SVG Data URI to ensure logo displays correctly without hotlinking issues
+            "logo": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgMTUwIj48dGV4dCB4PSIxNTAiIHk9IjEwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMjAiIGZpbGw9IiNkNzAwMGYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmdhZDwvdGV4dD48L3N2Zz4=",
             "position": "结构工程师",
             "year": "2021 七月~2023 三月",
             "description": "参与初设阶段的结构选型设计，与建筑团队保持沟通反馈。参与深化阶段的结构的布置和设计，与甲方保持沟通反馈，进行计算和出图。参与项目后期的与施工方和生产厂家合作，提供技术支持。",
