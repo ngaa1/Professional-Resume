@@ -11,14 +11,65 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
     window.print();
   };
 
-  // Duplicate tags to ensure seamless infinite scrolling
   const tagsList = data.tags || [];
-  const scrollTags = [...tagsList, ...tagsList];
+
+  // Deterministic positioning to ensure consistent server/client rendering
+  const getTagStyle = (index: number) => {
+    // Spread tags pseudo-randomly across the container
+    const top = ((index * 19) % 85) + 5; // 5% to 90% top
+    const left = ((index * 37) % 90) + 2; // 2% to 92% left
+    
+    // Stagger animations
+    const delay = index * 1.5; 
+    const duration = 10 + (index % 5) * 2; // 10s to 18s duration
+    
+    // Vary font sizes for texture
+    const sizeClasses = ['text-lg', 'text-xl', 'text-2xl', 'text-3xl'];
+    const sizeClass = sizeClasses[index % sizeClasses.length];
+
+    return {
+      style: {
+        top: `${top}%`,
+        left: `${left}%`,
+        animationDelay: `${delay}s`,
+        animationDuration: `${duration}s`,
+      },
+      className: `absolute font-bold text-white whitespace-nowrap select-none pointer-events-none animate-float-fade ${sizeClass}`
+    };
+  };
 
   return (
     <header className="bg-gradient-to-r from-slate-900 to-slate-800 text-white pt-16 pb-20 relative overflow-hidden print:bg-white print:text-black print:p-0 print:mb-8">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl pointer-events-none print:hidden" />
+      
+      {/* Dynamic Background Tags (Looming Effect) */}
+      <div className="absolute inset-0 overflow-hidden print:hidden z-0">
+        {tagsList.map((tag, index) => {
+            const { style, className } = getTagStyle(index);
+            return (
+                <span key={index} className={className} style={style}>
+                    {tag}
+                </span>
+            );
+        })}
+      </div>
+
+      <style>{`
+        @keyframes float-fade {
+          0% { opacity: 0; transform: translateY(15px) scale(0.95); }
+          50% { opacity: 0.08; transform: translateY(0) scale(1); }
+          100% { opacity: 0; transform: translateY(-15px) scale(0.95); }
+        }
+        .animate-float-fade {
+          animation-name: float-fade;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
+          /* Use mix-blend-mode for better texture on supported browsers */
+          mix-blend-mode: overlay;
+        }
+      `}</style>
+
+      {/* Existing Background Decoration */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl pointer-events-none print:hidden z-0" />
       
       {/* Inner container with padding matches App.tsx main container for alignment */}
       <div className="max-w-5xl mx-auto px-4 md:px-8 relative z-10">
@@ -56,34 +107,6 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
           <p className="text-slate-100 leading-relaxed text-lg font-light text-justify print:text-slate-700 mb-6">
             {data.summary}
           </p>
-          
-          {/* Tags Section with Infinite Scroll */}
-          {tagsList.length > 0 && (
-            <div className="relative w-full overflow-hidden print:hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
-              <div className="flex w-max animate-marquee hover-pause py-1">
-                {scrollTags.map((tag, index) => (
-                  <span 
-                    key={index} 
-                    className="mx-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-blue-100 text-xs md:text-sm rounded-full border border-white/10 transition-colors cursor-default whitespace-nowrap"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <style>{`
-                @keyframes marquee {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
-                }
-                .animate-marquee {
-                  animation: marquee 40s linear infinite;
-                }
-                .hover-pause:hover {
-                  animation-play-state: paused;
-                }
-              `}</style>
-            </div>
-          )}
         </div>
       </div>
 
