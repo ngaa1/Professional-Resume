@@ -11,6 +11,10 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
     window.print();
   };
 
+  // Duplicate tags to ensure seamless infinite scrolling
+  const tagsList = data.tags || [];
+  const scrollTags = [...tagsList, ...tagsList];
+
   return (
     <header className="bg-gradient-to-r from-slate-900 to-slate-800 text-white pt-16 pb-20 relative overflow-hidden print:bg-white print:text-black print:p-0 print:mb-8">
       {/* Background decoration */}
@@ -49,21 +53,35 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
             <Icons.User className="w-4 h-4" />
             {data.labels.about_me}
           </h2>
-          <p className="text-slate-100 leading-relaxed text-lg font-light text-justify print:text-slate-700 mb-4">
+          <p className="text-slate-100 leading-relaxed text-lg font-light text-justify print:text-slate-700 mb-6">
             {data.summary}
           </p>
           
-          {/* Tags Section */}
-          {data.tags && data.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 print:hidden">
-              {data.tags.map((tag, index) => (
-                <span 
-                  key={index} 
-                  className="px-3 py-1 bg-white/10 hover:bg-white/20 text-blue-100 text-xs md:text-sm rounded-full border border-white/10 transition-colors cursor-default"
-                >
-                  {tag}
-                </span>
-              ))}
+          {/* Tags Section with Infinite Scroll */}
+          {tagsList.length > 0 && (
+            <div className="relative w-full overflow-hidden print:hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+              <div className="flex w-max animate-marquee hover-pause py-1">
+                {scrollTags.map((tag, index) => (
+                  <span 
+                    key={index} 
+                    className="mx-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-blue-100 text-xs md:text-sm rounded-full border border-white/10 transition-colors cursor-default whitespace-nowrap"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <style>{`
+                @keyframes marquee {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .animate-marquee {
+                  animation: marquee 40s linear infinite;
+                }
+                .hover-pause:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
             </div>
           )}
         </div>
