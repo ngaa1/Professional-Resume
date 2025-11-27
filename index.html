@@ -10,15 +10,25 @@
         theme: {
           extend: {
             colors: {
-              primary: '#0f172a', // Slate 900
-              secondary: '#334155', // Slate 700
-              accent: '#2563eb', // Blue 600
-              'accent-hover': '#1d4ed8', // Blue 700
-              surface: '#ffffff',
-              background: '#f8fafc', // Slate 50
+              // Deep Slate for text (High Contrast, Rigorous)
+              primary: '#0f172a', 
+              // Softer Slate for secondary text
+              secondary: '#475569', 
+              // Solar Cyan (Energy, Innovation)
+              accent: '#0891b2', 
+              // Tech Indigo (Programming, Structure)
+              tech: '#4f46e5',
+              // Very light cool grey for backgrounds
+              surface: '#f8fafc',
+              border: '#e2e8f0'
             },
             fontFamily: {
-              sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+              // Added Chinese fonts to the stack
+              sans: ['Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'SimHei', 'Arial', 'sans-serif'],
+              mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+            },
+            backgroundImage: {
+              'grid-pattern': "radial-gradient(#cbd5e1 1px, transparent 1px)",
             }
           }
         }
@@ -26,15 +36,36 @@
     </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        background-color: #ffffff;
+        background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+        background-size: 24px 24px;
       }
+      
+      /* Scrollbar Styling for a tech feel */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8; 
+      }
+
       @media print {
+        body {
+          background-image: none;
+          background-color: white;
+        }
         .no-print {
           display: none !important;
-        }
-        body {
-          background-color: white;
         }
         .page-break {
           page-break-inside: avoid;
@@ -52,7 +83,7 @@
 }
 </script>
 </head>
-  <body class="bg-background text-primary antialiased">
+  <body class="bg-white text-primary antialiased">
     <div id="root"></div>
   </body>
 </html>

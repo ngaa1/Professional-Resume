@@ -9,108 +9,120 @@ interface ExperienceItemProps {
 }
 
 const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels, isFirst }) => {
-  // Collapsed by default
   const [expanded, setExpanded] = useState(false);
 
+  // Logo sizing logic
+  const isGAD = data.company.includes("GAD");
+  const logoWidthClass = isGAD 
+    ? "w-[160px] md:w-[180px]" 
+    : "w-[240px] md:w-[280px]";
+
   return (
-    <div className={`mb-12 relative overflow-hidden ${!isFirst ? 'pt-8 border-t border-dashed border-slate-200' : ''}`}>
+    <div className="relative pl-8 md:pl-0">
       
-      {/* Background Logo Watermark */}
-      {data.logo && (
-        // Changed to right-0 and positive translate-x to ensure it stays visible on the right side
-        // Increased opacity slightly to 0.15 for better visibility
-        <div className="absolute right-10 top-10 opacity-[0.10] pointer-events-none select-none z-0 transform translate-x-10 -translate-y-2">
-          <img src={data.logo} alt="Company Logo" className="w-[300px] md:w-[400px] h-auto object-contain" />
-          {/* Blend overlay to help it merge with background */}
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-white/10 to-white/90 mix-blend-overlay"></div>
-        </div>
-      )}
+      {/* Timeline Line (Desktop only) */}
+      <div className="hidden md:block absolute left-0 top-0 bottom-0 w-px bg-slate-200 -ml-[1px]"></div>
+      
+      {/* Timeline Dot (Desktop only) */}
+      <div className="hidden md:flex absolute left-0 top-8 w-3 h-3 bg-white border-2 border-accent rounded-full -translate-x-[5px] z-10"></div>
 
-      <div className="relative z-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
-          <div>
-            <h3 className="text-xl font-bold text-primary leading-tight">{data.company}</h3>
-            <p className="text-lg text-accent font-medium mt-1">{data.position}</p>
+      <div className={`mb-12 relative overflow-hidden bg-white rounded-xl border border-slate-200 p-6 md:p-8 hover:shadow-lg hover:shadow-slate-200/40 transition-shadow duration-300`}>
+        
+        {/* Watermark Logo (Adjusted for Light Theme) */}
+        {data.logo && (
+          <div className="absolute right-6 top-6 opacity-[0.08] pointer-events-none select-none z-0 mix-blend-multiply filter grayscale-[20%]">
+            <img 
+              src={data.logo} 
+              alt="Company Logo" 
+              className={`${logoWidthClass} h-auto object-contain`} 
+            />
           </div>
-          <div className="flex items-center text-slate-500 font-medium bg-slate-100 px-3 py-1 rounded-full text-sm w-fit whitespace-nowrap">
-            {data.year}
+        )}
+
+        <div className="relative z-10">
+          
+          {/* Header Row */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-2">
+            <div>
+              <h3 className="text-2xl font-bold text-primary tracking-tight">{data.company}</h3>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <p className="text-lg text-tech font-semibold">{data.position}</p>
+              </div>
+            </div>
+            <div className="flex items-center text-sm font-medium text-slate-500 bg-surface border border-slate-200 px-3 py-1.5 rounded-md">
+              {data.year}
+            </div>
           </div>
-        </div>
 
-        {/* Main Description */}
-        <p className="text-secondary leading-relaxed mb-6 text-justify">
-          {data.description}
-        </p>
+          {/* Description */}
+          <p className="text-secondary leading-relaxed mb-8 text-justify border-l-2 border-slate-100 pl-4">
+            {data.description}
+          </p>
 
-        {/* Core Responsibilities */}
-        <div className="mb-6 bg-slate-50 p-5 rounded-lg border border-slate-100 relative bg-opacity-90">
-          <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-             <Icons.User className="w-4 h-4" />
-             {labels.core_responsibilities}
-          </h4>
-          <ul className="space-y-2">
-            {data.core_responsibilities.map((resp, index) => (
-              <li key={index} className="flex items-start text-secondary text-sm md:text-base">
-                <span className="w-1.5 h-1.5 bg-accent rounded-full mt-2 mr-3 flex-shrink-0" />
-                <span>{resp}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Projects */}
-        <div className="mt-4">
-          <div 
-            className="flex items-center justify-between cursor-pointer group mb-3 select-none"
-            onClick={() => setExpanded(!expanded)}
-          >
-            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-              <Icons.Briefcase className="w-4 h-4" />
-              {labels.projects}
-              <span className="text-xs font-normal normal-case ml-2 bg-blue-50 text-blue-600 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                {expanded ? labels.collapse : labels.expand}
-              </span>
+          {/* Responsibilities Grid */}
+          <div className="mb-8">
+            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+               <Icons.User className="w-3 h-3" />
+               {labels.core_responsibilities}
             </h4>
-            <div className="p-1 rounded-full hover:bg-slate-100 transition-colors">
-              {expanded ? (
-                <Icons.ChevronUp className="w-5 h-5 text-slate-400 group-hover:text-accent" />
-              ) : (
-                <Icons.ChevronDown className="w-5 h-5 text-slate-400 group-hover:text-accent" />
+            <div className="grid grid-cols-1 gap-3">
+              {data.core_responsibilities.map((resp, index) => (
+                <div key={index} className="flex items-start text-secondary text-sm bg-surface rounded-md p-3 border border-slate-100/50">
+                  <span className="w-1.5 h-1.5 bg-slate-300 rounded-full mt-1.5 mr-3 flex-shrink-0" />
+                  <span>{resp}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Projects - Tech Folder Style */}
+          <div className="bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
+            <div 
+              className="flex items-center justify-between p-4 bg-slate-100/50 border-b border-slate-200 cursor-pointer hover:bg-slate-100 transition-colors"
+              onClick={() => setExpanded(!expanded)}
+            >
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                <Icons.Briefcase className="w-3 h-3 text-accent" />
+                {labels.projects}
+                <span className="ml-2 px-2 py-0.5 text-[10px] bg-white border border-slate-200 rounded text-slate-400">
+                  {expanded ? '-' : '+'}
+                </span>
+              </h4>
+              <div className={`transform transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}>
+                 <Icons.ChevronDown className="w-4 h-4 text-slate-400" />
+              </div>
+            </div>
+
+            <div className={`relative transition-all duration-500 ease-in-out bg-white ${expanded ? 'opacity-100' : 'max-h-24 opacity-90'}`}>
+              <div className={`grid grid-cols-1 md:grid-cols-2 gap-px bg-slate-100`}>
+                {data.projects.map((project, idx) => (
+                  <div key={idx} className="bg-white p-5 hover:bg-sky-50/30 transition-colors">
+                    <h5 className="font-bold text-primary mb-2 text-sm flex items-center gap-2">
+                      <span className="w-1 h-4 bg-accent rounded-sm"></span>
+                      {project.name}
+                    </h5>
+                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed text-justify pl-3 border-l border-slate-100 ml-0.5">
+                      {project.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              
+               {/* Fade Overlay for collapsed state */}
+               {!expanded && (
+                <div 
+                  className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent flex items-end justify-center pb-2 cursor-pointer"
+                  onClick={() => setExpanded(true)}
+                >
+                  <span className="text-xs font-medium text-accent flex items-center gap-1 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    View All Projects
+                  </span>
+                </div>
               )}
             </div>
           </div>
 
-          <div className="relative">
-            <div 
-              className={`grid grid-cols-1 md:grid-cols-2 gap-4 transition-all duration-500 ease-in-out ${expanded ? '' : 'max-h-32 overflow-hidden'}`}
-            >
-              {data.projects.map((project, idx) => (
-                <div 
-                  key={idx} 
-                  className="p-4 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-lg hover:shadow-md transition-shadow hover:border-blue-200"
-                >
-                  <h5 className="font-bold text-primary mb-2 text-sm">{project.name}</h5>
-                  <p className="text-slate-600 text-sm leading-relaxed text-justify">
-                    {project.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-            
-            {/* Gradient Overlay when collapsed */}
-            {!expanded && (
-              <div 
-                className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-4 cursor-pointer"
-                onClick={() => setExpanded(true)}
-              >
-                  <span className="text-sm text-accent font-medium hover:underline flex items-center gap-1 bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm shadow-sm border border-slate-100">
-                      <Icons.ChevronDown className="w-4 h-4" />
-                      {labels.view_more}
-                  </span>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>

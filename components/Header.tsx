@@ -11,114 +11,90 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
     window.print();
   };
 
-  const tagsList = data.tags || [];
-
-  // Deterministic positioning to ensure consistent server/client rendering
-  const getTagStyle = (index: number) => {
-    // Spread tags pseudo-randomly across the container
-    const top = ((index * 19) % 85) + 5; // 5% to 90% top
-    const left = ((index * 37) % 90) + 2; // 2% to 92% left
-    
-    // Stagger animations
-    const delay = index * 1.5; 
-    const duration = 10 + (index % 5) * 2; // 10s to 18s duration
-    
-    // Vary font sizes for texture
-    const sizeClasses = ['text-lg', 'text-xl', 'text-2xl', 'text-3xl'];
-    const sizeClass = sizeClasses[index % sizeClasses.length];
-
-    return {
-      style: {
-        top: `${top}%`,
-        left: `${left}%`,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-      },
-      // Added opacity-0 here to ensure tags are invisible before the animation starts
-      className: `absolute font-bold text-white whitespace-nowrap select-none pointer-events-none animate-float-fade opacity-0 ${sizeClass}`
-    };
-  };
-
   return (
-    <header className="bg-gradient-to-r from-slate-900 to-slate-800 text-white pt-16 pb-20 relative overflow-hidden print:bg-white print:text-black print:p-0 print:mb-8">
-      
-      {/* Dynamic Background Tags (Looming Effect) */}
-      <div className="absolute inset-0 overflow-hidden print:hidden z-0">
-        {tagsList.map((tag, index) => {
-            const { style, className } = getTagStyle(index);
-            return (
-                <span key={index} className={className} style={style}>
-                    {tag}
-                </span>
-            );
-        })}
-      </div>
+    <header className="pt-12 pb-8 relative print:pt-0 print:pb-4">
+      <div className="max-w-5xl mx-auto px-4 md:px-8">
+        
+        {/* Top bar with Print Button */}
+        <div className="flex justify-end mb-4 print:hidden">
+          <button 
+            onClick={handlePrint}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-200 rounded-lg hover:border-accent hover:text-accent transition-all shadow-sm"
+          >
+            <Icons.Printer className="w-4 h-4" />
+            <span>Print / Save PDF</span>
+          </button>
+        </div>
 
-      <style>{`
-        @keyframes float-fade {
-          0% { opacity: 0; transform: translateY(15px) scale(0.95); }
-          50% { opacity: 0.08; transform: translateY(0) scale(1); }
-          100% { opacity: 0; transform: translateY(-15px) scale(0.95); }
-        }
-        .animate-float-fade {
-          animation-name: float-fade;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-          /* Use mix-blend-mode for better texture on supported browsers */
-          mix-blend-mode: overlay;
-        }
-      `}</style>
+        {/* Main Card */}
+        <div className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-lg shadow-slate-200/50 relative overflow-hidden print:shadow-none print:border-none print:p-0">
+          
+          {/* Decorative tech accent top right */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent/10 to-transparent -translate-y-1/2 translate-x-1/3 rounded-full blur-xl print:hidden"></div>
+          
+          <div className="flex flex-col lg:flex-row gap-8 items-start relative z-10">
+            
+            {/* Left Column: Name & Contact */}
+            <div className="flex-1 min-w-0">
+              <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold text-tech bg-indigo-50 border border-indigo-100 rounded-full tracking-wide">
+                STRUCTURAL ENGINEER & DEVELOPER
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight mb-2">
+                {data.name}
+              </h1>
+              <p className="text-xl text-secondary font-light mb-6">
+                {data.title}
+              </p>
 
-      {/* Existing Background Decoration */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl pointer-events-none print:hidden z-0" />
-      
-      {/* Inner container with padding matches App.tsx main container for alignment */}
-      <div className="max-w-5xl mx-auto px-4 md:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 print:text-black">
-              {data.name}
-            </h1>
-            <p className="text-xl md:text-2xl text-blue-200 font-medium print:text-slate-700">
-              {data.title}
-            </p>
-          </div>
+              <div className="flex flex-wrap gap-4 text-sm text-secondary">
+                <a href={`mailto:${data.email}`} className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-50 border border-slate-100 hover:border-accent hover:text-accent transition-colors">
+                  <Icons.Mail className="w-4 h-4" />
+                  <span>{data.email}</span>
+                </a>
+                <a href={`tel:${data.phone}`} className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-50 border border-slate-100 hover:border-accent hover:text-accent transition-colors">
+                  <Icons.Phone className="w-4 h-4" />
+                  <span>{data.phone}</span>
+                </a>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-50 border border-slate-100">
+                  <Icons.MessageSquare className="w-4 h-4" />
+                  <span>WeChat: {data.wechat}</span>
+                </div>
+              </div>
+            </div>
 
-          <div className="flex flex-col gap-2 text-sm md:text-base md:items-end">
-            <a href={`mailto:${data.email}`} className="flex items-center gap-2 hover:text-blue-200 transition-colors group">
-              <span className="group-hover:underline">{data.email}</span>
-              <Icons.Mail className="w-4 h-4 text-blue-300" />
-            </a>
-            <a href={`tel:${data.phone}`} className="flex items-center gap-2 hover:text-blue-200 transition-colors group">
-              <span className="group-hover:underline">{data.phone}</span>
-              <Icons.Phone className="w-4 h-4 text-blue-300" />
-            </a>
-            <div className="flex items-center gap-2">
-              <span>WeChat: {data.wechat}</span>
-              <Icons.MessageSquare className="w-4 h-4 text-blue-300" />
+            {/* Right Column: Summary */}
+            <div className="flex-1 lg:max-w-lg">
+               <div className="p-6 bg-surface rounded-xl border border-slate-100 relative">
+                  <Icons.User className="absolute top-6 right-6 w-12 h-12 text-slate-200 stroke-1" />
+                  <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Profile</h3>
+                  <p className="text-slate-600 leading-relaxed text-justify relative z-10">
+                    {data.summary}
+                  </p>
+               </div>
             </div>
           </div>
-        </div>
 
-        <div className="mt-10 max-w-3xl">
-          <h2 className="text-sm font-bold text-blue-300 uppercase tracking-wider mb-2 flex items-center gap-2 print:text-blue-600">
-            <Icons.User className="w-4 h-4" />
-            {data.labels.about_me}
-          </h2>
-          <p className="text-slate-100 leading-relaxed text-lg font-light text-justify print:text-slate-700 mb-6">
-            {data.summary}
-          </p>
+          {/* Tags / Tech Stack Section */}
+          <div className="mt-8 pt-8 border-t border-slate-100">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Icons.Code className="w-3 h-3" />
+              Key Competencies
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {data.tags?.map((tag, index) => (
+                <span 
+                  key={index} 
+                  className="px-3 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md shadow-sm hover:border-accent hover:text-accent transition-colors cursor-default"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
-
-      {/* Print button positioned absolute to the header, outside the content flow */}
-      <button 
-        onClick={handlePrint}
-        className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors print:hidden z-20"
-        title="Print Resume"
-      >
-        <Icons.Printer className="w-5 h-5 text-white" />
-      </button>
     </header>
   );
 };
