@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { RESUME_DATA } from './constants';
 import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';
@@ -8,9 +8,31 @@ import { Icons } from './components/Icon';
 
 function App() {
   const { labels, experience, education, honors, skills } = RESUME_DATA;
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button when page is scrolled down 300px
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 print:bg-white print:pb-0">
+    <div className="min-h-screen bg-slate-50 pb-20 print:bg-white print:pb-0 relative">
       <Header data={RESUME_DATA} />
 
       <main className="max-w-5xl mx-auto px-4 md:px-8 -mt-10 relative z-20 space-y-8 print:mt-0 print:px-0">
@@ -117,6 +139,17 @@ function App() {
       <footer className="max-w-5xl mx-auto px-8 mt-16 text-center text-slate-400 text-sm pb-8 print:hidden">
         <p>© {new Date().getFullYear()} {RESUME_DATA.name}. All Rights Reserved.</p>
       </footer>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 p-3 bg-accent text-white rounded-full shadow-lg hover:bg-accent-hover hover:shadow-xl transition-all duration-300 transform z-50 print:hidden ${
+          showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+      >
+        <Icons.ArrowUp className="w-6 h-6" />
+      </button>
     </div>
   );
 }

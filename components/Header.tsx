@@ -34,7 +34,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
         animationDelay: `${delay}s`,
         animationDuration: `${duration}s`,
       },
-      className: `absolute font-bold text-white whitespace-nowrap select-none pointer-events-none animate-float-fade ${sizeClass}`
+      // Added opacity-0 here to ensure tags are invisible before the animation starts
+      className: `absolute font-bold text-white whitespace-nowrap select-none pointer-events-none animate-float-fade opacity-0 ${sizeClass}`
     };
   };
 
