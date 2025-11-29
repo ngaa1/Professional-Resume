@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RESUME_DATA } from './constants';
 import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';

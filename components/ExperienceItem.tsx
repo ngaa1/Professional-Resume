@@ -8,7 +8,7 @@ interface ExperienceItemProps {
   isFirst: boolean;
 }
 
-const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels, isFirst }) => {
+const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
   const [expanded, setExpanded] = useState(false);
 
   // Logo sizing logic

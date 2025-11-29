@@ -1,4 +1,4 @@
-import React from 'react';
+// React导入已移除，因为使用了新的JSX转换
 import { 
   Mail, 
   Phone, 
