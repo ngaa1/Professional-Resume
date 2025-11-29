@@ -10,46 +10,42 @@
         theme: {
           extend: {
             colors: {
-              // Deep Slate for text (High Contrast, Rigorous)
+              // Deep Navy for primary text (Professional, Sharp)
               primary: '#0f172a', 
               // Softer Slate for secondary text
               secondary: '#475569', 
-              // Solar Cyan (Energy, Innovation)
-              accent: '#0891b2', 
-              // Tech Indigo (Programming, Structure)
-              tech: '#4f46e5',
-              // Very light cool grey for backgrounds
-              surface: '#f8fafc',
+              // Bright Sky Blue (Vibrant, Energetic - Reference match)
+              accent: '#0ea5e9', 
+              // Darker Blue for hover states
+              'accent-hover': '#0284c7',
+              // Clean White surface
+              surface: '#ffffff',
+              // Very light blue-grey for borders
               border: '#e2e8f0'
             },
             fontFamily: {
-              // Added Chinese fonts to the stack
               sans: ['Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'SimHei', 'Arial', 'sans-serif'],
-              mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
-            },
-            backgroundImage: {
-              'grid-pattern': "radial-gradient(#cbd5e1 1px, transparent 1px)",
             }
           }
         }
       }
     </script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
       
       body {
         font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-        background-color: #ffffff;
-        background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-        background-size: 24px 24px;
+        /* Bright Daylight Gradient */
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        background-attachment: fixed;
       }
       
-      /* Scrollbar Styling for a tech feel */
+      /* Scrollbar Styling - lighter and cleaner */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f5f9; 
+        background: transparent; 
       }
       ::-webkit-scrollbar-thumb {
         background: #cbd5e1; 
@@ -61,8 +57,7 @@
 
       @media print {
         body {
-          background-image: none;
-          background-color: white;
+          background: white;
         }
         .no-print {
           display: none !important;
@@ -83,7 +78,7 @@
 }
 </script>
 </head>
-  <body class="bg-white text-primary antialiased">
+  <body class="text-primary antialiased min-h-screen">
     <div id="root"></div>
   </body>
 </html>

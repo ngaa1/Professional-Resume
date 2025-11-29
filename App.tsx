@@ -3,7 +3,8 @@ import { RESUME_DATA } from './constants';
 import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';
 import ExperienceItem from './components/ExperienceItem';
-import SkillCard from './components/SkillCard';
+// Removed direct SkillCard import as it is now used inside SkillsSection
+import SkillsSection from './components/SkillsSection'; 
 import { Icons } from './components/Icon';
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
         {/* Experience Section */}
         <section>
           <SectionTitle title={labels.experience} icon={Icons.Briefcase} />
-          <div className="mt-6 md:pl-4 md:border-l border-dashed border-slate-200/50">
+          <div className="mt-6">
             {experience.map((item, index) => (
               <ExperienceItem 
                 key={index} 
@@ -47,34 +48,19 @@ function App() {
           </div>
         </section>
 
-        {/* Skills Section */}
+        {/* Skills Section - Updated to use the new interactive layout */}
         <section className="page-break">
            <SectionTitle title={labels.skills} icon={Icons.Code} />
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <SkillCard 
-              title="专业技能" 
-              skills={skills["专业技能"]} 
-              icon={Icons.Briefcase} 
-            />
-            <SkillCard 
-              title="编程与开发" 
-              skills={skills["编程与开发"]} 
-              icon={Icons.Code} 
-            />
-            <SkillCard 
-              title="软技能" 
-              skills={skills["软技能"]} 
-              icon={Icons.MessageSquare} 
-            />
-          </div>
+           {/* Using the new SkillsSection component */}
+           <SkillsSection skills={skills} />
         </section>
 
         {/* Education & Honors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 page-break">
           {/* Education */}
-          <section className="bg-white rounded-xl border border-slate-200 p-6 md:p-8 hover:border-slate-300 transition-colors h-full">
+          <section className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 h-full shadow-sm hover:shadow-lg hover:shadow-sky-100/50 transition-shadow">
             <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-sky-50 text-accent rounded-lg">
+                <div className="p-2 bg-sky-50 rounded-lg text-accent">
                     <Icons.GraduationCap className="w-5 h-5" />
                 </div>
                 <h2 className="text-xl font-bold text-primary">{labels.education}</h2>
@@ -82,25 +68,26 @@ function App() {
             
             <div className="space-y-8">
               {education.map((edu, index) => (
-                <div key={index} className="relative pl-6 border-l-2 border-slate-100 last:border-0">
-                  <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 bg-white border-2 border-accent rounded-full"></span>
+                <div key={index} className="relative pl-6 border-l-2 border-sky-100 last:border-0 pb-2">
+                  <span className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-white border-2 border-accent rounded-full"></span>
                   <div className="mb-1">
-                    <h3 className="font-bold text-primary">{edu.school}</h3>
-                    <div className="flex justify-between items-center text-sm font-medium text-slate-500 mt-1">
+                    <h3 className="font-bold text-primary text-lg">{edu.school}</h3>
+                    <div className="flex justify-between items-center text-sm font-bold text-slate-500 mt-1">
                         <span>{edu.degree}</span>
-                        <span className="bg-slate-100 px-2 py-0.5 rounded text-xs">{edu.year}</span>
+                        <span className="bg-sky-50 text-accent px-2 py-0.5 rounded text-xs border border-sky-100">{edu.year}</span>
                     </div>
                   </div>
                   {edu.gpa && (
-                     <p className="text-sm text-slate-600 mt-2 text-xs">GPA: <span className="font-bold text-primary">{edu.gpa}</span></p>
+                     <p className="text-sm text-slate-700 mt-2 font-medium">GPA: <span className="font-bold text-primary">{edu.gpa}</span></p>
                   )}
                   {edu.thesis && (
                     <p className="text-sm text-slate-600 mt-2">
-                      <span className="font-semibold text-primary text-xs uppercase tracking-wide">Thesis:</span> {edu.thesis}
+                      <span className="font-bold text-slate-400 text-xs uppercase tracking-wide">Thesis:</span> {edu.thesis}
                     </p>
                   )}
                   {edu.courses && (
-                      <p className="text-xs text-slate-500 mt-2 leading-relaxed bg-surface p-2 rounded border border-slate-100">
+                      <p className="text-xs text-slate-500 mt-3 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100 font-medium">
+                          <span className="text-slate-700 font-bold block mb-1">Core Courses:</span>
                           {edu.courses}
                       </p>
                   )}
@@ -110,9 +97,9 @@ function App() {
           </section>
 
           {/* Honors */}
-          <section className="bg-white rounded-xl border border-slate-200 p-6 md:p-8 hover:border-slate-300 transition-colors h-full">
+          <section className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 h-full shadow-sm hover:shadow-lg hover:shadow-sky-100/50 transition-shadow">
              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
+                <div className="p-2 bg-sky-50 rounded-lg text-accent">
                     <Icons.Award className="w-5 h-5" />
                 </div>
                 <h2 className="text-xl font-bold text-primary">{labels.honors}</h2>
@@ -120,13 +107,13 @@ function App() {
 
             <div className="space-y-4">
               {honors.map((honor, index) => (
-                <div key={index} className="group p-4 rounded-lg border border-slate-100 bg-surface hover:bg-white hover:border-accent/30 hover:shadow-sm transition-all">
-                  <div className="flex justify-between items-start mb-1">
+                <div key={index} className="group p-5 rounded-xl bg-white border border-slate-100 hover:border-sky-200 hover:shadow-md hover:shadow-sky-50 transition-all">
+                  <div className="flex justify-between items-start mb-2">
                     <h3 className="font-bold text-primary text-sm md:text-base group-hover:text-accent transition-colors">{honor.title}</h3>
-                    <span className="text-[10px] font-bold text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded">{honor.year}</span>
+                    <span className="text-[10px] font-bold text-white bg-slate-400 group-hover:bg-accent px-2 py-0.5 rounded-full transition-colors">{honor.year}</span>
                   </div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">{honor.company}</p>
-                  <p className="text-sm text-secondary leading-relaxed">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">{honor.company}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">
                     {honor.description}
                   </p>
                 </div>
@@ -140,21 +127,20 @@ function App() {
       {/* Footer */}
       <footer className="max-w-5xl mx-auto px-8 mt-16 text-center">
         <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-8"></div>
-        <p className="text-slate-400 text-sm">
-          © {new Date().getFullYear()} {RESUME_DATA.name} | Built with React & Tailwind
+        <p className="text-slate-400 text-sm font-bold">
+          © {new Date().getFullYear()} {RESUME_DATA.name}
         </p>
       </footer>
 
-      {/* Tech-styled Scroll Button */}
+      {/* Simple Scroll Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 p-3 bg-white text-primary border border-slate-200 rounded-lg shadow-lg hover:border-accent hover:text-accent hover:shadow-xl transition-all duration-300 transform z-50 print:hidden flex items-center justify-center gap-2 ${
+        className={`fixed bottom-8 right-8 p-3 bg-accent text-white rounded-full shadow-lg hover:bg-sky-600 hover:shadow-xl transition-all duration-300 transform z-50 print:hidden flex items-center justify-center gap-2 ${
           showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
         }`}
         aria-label="Scroll to top"
       >
         <Icons.ArrowUp className="w-5 h-5" />
-        <span className="text-xs font-bold hidden md:inline">TOP</span>
       </button>
     </div>
   );
