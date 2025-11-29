@@ -13,7 +13,9 @@ import {
   MessageSquare,
   Printer,
   User,
-  ArrowUp
+  ArrowUp,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
@@ -31,5 +33,7 @@ export const Icons = {
   MessageSquare,
   Printer,
   User,
-  ArrowUp
+  ArrowUp,
+  ChevronLeft,
+  ChevronRight
 };
