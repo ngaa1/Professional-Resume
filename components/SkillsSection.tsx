@@ -47,7 +47,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
         </div>
       </div>
 
-      {/* Navigation Buttons */}
+      {/* Navigation Arrows */}
       <button 
         onClick={prevSlide}
         className="absolute left-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white border border-slate-100 text-slate-400 hover:text-accent hover:shadow-lg hover:border-sky-200 transition-all z-10 shadow-sm group"
@@ -64,19 +64,20 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
         <Icons.ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Pagination Dots */}
-      <div className="flex justify-center items-center gap-2 mt-4">
-        {CATEGORY_ORDER.map((_, idx) => (
+      {/* Category Tabs (Replacing Dots) */}
+      <div className="flex justify-center items-center flex-wrap gap-3 mt-6">
+        {CATEGORY_ORDER.map((category, idx) => (
           <button
             key={idx}
             onClick={() => setActiveIndex(idx)}
-            className={`transition-all duration-300 rounded-full ${
+            className={`px-4 py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border ${
               idx === activeIndex 
-                ? 'w-8 h-2 bg-accent' 
-                : 'w-2 h-2 bg-slate-200 hover:bg-slate-300'
+                ? 'bg-accent text-white border-accent shadow-md shadow-sky-200 scale-105' 
+                : 'bg-white text-slate-500 border-slate-200 hover:border-accent hover:text-accent hover:bg-sky-50'
             }`}
-            aria-label={`Switch to ${CATEGORY_ORDER[idx]}`}
-          />
+          >
+            {category}
+          </button>
         ))}
       </div>
     </div>
