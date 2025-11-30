@@ -28,8 +28,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
               
               {/* Name Block with Shadow Effect */}
               <div className="relative mb-2">
-                {/* Shadow Text */}
-                <span className="absolute -top-5 -left-1 text-6xl md:text-7xl font-black text-slate-100 select-none pointer-events-none uppercase z-0 tracking-tighter opacity-80 overflow-hidden w-full whitespace-nowrap">
+                {/* Shadow Text - Adjusted size for mobile */}
+                <span className="absolute -top-3 md:-top-5 -left-1 text-5xl md:text-7xl font-black text-sky-200 select-none pointer-events-none uppercase z-0 tracking-tighter opacity-40 overflow-hidden w-full whitespace-nowrap">
                   LI CHULONG
                 </span>
                 {/* Main Text */}
@@ -40,8 +40,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
 
               {/* Title Block with Shadow Effect */}
               <div className="relative mb-6">
-                 {/* Shadow Text */}
-                 <span className="absolute -top-3 -left-1 text-3xl md:text-4xl font-black text-slate-100 select-none pointer-events-none uppercase z-0 tracking-tight opacity-80 overflow-hidden w-full whitespace-nowrap hidden sm:block">
+                 {/* Shadow Text - Removed 'hidden' class, adjusted mobile size */}
+                 <span className="absolute -top-2 md:-top-3 -left-1 text-xl md:text-4xl font-black text-sky-200 select-none pointer-events-none uppercase z-0 tracking-tight opacity-40 overflow-hidden w-full whitespace-nowrap block">
                   PROJECT LEADER & STRUCTURAL ENGINEER
                 </span>
                 {/* Main Text */}
