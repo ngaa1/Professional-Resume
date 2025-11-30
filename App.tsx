@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
-import { RESUME_DATA, THEMES, SELECTED_THEME, FONT_THEMES, SELECTED_FONT_THEME } from './constants';
+import { 
+  RESUME_DATA, 
+  THEMES, 
+  FONT_THEMES, 
+  ENABLE_AUTO_THEME_SWITCH,
+  DAY_START_HOUR,
+  DAY_END_HOUR,
+  SELECTED_THEME,
+  SELECTED_FONT_THEME
+} from './constants';
 import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';
 import ExperienceItem from './components/ExperienceItem';
@@ -10,21 +19,50 @@ function App() {
   const { labels, experience, education, honors, skills } = RESUME_DATA;
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Apply Themes (Color & Font)
+  // Automatic Theme Switching Logic based on Time of Day
   useEffect(() => {
-    const root = document.documentElement;
-    
-    // Apply Color Theme
-    const themeParams = THEMES[SELECTED_THEME];
-    Object.entries(themeParams).forEach(([key, value]) => {
-      root.style.setProperty(key, value);
-    });
+    const applyTheme = () => {
+      let themeKey: 'light' | 'github-dark';
+      let fontKey: 'default' | 'github';
 
-    // Apply Font Theme
-    const fontParams = FONT_THEMES[SELECTED_FONT_THEME];
-    Object.entries(fontParams).forEach(([key, value]) => {
-      root.style.setProperty(key, value);
-    });
+      if (ENABLE_AUTO_THEME_SWITCH) {
+        const hour = new Date().getHours();
+        
+        // Define Daytime based on constants
+        // Example: 6 to 18 (6 AM inclusive to 6 PM exclusive)
+        const isDayTime = hour >= DAY_START_HOUR && hour < DAY_END_HOUR;
+
+        // Select themes based on time
+        themeKey = isDayTime ? 'light' : 'github-dark';
+        fontKey = isDayTime ? 'default' : 'github';
+      } else {
+        // Fallback to manual selection if auto-switch is disabled
+        themeKey = SELECTED_THEME;
+        fontKey = SELECTED_FONT_THEME;
+      }
+
+      const root = document.documentElement;
+
+      // Apply Color Theme
+      const themeParams = THEMES[themeKey];
+      Object.entries(themeParams).forEach(([key, value]) => {
+        root.style.setProperty(key, value);
+      });
+
+      // Apply Font Theme
+      const fontParams = FONT_THEMES[fontKey];
+      Object.entries(fontParams).forEach(([key, value]) => {
+        root.style.setProperty(key, value);
+      });
+    };
+
+    // Apply immediately on mount
+    applyTheme();
+
+    // Check every minute to update if the time boundary is crossed while open
+    const intervalId = setInterval(applyTheme, 60000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
@@ -73,7 +111,7 @@ function App() {
         {/* Education & Honors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 page-break">
           {/* Education */}
-          <section className="bg-surface rounded-2xlkz border border-border p-6 md:p-8 h-full shadow-sm hover:shadow-glow hover:border-accent/30 transition-all duration-300">
+          <section className="bg-surface rounded-2xl border border-border p-6 md:p-8 h-full shadow-sm hover:shadow-glow hover:border-accent/30 transition-all duration-300">
             <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-accent-light rounded-lg text-accent">
                     <Icons.GraduationCap className="w-5 h-5" />
