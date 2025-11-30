@@ -1,5 +1,47 @@
 import { ResumeData } from './types';
 
+// ============================================================================
+// THEME CONFIGURATION
+// ============================================================================
+
+// You can switch the theme here by changing 'github-dark' to 'light'
+export const SELECTED_THEME: 'light' | 'github-dark' = 'github-dark';
+
+export const THEMES = {
+  light: {
+    '--c-primary': '#0f172a',        // Deep Navy
+    '--c-secondary': '#475569',      // Slate 600
+    '--c-accent': '#0ea5e9',         // Sky 500
+    '--c-accent-hover': '#0284c7',   // Sky 600
+    '--c-surface': '#ffffff',        // White
+    '--c-surface-hover': '#ffffff',  // White (cards usually stay white or lift slightly)
+    '--c-border': '#e2e8f0',         // Slate 200
+    '--c-bg-page': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+    '--c-accent-light': '#f0f9ff',   // Sky 50
+    '--c-shadow-text': '#bae6fd',    // Sky 200
+    '--c-shadow-glow': 'rgba(14, 165, 233, 0.15)',
+    '--c-particle': 'rgba(14, 165, 233, 1)',
+  },
+  'github-dark': {
+    '--c-primary': '#e6edf3',        // GitHub FG Default
+    '--c-secondary': '#848d97',      // GitHub FG Muted
+    '--c-accent': '#2f81f7',         // GitHub Accent Blue
+    '--c-accent-hover': '#58a6ff',   // GitHub Accent Blue Hover
+    '--c-surface': '#161b22',        // GitHub Canvas Overlay
+    '--c-surface-hover': '#1f242c',  // Slightly lighter
+    '--c-border': '#30363d',         // GitHub Border Default
+    '--c-bg-page': '#0d1117',        // GitHub Canvas Default
+    '--c-accent-light': 'rgba(56, 139, 253, 0.15)', // Accent Subtle
+    '--c-shadow-text': 'rgba(255, 255, 255, 0.05)', // Very subtle background text
+    '--c-shadow-glow': 'rgba(0, 0, 0, 0.5)',        // Darker shadows
+    '--c-particle': 'rgba(47, 129, 247, 1)',
+  }
+};
+
+// ============================================================================
+// RESUME CONTENT
+// ============================================================================
+
 export const RESUME_DATA: ResumeData = {
     "lang": "zh",
     "name": "李楚龙",

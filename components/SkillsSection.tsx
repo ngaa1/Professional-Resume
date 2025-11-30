@@ -50,7 +50,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
       {/* Navigation Arrows */}
       <button 
         onClick={prevSlide}
-        className="absolute left-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white border border-slate-100 text-slate-400 hover:text-accent hover:shadow-lg hover:border-sky-200 transition-all z-10 shadow-sm group"
+        className="absolute left-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
         aria-label="Previous skill category"
       >
         <Icons.ChevronLeft className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-0.5 transition-transform" />
@@ -58,13 +58,13 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
 
       <button 
         onClick={nextSlide}
-        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-white border border-slate-100 text-slate-400 hover:text-accent hover:shadow-lg hover:border-sky-200 transition-all z-10 shadow-sm group"
+        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
         aria-label="Next skill category"
       >
         <Icons.ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Category Tabs (Replacing Dots) */}
+      {/* Category Tabs */}
       <div className="flex justify-center items-center flex-wrap gap-3 mt-6">
         {CATEGORY_ORDER.map((category, idx) => (
           <button
@@ -72,8 +72,8 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
             onClick={() => setActiveIndex(idx)}
             className={`px-4 py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border ${
               idx === activeIndex 
-                ? 'bg-accent text-white border-accent shadow-md shadow-sky-200 scale-105' 
-                : 'bg-white text-slate-500 border-slate-200 hover:border-accent hover:text-accent hover:bg-sky-50'
+                ? 'bg-accent text-white border-accent shadow-md shadow-glow scale-105' 
+                : 'bg-surface text-secondary border-border hover:border-accent hover:text-accent hover:bg-accent-light'
             }`}
           >
             {category}

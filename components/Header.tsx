@@ -13,13 +13,13 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
       <div className="max-w-5xl mx-auto px-4 md:px-8">
         
         {/* Main Card */}
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-white shadow-xl shadow-sky-100/50 relative overflow-hidden print:shadow-none print:border-none print:p-0">
+        <div className="bg-surface/90 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-border shadow-xl shadow-glow relative overflow-hidden print:shadow-none print:border-none print:p-0 transition-colors duration-300">
           
           {/* Dynamic Particle Background */}
           <WaveParticles />
 
-          {/* Decorative background glow (Kept as subtle ambient light) */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-sky-100 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-30 pointer-events-none z-0"></div>
+          {/* Decorative background glow */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-accent-light rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-30 pointer-events-none z-0"></div>
 
           <div className="flex flex-col lg:flex-row gap-8 items-start relative z-10">
             
@@ -28,8 +28,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
               
               {/* Name Block with Shadow Effect */}
               <div className="relative mb-2">
-                {/* Shadow Text - Adjusted size for mobile */}
-                <span className="absolute -top-3 md:-top-5 -left-1 text-5xl md:text-7xl font-black text-sky-200 select-none pointer-events-none uppercase z-0 tracking-tighter opacity-40 overflow-hidden w-full whitespace-nowrap">
+                {/* Shadow Text */}
+                <span className="absolute -top-3 md:-top-5 -left-1 text-5xl md:text-7xl font-black text-shadow-text select-none pointer-events-none uppercase z-0 tracking-tighter opacity-100 overflow-hidden w-full whitespace-nowrap">
                   LI CHULONG
                 </span>
                 {/* Main Text */}
@@ -40,8 +40,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
 
               {/* Title Block with Shadow Effect */}
               <div className="relative mb-6">
-                 {/* Shadow Text - Removed 'hidden' class, adjusted mobile size */}
-                 <span className="absolute -top-2 md:-top-3 -left-1 text-xl md:text-4xl font-black text-sky-200 select-none pointer-events-none uppercase z-0 tracking-tight opacity-40 overflow-hidden w-full whitespace-nowrap block">
+                 {/* Shadow Text */}
+                 <span className="absolute -top-2 md:-top-3 -left-1 text-xl md:text-4xl font-black text-shadow-text select-none pointer-events-none uppercase z-0 tracking-tight opacity-100 overflow-hidden w-full whitespace-nowrap block">
                   PROJECT LEADER & STRUCTURAL ENGINEER
                 </span>
                 {/* Main Text */}
@@ -51,20 +51,20 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
               </div>
 
               <div className="flex flex-wrap gap-3 text-sm text-secondary font-medium">
-                <a href={`mailto:${data.email}`} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/80 border border-slate-100 shadow-sm hover:border-accent hover:text-accent transition-all group backdrop-blur-sm">
-                  <div className="p-1 bg-sky-50 rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
+                <a href={`mailto:${data.email}`} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm hover:border-accent hover:text-accent transition-all group backdrop-blur-sm">
+                  <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
                     <Icons.Mail className="w-3.5 h-3.5" />
                   </div>
                   <span>{data.email}</span>
                 </a>
-                <a href={`tel:${data.phone}`} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/80 border border-slate-100 shadow-sm hover:border-accent hover:text-accent transition-all group backdrop-blur-sm">
-                  <div className="p-1 bg-sky-50 rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
+                <a href={`tel:${data.phone}`} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm hover:border-accent hover:text-accent transition-all group backdrop-blur-sm">
+                  <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
                     <Icons.Phone className="w-3.5 h-3.5" />
                   </div>
                   <span>{data.phone}</span>
                 </a>
-                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/80 border border-slate-100 shadow-sm text-secondary group hover:border-accent hover:text-accent transition-all backdrop-blur-sm">
-                   <div className="p-1 bg-sky-50 rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm text-secondary group hover:border-accent hover:text-accent transition-all backdrop-blur-sm">
+                   <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
                     <Icons.MessageSquare className="w-3.5 h-3.5" />
                   </div>
                   <span>WeChat: {data.wechat}</span>
@@ -74,12 +74,12 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
 
             {/* Right Column: Summary */}
             <div className="flex-1 lg:max-w-lg mt-4 lg:mt-0">
-               <div className="relative p-6 bg-gradient-to-br from-white/90 to-sky-50/50 rounded-xl border border-sky-100/50 backdrop-blur-sm shadow-sm">
+               <div className="relative p-6 bg-surface/80 rounded-xl border border-border backdrop-blur-sm shadow-sm transition-colors duration-300">
                   <h3 className="text-sm font-bold text-accent uppercase tracking-wider mb-3 flex items-center gap-2">
                     <Icons.User className="w-4 h-4" />
                     Profile
                   </h3>
-                  <p className="text-slate-600 leading-relaxed text-justify font-medium">
+                  <p className="text-secondary leading-relaxed text-justify font-medium">
                     {data.summary}
                   </p>
                </div>
@@ -87,8 +87,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
           </div>
 
           {/* Tags / Tech Stack Section */}
-          <div className="mt-8 pt-8 border-t border-slate-100 relative z-10">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="mt-8 pt-8 border-t border-border relative z-10 transition-colors duration-300">
+            <h3 className="text-xs font-bold text-secondary/60 uppercase tracking-wider mb-4 flex items-center gap-2">
               <Icons.Code className="w-4 h-4 text-accent" />
               Key Competencies
             </h3>
@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
               {data.tags?.map((tag, index) => (
                 <span 
                   key={index} 
-                  className="px-3 py-1.5 text-xs font-bold text-slate-600 bg-white/80 border border-slate-200 rounded-lg shadow-sm hover:border-accent hover:text-accent transition-colors cursor-default backdrop-blur-sm"
+                  className="px-3 py-1.5 text-xs font-bold text-secondary bg-surface/80 border border-border rounded-lg shadow-sm hover:border-accent hover:text-accent transition-colors cursor-default backdrop-blur-sm"
                 >
                   {tag}
                 </span>

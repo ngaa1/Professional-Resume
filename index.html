@@ -10,21 +10,22 @@
         theme: {
           extend: {
             colors: {
-              // Deep Navy for primary text (Professional, Sharp)
-              primary: '#0f172a', 
-              // Softer Slate for secondary text
-              secondary: '#475569', 
-              // Bright Sky Blue (Vibrant, Energetic - Reference match)
-              accent: '#0ea5e9', 
-              // Darker Blue for hover states
-              'accent-hover': '#0284c7',
-              // Clean White surface
-              surface: '#ffffff',
-              // Very light blue-grey for borders
-              border: '#e2e8f0'
+              // Semantic color mapping
+              primary: 'var(--c-primary)',
+              secondary: 'var(--c-secondary)',
+              accent: 'var(--c-accent)',
+              'accent-hover': 'var(--c-accent-hover)',
+              surface: 'var(--c-surface)',
+              'surface-hover': 'var(--c-surface-hover)',
+              border: 'var(--c-border)',
+              'accent-light': 'var(--c-accent-light)',
+              'shadow-text': 'var(--c-shadow-text)',
             },
             fontFamily: {
               sans: ['Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'SimHei', 'Arial', 'sans-serif'],
+            },
+            boxShadow: {
+              'glow': '0 4px 20px -5px var(--c-shadow-glow)',
             }
           }
         }
@@ -33,14 +34,30 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
       
+      :root {
+        /* Default fallback (Light Theme) */
+        --c-primary: #0f172a;
+        --c-secondary: #475569;
+        --c-accent: #0ea5e9;
+        --c-accent-hover: #0284c7;
+        --c-surface: #ffffff;
+        --c-surface-hover: #ffffff;
+        --c-border: #e2e8f0;
+        --c-bg-page: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        --c-accent-light: #f0f9ff;
+        --c-shadow-text: #bae6fd;
+        --c-shadow-glow: rgba(14, 165, 233, 0.15);
+      }
+
       body {
         font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-        /* Bright Daylight Gradient */
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        background: var(--c-bg-page);
         background-attachment: fixed;
+        color: var(--c-primary);
+        transition: background 0.3s ease, color 0.3s ease;
       }
       
-      /* Scrollbar Styling - lighter and cleaner */
+      /* Scrollbar Styling */
       ::-webkit-scrollbar {
         width: 8px;
       }
@@ -48,16 +65,18 @@
         background: transparent; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
+        background: #94a3b8; 
         border-radius: 4px;
+        opacity: 0.7;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
+        background: #64748b; 
       }
 
       @media print {
         body {
-          background: white;
+          background: white !important;
+          color: black !important;
         }
         .no-print {
           display: none !important;
@@ -70,17 +89,17 @@
   <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
   }
 }
 </script>
 </head>
-  <body class="text-primary antialiased min-h-screen">
+  <body class="antialiased min-h-screen">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>
