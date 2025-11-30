@@ -4,8 +4,11 @@ import { ResumeData } from './types';
 // THEME CONFIGURATION
 // ============================================================================
 
-// You can switch the theme here by changing 'github-dark' to 'light'
-export const SELECTED_THEME: 'light' | 'github-dark' = 'github-dark';
+// Color Theme: 'light' | 'github-dark'
+export const SELECTED_THEME: 'light' | 'github-dark' = 'light';
+
+// Font Theme: 'default' | 'github'
+export const SELECTED_FONT_THEME: 'default' | 'github' = 'default';
 
 export const THEMES = {
   light: {
@@ -14,7 +17,7 @@ export const THEMES = {
     '--c-accent': '#0ea5e9',         // Sky 500
     '--c-accent-hover': '#0284c7',   // Sky 600
     '--c-surface': '#ffffff',        // White
-    '--c-surface-hover': '#ffffff',  // White (cards usually stay white or lift slightly)
+    '--c-surface-hover': '#ffffff',  // White
     '--c-border': '#e2e8f0',         // Slate 200
     '--c-bg-page': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
     '--c-accent-light': '#f0f9ff',   // Sky 50
@@ -35,6 +38,23 @@ export const THEMES = {
     '--c-shadow-text': 'rgba(255, 255, 255, 0.05)', // Very subtle background text
     '--c-shadow-glow': 'rgba(0, 0, 0, 0.5)',        // Darker shadows
     '--c-particle': 'rgba(47, 129, 247, 1)',
+  }
+};
+
+export const FONT_THEMES = {
+  default: {
+    // Inter + PingFang (Modern, Geometric)
+    '--font-sans': '"Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "SimHei", "Arial", sans-serif',
+    '--tracking-tight': '-0.025em',
+    '--tracking-normal': '0em',
+    '--font-weight-bold': '700',
+  },
+  github: {
+    // System Fonts (Clean, Engineering feel, similar to GitHub Desktop)
+    '--font-sans': '-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+    '--tracking-tight': '-0.01em', // Slightly less tight than Inter
+    '--tracking-normal': '0px',
+    '--font-weight-bold': '600', // GitHub often uses semi-bold (600) where others use bold (700)
   }
 };
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { RESUME_DATA, THEMES, SELECTED_THEME } from './constants';
+import { RESUME_DATA, THEMES, SELECTED_THEME, FONT_THEMES, SELECTED_FONT_THEME } from './constants';
 import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';
 import ExperienceItem from './components/ExperienceItem';
@@ -10,13 +10,19 @@ function App() {
   const { labels, experience, education, honors, skills } = RESUME_DATA;
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Apply Theme
+  // Apply Themes (Color & Font)
   useEffect(() => {
     const root = document.documentElement;
-    const themeParams = THEMES[SELECTED_THEME];
     
-    // Apply each CSS variable to the root element
+    // Apply Color Theme
+    const themeParams = THEMES[SELECTED_THEME];
     Object.entries(themeParams).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+
+    // Apply Font Theme
+    const fontParams = FONT_THEMES[SELECTED_FONT_THEME];
+    Object.entries(fontParams).forEach(([key, value]) => {
       root.style.setProperty(key, value);
     });
   }, []);
