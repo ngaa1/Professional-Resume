@@ -73,8 +73,8 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
             </div>
 
             {/* Right Column: Summary */}
-            <div className="flex-1 lg:max-w-lg mt-4 lg:mt-0">
-               <div className="relative p-6 bg-surface/80 rounded-xl border border-border backdrop-blur-sm shadow-sm transition-colors duration-300">
+            <div className="flex-1 lg:max-w-lg mt-6 lg:mt-0">
+               <div>
                   <h3 className="text-sm font-bold text-accent uppercase tracking-wider mb-3 flex items-center gap-2">
                     <Icons.User className="w-4 h-4" />
                     Profile
@@ -83,24 +83,6 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
                     {data.summary}
                   </p>
                </div>
-            </div>
-          </div>
-
-          {/* Tags / Tech Stack Section */}
-          <div className="mt-8 pt-8 border-t border-border relative z-10 transition-colors duration-300">
-            <h3 className="text-xs font-bold text-secondary/60 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Icons.Code className="w-4 h-4 text-accent" />
-              Key Competencies
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {data.tags?.map((tag, index) => (
-                <span 
-                  key={index} 
-                  className="px-3 py-1.5 text-xs font-bold text-secondary bg-surface/80 border border-border rounded-lg shadow-sm hover:border-accent hover:text-accent transition-colors cursor-default backdrop-blur-sm"
-                >
-                  {tag}
-                </span>
-              ))}
             </div>
           </div>
 

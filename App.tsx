@@ -139,8 +139,8 @@ function App() {
                     </p>
                   )}
                   {edu.courses && (
-                      <p className="text-xs text-secondary/80 mt-3 leading-relaxed bg-accent-light p-3 rounded-lg border border-border font-medium">
-                          <span className="text-primary font-bold block mb-1">Core Courses:</span>
+                      <p className="text-sm text-secondary mt-2 leading-relaxed">
+                          <span className="font-bold text-secondary/60 text-xs uppercase tracking-wide mr-1">Core Courses:</span>
                           {edu.courses}
                       </p>
                   )}
