@@ -28,41 +28,59 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
   };
 
   return (
-    <div className="relative max-w-3xl mx-auto px-2 md:px-12">
-      {/* Main Viewport */}
-      <div className="overflow-hidden rounded-2xl py-2">
-        <div 
-          className="flex transition-transform duration-500 ease-in-out" 
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-        >
-          {CATEGORY_ORDER.map((category) => (
-            <div key={category} className="w-full flex-shrink-0 px-1">
-               <SkillCard 
-                  title={category} 
-                  skills={skills[category]} 
-                  icon={ICON_MAP[category]} 
-               />
-            </div>
-          ))}
+    <div className="max-w-3xl mx-auto px-4 md:px-12">
+      
+      {/* 
+        Wrapper for Carousel + Buttons 
+        We make this relative so the absolute positioned buttons 
+        center themselves relative to the CARDS, not the whole section (which includes tabs).
+      */}
+      <div className="relative group/carousel">
+        
+        {/* Main Viewport */}
+        <div className="overflow-hidden rounded-2xl py-2">
+          <div 
+            className="flex transition-transform duration-500 ease-in-out" 
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          >
+            {CATEGORY_ORDER.map((category) => (
+              <div key={category} className="w-full flex-shrink-0 px-1">
+                 <SkillCard 
+                    title={category} 
+                    skills={skills[category]} 
+                    icon={ICON_MAP[category]} 
+                 />
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* Navigation Arrows */}
+        {/* 
+           Adjusted Positioning:
+           - Vertical: top-1/2 -translate-y-1/2 (Centers relative to the card container)
+           - Horizontal: 
+             - Mobile: left-0 / right-0 (Flush with edge)
+             - Tablet (md): -left-12 / -right-12 (Moved out into padding area)
+             - Desktop (lg): -left-20 / -right-20 (Moved further out for spacious look)
+        */}
+        <button 
+          onClick={prevSlide}
+          className="absolute top-1/2 -translate-y-1/2 left-0 md:-left-12 lg:-left-20 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
+          aria-label="Previous skill category"
+        >
+          <Icons.ChevronLeft className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-0.5 transition-transform" />
+        </button>
+
+        <button 
+          onClick={nextSlide}
+          className="absolute top-1/2 -translate-y-1/2 right-0 md:-right-12 lg:-right-20 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
+          aria-label="Next skill category"
+        >
+          <Icons.ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-0.5 transition-transform" />
+        </button>
+
       </div>
-
-      {/* Navigation Arrows */}
-      <button 
-        onClick={prevSlide}
-        className="absolute left-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
-        aria-label="Previous skill category"
-      >
-        <Icons.ChevronLeft className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-0.5 transition-transform" />
-      </button>
-
-      <button 
-        onClick={nextSlide}
-        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
-        aria-label="Next skill category"
-      >
-        <Icons.ChevronRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-0.5 transition-transform" />
-      </button>
 
       {/* Category Tabs */}
       <div className="flex justify-center items-center flex-wrap gap-3 mt-6">

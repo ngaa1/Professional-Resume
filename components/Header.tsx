@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
       <div className="max-w-5xl mx-auto px-4 md:px-8">
         
         {/* Main Card */}
-        <div className="bg-surface/90 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-border shadow-xl shadow-glow relative overflow-hidden print:shadow-none print:border-none print:p-0 transition-colors duration-300">
+        <div className="bg-surface rounded-2xl p-8 md:p-10 border border-border shadow-xl shadow-glow relative overflow-hidden print:shadow-none print:border-none print:p-0 transition-colors duration-300">
           
           {/* Dynamic Particle Background */}
           <WaveParticles />

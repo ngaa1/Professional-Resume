@@ -5,7 +5,7 @@ import { ResumeData } from './types';
 // ============================================================================
 
 // Automatic Theme Switching Configuration
-export const ENABLE_AUTO_THEME_SWITCH = true; // Set to false to force use of SELECTED_THEME below
+export const ENABLE_AUTO_THEME_SWITCH = true; // Set to true \ false to force use of SELECTED_THEME below
 export const DAY_START_HOUR = 6;  // Hour when day mode starts (e.g., 6 for 06:00)
 export const DAY_END_HOUR = 18;   // Hour when night mode starts (e.g., 18 for 18:00)
 

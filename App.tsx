@@ -163,7 +163,7 @@ function App() {
                 <div key={index} className="group p-5 rounded-xl bg-surface border border-border hover:border-accent/50 hover:shadow-glow transition-all">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-bold text-primary text-sm md:text-base group-hover:text-accent transition-colors">{honor.title}</h3>
-                    <span className="text-[10px] font-bold text-white bg-secondary group-hover:bg-accent px-2 py-0.5 rounded-full transition-colors">{honor.year}</span>
+                    <span className="text-xs font-bold text-accent bg-accent-light border border-border px-2 py-0.5 rounded-full whitespace-nowrap">{honor.year}</span>
                   </div>
                   <p className="text-xs font-bold text-secondary/60 uppercase tracking-wide mb-2">{honor.company}</p>
                   <p className="text-sm text-secondary leading-relaxed font-medium">
