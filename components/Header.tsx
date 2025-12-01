@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ResumeData } from '../types';
 import { Icons } from './Icon';
 import WaveParticles from './WaveParticles';
@@ -8,6 +8,19 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ data }) => {
+  const [showCopied, setShowCopied] = useState(false);
+
+  const handleCopyWechat = () => {
+    if (data.wechat) {
+      navigator.clipboard.writeText(data.wechat).then(() => {
+        setShowCopied(true);
+        setTimeout(() => setShowCopied(false), 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  };
+
   return (
     <header className="pt-12 pb-8 relative print:pt-0 print:pb-4">
       <div className="max-w-5xl mx-auto px-4 md:px-8">
@@ -63,12 +76,24 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
                   </div>
                   <span>{data.phone}</span>
                 </a>
-                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm text-secondary group hover:border-accent hover:text-accent transition-all backdrop-blur-sm">
+                
+                {/* WeChat Copy Button */}
+                <button 
+                  onClick={handleCopyWechat}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm text-secondary group hover:border-accent hover:text-accent transition-all backdrop-blur-sm relative cursor-pointer"
+                  title="点击复制微信号"
+                >
                    <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
                     <Icons.MessageSquare className="w-3.5 h-3.5" />
                   </div>
                   <span>WeChat: {data.wechat}</span>
-                </div>
+                  
+                  {/* Copy Feedback Toast */}
+                  <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-primary text-surface text-xs font-bold rounded-md shadow-lg transition-all duration-200 pointer-events-none whitespace-nowrap z-50 ${showCopied ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+                    已复制微信号
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-primary"></div>
+                  </div>
+                </button>
               </div>
             </div>
 
