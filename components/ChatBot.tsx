@@ -222,7 +222,7 @@ const ChatBot: React.FC = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="询问关于李楚龙的经历..."
-              className="w-full bg-accent-light/30 border border-border rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-accent text-primary placeholder:text-secondary/50 transition-all"
+              className="w-full bg-accent-light border border-border rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-accent text-primary placeholder:text-secondary transition-all"
               disabled={isLoading}
             />
             <button
