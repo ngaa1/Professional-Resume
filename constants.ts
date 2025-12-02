@@ -238,15 +238,24 @@ export const RESUME_DATA: ResumeData = {
 // ============================================================================
 
 export const AI_CONFIG = {
-  // [USER ACTION REQUIRED]: Paste your Gemini API Key here inside the quotes.
-  // Get one for free at: https://aistudio.google.com/app/apikey
-  apiKey: "", 
+  // Toggle between providers: 'google' | 'volcano'
+  provider: 'google',
 
-  // Model selection (recommended: gemini-2.5-flash for speed and cost)
-  model: "gemini-2.5-flash",
+  // Google Gemini Configuration
+  google: {
+    // API Key for local development (optional if not using process.env.API_KEY)
+    apiKey: "AIzaSyCevV3eJwzOyECJjJMHXmvjc3zswAKb2dM", 
+    model: 'gemini-2.5-flash',
+  },
+
+  // Volcano Engine (Ark) OpenAI Compatible API Configuration
+  volcano: {
+    apiKey: "", 
+    baseURL: "",
+    model: "",
+  },
 
   // Automatically generates a system prompt based on the resume data above.
-  // You can customize the 'instruction' string if you want to change the AI's persona.
   getSystemInstruction: (): string => {
     const resumeString = JSON.stringify(RESUME_DATA, null, 2);
     return `

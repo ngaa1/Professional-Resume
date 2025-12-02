@@ -5,4 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',
+  define: {
+    // Polyfill process.env for local development to prevent "process is not defined" errors
+    'process.env': {}
+  }
 })

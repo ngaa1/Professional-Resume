@@ -1,43 +1,42 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenAI, Chat } from "@google/genai";
+import OpenAI from 'openai';
+import { GoogleGenAI } from "@google/genai";
 import { Icons } from './Icon';
 import { AI_CONFIG } from '../constants';
 
 interface Message {
-  role: 'user' | 'model';
-  text: string;
+  role: 'user' | 'assistant';
+  content: string;
 }
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', text: '你好！我是李楚龙的AI助手。关于他的工作经历、技能或项目，您有什么想了解的吗？' }
+    { role: 'assistant', content: '你好！我是李楚龙的AI助手。关于他的工作经历、技能或项目，您有什么想了解的吗？' }
   ]);
   const [isLoading, setIsLoading] = useState(false);
-  const [chatSession, setChatSession] = useState<Chat | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize Chat Session
-  useEffect(() => {
-    // Determine API Key: Priority to manual config in constants.ts, then env var
-    const apiKey = AI_CONFIG.apiKey || process.env.API_KEY;
-
-    if (apiKey && !chatSession) {
+  // Helper to safely get the current API Key
+  const getApiKey = () => {
+    if (AI_CONFIG.provider === 'google') {
       try {
-        const ai = new GoogleGenAI({ apiKey });
-        const chat = ai.chats.create({
-          model: AI_CONFIG.model,
-          config: {
-            systemInstruction: AI_CONFIG.getSystemInstruction(),
-          },
-        });
-        setChatSession(chat);
-      } catch (error) {
-        console.error("Failed to initialize AI:", error);
+        // Try process.env first (for Preview environment), then fallback to config (Local)
+        if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+          return process.env.API_KEY;
+        }
+      } catch (e) {
+        // Ignore reference errors if process is not defined
       }
+      return AI_CONFIG.google.apiKey;
+    } else {
+      return AI_CONFIG.volcano.apiKey;
     }
-  }, [chatSession]);
+  };
+
+  const apiKey = getApiKey();
+  const hasKey = !!apiKey;
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -47,21 +46,63 @@ const ChatBot: React.FC = () => {
   }, [messages, isOpen]);
 
   const handleSend = async () => {
-    if (!input.trim() || !chatSession) return;
+    if (!input.trim()) return;
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+    
+    // Optimistically add user message
+    const newHistory: Message[] = [...messages, { role: 'user', content: userMessage }];
+    setMessages(newHistory);
     setIsLoading(true);
 
     try {
-      const result = await chatSession.sendMessage({ message: userMessage });
-      const responseText = result.text;
+      let responseText = '';
+
+      if (AI_CONFIG.provider === 'google') {
+        // --- Google Gemini Logic ---
+        const ai = new GoogleGenAI({ apiKey: apiKey });
+        
+        // Convert history to Gemini format (roles: 'user' and 'model')
+        // OpenAI 'assistant' maps to Gemini 'model'
+        const contents = newHistory.map(msg => ({
+          role: msg.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: msg.content }]
+        }));
+
+        const response = await ai.models.generateContent({
+          model: AI_CONFIG.google.model,
+          contents: contents,
+          config: {
+            systemInstruction: AI_CONFIG.getSystemInstruction(),
+          },
+        });
+        
+        responseText = response.text || "抱歉，我没有从服务器收到有效的回复。";
+
+      } else {
+        // --- Volcano Engine (OpenAI Compatible) Logic ---
+        const openai = new OpenAI({
+          apiKey: apiKey,
+          baseURL: AI_CONFIG.volcano.baseURL,
+          dangerouslyAllowBrowser: true 
+        });
+
+        const completion = await openai.chat.completions.create({
+          messages: [
+            { role: 'system', content: AI_CONFIG.getSystemInstruction() },
+            ...newHistory.map(msg => ({ role: msg.role, content: msg.content }))
+          ],
+          model: AI_CONFIG.volcano.model,
+        });
+
+        responseText = completion.choices[0]?.message?.content || "抱歉，我没有从服务器收到有效的回复。";
+      }
       
-      setMessages(prev => [...prev, { role: 'model', text: responseText }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
     } catch (error) {
       console.error("Chat Error:", error);
-      setMessages(prev => [...prev, { role: 'model', text: "抱歉，我现在无法连接到服务器。请检查 API Key 配置或稍后再试。" }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: "抱歉，我现在无法连接到服务器。请检查配置（API Key/网络）稍后再试。" }]);
     } finally {
       setIsLoading(false);
     }
@@ -74,9 +115,26 @@ const ChatBot: React.FC = () => {
     }
   };
 
-  // If no API Key is configured at all, don't render (or render a disabled state)
-  const hasKey = !!(AI_CONFIG.apiKey || process.env.API_KEY);
+  // Simple Markdown Parser for Bold text
+  const renderMessageContent = (content: string) => {
+    // Split by bold syntax (**text**)
+    const parts = content.split(/(\*\*.*?\*\*)/g);
+    
+    return parts.map((part, index) => {
+      // Check if this part is a bold section
+      if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+        return (
+          <strong key={index} className="font-bold text-primary">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      // Return normal text
+      return <span key={index}>{part}</span>;
+    });
+  };
 
+  // If no API Key is configured for the active provider, don't render
   if (!hasKey) return null; 
 
   return (
@@ -111,7 +169,9 @@ const ChatBot: React.FC = () => {
             </div>
             <div>
               <h3 className="font-bold text-primary text-sm">AI 简历助手</h3>
-              <p className="text-[10px] text-secondary font-medium">Powered by Gemini</p>
+              <p className="text-[10px] text-secondary font-medium">
+                {AI_CONFIG.provider === 'google' ? 'Powered by Google Gemini' : 'Powered by Volcano Ark'}
+              </p>
             </div>
           </div>
           <button 
@@ -130,13 +190,13 @@ const ChatBot: React.FC = () => {
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
+                className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                   msg.role === 'user'
                     ? 'bg-accent text-white rounded-br-none'
                     : 'bg-accent-light border border-border text-secondary rounded-bl-none'
                 }`}
               >
-                {msg.text}
+                {renderMessageContent(msg.content)}
               </div>
             </div>
           ))}
