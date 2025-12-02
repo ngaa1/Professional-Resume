@@ -232,3 +232,35 @@ export const RESUME_DATA: ResumeData = {
         ]
     }
 };
+
+// ============================================================================
+// AI ASSISTANT CONFIGURATION (BACKEND)
+// ============================================================================
+
+export const AI_CONFIG = {
+  // [USER ACTION REQUIRED]: Paste your Gemini API Key here inside the quotes.
+  // Get one for free at: https://aistudio.google.com/app/apikey
+  apiKey: "", 
+
+  // Model selection (recommended: gemini-2.5-flash for speed and cost)
+  model: "gemini-2.5-flash",
+
+  // Automatically generates a system prompt based on the resume data above.
+  // You can customize the 'instruction' string if you want to change the AI's persona.
+  getSystemInstruction: (): string => {
+    const resumeString = JSON.stringify(RESUME_DATA, null, 2);
+    return `
+      You are an intelligent and professional AI assistant for Li Chulong's personal resume website.
+      
+      Your Role:
+      - Answer visitor questions accurately based *only* on the provided resume data.
+      - Maintain a polite, professional, and enthusiastic tone, reflecting Li Chulong's engineering expertise.
+      - If asked about contact info, refer them to the contact section or provide the email/phone from the data.
+      - If asked about something not in the resume, politely state that you only have information regarding his professional background.
+      - Keep answers concise and easy to read.
+      
+      Resume Data:
+      ${resumeString}
+    `;
+  }
+};

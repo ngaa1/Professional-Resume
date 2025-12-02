@@ -13,6 +13,7 @@ import Header from './components/Header';
 import SectionTitle from './components/SectionTitle';
 import ExperienceItem from './components/ExperienceItem';
 import SkillsSection from './components/SkillsSection'; 
+import ChatBot from './components/ChatBot';
 import { Icons } from './components/Icon';
 
 function App() {
@@ -185,15 +186,18 @@ function App() {
         </p>
       </footer>
 
+      {/* AI ChatBot */}
+      <ChatBot />
+
       {/* Simple Scroll Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 p-3 bg-accent text-white rounded-full shadow-lg hover:bg-accent-hover hover:shadow-glow transition-all duration-300 transform z-50 print:hidden flex items-center justify-center gap-2 ${
+        className={`fixed bottom-8 right-8 p-4 bg-accent text-white rounded-full shadow-lg hover:bg-accent-hover hover:shadow-glow hover:scale-110 transition-all duration-300 transform z-50 print:hidden flex items-center justify-center gap-2 ${
           showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
         }`}
         aria-label="Scroll to top"
       >
-        <Icons.ArrowUp className="w-5 h-5" />
+        <Icons.ArrowUp className="w-6 h-6" />
       </button>
     </div>
   );
