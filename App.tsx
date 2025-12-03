@@ -122,29 +122,49 @@ function App() {
             
             <div className="space-y-8">
               {education.map((edu, index) => (
-                <div key={index} className="relative pl-6 border-l-2 border-border last:border-0 pb-2">
-                  <span className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-surface border-2 border-accent rounded-full"></span>
-                  <div className="mb-1">
-                    <h3 className="font-bold text-primary text-lg">{edu.school}</h3>
+                <div key={index} className="relative pl-6 border-l-2 border-border last:border-0 pb-2 group">
+                  <span className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-surface border-2 border-accent rounded-full z-10"></span>
+                  
+                  {/* Watermark Logo */}
+                  {edu.logo && (
+                    <div 
+                      className="absolute right-[-10px] top-[-10px] md:right-0 md:top-0 pointer-events-none select-none z-0 transition-all duration-300 opacity-[var(--c-logo-opacity)] group-hover:opacity-[var(--c-logo-opacity-hover)]"
+                      style={{
+                        mixBlendMode: 'var(--c-logo-blend)' as any,
+                        filter: 'var(--c-logo-filter)'
+                      }}
+                    >
+                      <img 
+                        src={edu.logo} 
+                        alt={`${edu.school} Logo`} 
+                        className="w-[140px] md:w-[180px] h-auto object-contain" 
+                      />
+                    </div>
+                  )}
+
+                  <div className="relative z-10 mb-1">
+                    <h3 className="font-bold text-primary text-lg pr-12 md:pr-0">{edu.school}</h3>
                     <div className="flex justify-between items-center text-sm font-bold text-secondary mt-1">
                         <span>{edu.degree}</span>
                         <span className="bg-accent-light text-accent px-2 py-0.5 rounded text-xs border border-border">{edu.year}</span>
                     </div>
                   </div>
-                  {edu.gpa && (
-                     <p className="text-sm text-secondary mt-2 font-medium">GPA: <span className="font-bold text-primary">{edu.gpa}</span></p>
-                  )}
-                  {edu.thesis && (
-                    <p className="text-sm text-secondary mt-2">
-                      <span className="font-bold text-secondary/60 text-xs uppercase tracking-wide">Thesis:</span> {edu.thesis}
-                    </p>
-                  )}
-                  {edu.courses && (
-                      <p className="text-sm text-secondary mt-2 leading-relaxed">
-                          <span className="font-bold text-secondary/60 text-xs uppercase tracking-wide mr-1">Core Courses:</span>
-                          {edu.courses}
-                      </p>
-                  )}
+                  <div className="relative z-10">
+                      {edu.gpa && (
+                        <p className="text-sm text-secondary mt-2 font-medium">GPA: <span className="font-bold text-primary">{edu.gpa}</span></p>
+                      )}
+                      {edu.thesis && (
+                        <p className="text-sm text-secondary mt-2">
+                          <span className="font-bold text-secondary/60 text-xs uppercase tracking-wide">Thesis:</span> {edu.thesis}
+                        </p>
+                      )}
+                      {edu.courses && (
+                          <p className="text-sm text-secondary mt-2 leading-relaxed">
+                              <span className="font-bold text-secondary/60 text-xs uppercase tracking-wide mr-1">Core Courses:</span>
+                              {edu.courses}
+                          </p>
+                      )}
+                  </div>
                 </div>
               ))}
             </div>

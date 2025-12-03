@@ -5,7 +5,7 @@ import { ResumeData } from './types';
 // ============================================================================
 
 // Automatic Theme Switching Configuration
-export const ENABLE_AUTO_THEME_SWITCH = true; // Set to true \ false to force use of SELECTED_THEME below
+export const ENABLE_AUTO_THEME_SWITCH = false; // Set to true \ false to force use of SELECTED_THEME below
 export const DAY_START_HOUR = 6;  // Hour when day mode starts (e.g., 6 for 06:00)
 export const DAY_END_HOUR = 18;   // Hour when night mode starts (e.g., 18 for 18:00)
 
@@ -30,6 +30,12 @@ export const THEMES = {
     '--c-shadow-text': '#bae6fd',    // Sky 200
     '--c-shadow-glow': 'rgba(14, 165, 233, 0.15)',
     '--c-particle': 'rgba(14, 165, 233, 1)',
+    
+    // Logo Watermark
+    '--c-logo-blend': 'multiply',
+    '--c-logo-opacity': '0.06',
+    '--c-logo-opacity-hover': '0.1',
+    '--c-logo-filter': 'grayscale(10%)',
   },
   'github-dark': {
     '--c-primary': '#e6edf3',        // GitHub FG Default
@@ -44,6 +50,12 @@ export const THEMES = {
     '--c-shadow-text': 'rgba(255, 255, 255, 0.05)', // Very subtle background text
     '--c-shadow-glow': 'rgba(0, 0, 0, 0.5)',        // Darker shadows
     '--c-particle': 'rgba(47, 129, 247, 1)',
+
+    // Logo Watermark (Inverted for visibility on dark background)
+    '--c-logo-blend': 'normal',
+    '--c-logo-opacity': '0.1',
+    '--c-logo-opacity-hover': '0.15',
+    '--c-logo-filter': 'grayscale(100%) invert(1) brightness(0.8)',
   }
 };
 
@@ -98,6 +110,7 @@ export const RESUME_DATA: ResumeData = {
         {
             "degree": "结构工程硕士",
             "school": "荷兰代尔夫特理工大学 （2025年QS排名第49，土木工程QS排名第6）",
+            "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20100%22%3E%3Ctext%20x%3D%22150%22%20y%3D%2270%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-weight%3D%22bold%22%20font-size%3D%2260%22%20fill%3D%22%2300A6D6%22%20text-anchor%3D%22middle%22%3ETU%20Delft%3C%2Ftext%3E%3C%2Fsvg%3E",
             "year": "2019 九月~2021 七月",
             "gpa": "7.5/10",
             "courses": "结构力学，结构弹塑性分析，有限元计算基本理论，地震结构响应，木结构，钢结构，预应力混凝土，板壳结构理论，生态工程，风险管理",
@@ -106,6 +119,7 @@ export const RESUME_DATA: ResumeData = {
         {
             "degree": "土木工程学士",
             "school": "英国利物浦大学",
+            "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20100%22%3E%3Ctext%20x%3D%22150%22%20y%3D%2240%22%20font-family%3D%22Times%20New%20Roman%2C%20serif%22%20font-weight%3D%22bold%22%20font-size%3D%2224%22%20fill%3D%22%23031F5C%22%20text-anchor%3D%22middle%22%3EUNIVERSITY%20OF%3C%2Ftext%3E%3Ctext%20x%3D%22150%22%20y%3D%2275%22%20font-family%3D%22Times%20New%20Roman%2C%20serif%22%20font-weight%3D%22bold%22%20font-size%3D%2232%22%20fill%3D%22%23031F5C%22%20text-anchor%3D%22middle%22%3ELIVERPOOL%3C%2Ftext%3E%3C%2Fsvg%3E",
             "year": "2017 九月~2019 七月",
             "gpa": "7.0/10",
             "thesis": "铆接金属复合材料连接的有限元建模和分析"
@@ -113,6 +127,7 @@ export const RESUME_DATA: ResumeData = {
         {
             "degree": "土木工程学士",
             "school": "西交利物浦大学（苏州）",
+            "logo": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20100%22%3E%3Ctext%20x%3D%22150%22%20y%3D%2260%22%20font-family%3D%22Arial%2C%20sans-serif%22%20font-weight%3D%22bold%22%20font-size%3D%2248%22%20fill%3D%22%23101820%22%20text-anchor%3D%22middle%22%3EXJTLU%3C%2Ftext%3E%3C%2Fsvg%3E",
             "year": "2015 九月~2017 七月",
             "gpa": "7.0/10"
         }
@@ -239,7 +254,7 @@ export const RESUME_DATA: ResumeData = {
 
 export const AI_CONFIG = {
   // Toggle between providers: 'google' | 'volcano'
-  provider: 'google',
+  provider: 'volcano',
 
   // Google Gemini Configuration
   google: {
@@ -250,9 +265,9 @@ export const AI_CONFIG = {
 
   // Volcano Engine (Ark) OpenAI Compatible API Configuration
   volcano: {
-    apiKey: "", 
-    baseURL: "",
-    model: "",
+    apiKey: "b88edfc8-b121-4035-bcd4-8d923668c1c1", 
+    baseURL: "https://ark.cn-beijing.volces.com/api/v3",
+    model: "ep-20251202142426-x6chd",
   },
 
   // Automatically generates a system prompt based on the resume data above.
@@ -262,10 +277,15 @@ export const AI_CONFIG = {
       You are an intelligent and professional AI assistant for Li Chulong's personal resume website.
       
       Your Role:
-      - Answer visitor questions accurately based *only* on the provided resume data.
+      - Answer visitor questions accurately based on the provided resume data.
+      - **Knowledge Expansion:** You are authorized and encouraged to use your general knowledge to provide context and explanations regarding:
+        * **Companies:** Provide background on companies mentioned (e.g., Trina Solar/天合光能, GAD Design Group), their industry standing, and main business areas.
+        * **Education:** Provide context on universities mentioned (e.g., TU Delft, University of Liverpool, XJTLU), such as their reputation in engineering or global rankings.
+        * **Industry Concepts:** Explain technical terms and industry concepts found in the resume (e.g., Photovoltaics, Structural Engineering, Finite Element Analysis, Parametric Design, tracking brackets) to help non-expert visitors understand the work.
+      
       - Maintain a polite, professional, and enthusiastic tone, reflecting Li Chulong's engineering expertise.
       - If asked about contact info, refer them to the contact section or provide the email/phone from the data.
-      - If asked about something not in the resume, politely state that you only have information regarding his professional background.
+      - If asked about topics completely unrelated to the resume or professional background (e.g., general daily life questions, cooking, entertainment not related to the industry), politely state that you only have information regarding his professional background.
       - Keep answers concise and easy to read.
       
       Resume Data:

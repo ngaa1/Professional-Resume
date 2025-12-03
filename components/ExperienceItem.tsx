@@ -22,7 +22,13 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
         
       {/* Watermark Logo */}
       {data.logo && (
-        <div className="absolute right-6 top-6 opacity-[0.06] pointer-events-none select-none z-0 mix-blend-multiply filter grayscale-[10%] group-hover:opacity-[0.1] transition-opacity">
+        <div 
+          className="absolute right-6 top-6 pointer-events-none select-none z-0 transition-all duration-300 opacity-[var(--c-logo-opacity)] group-hover:opacity-[var(--c-logo-opacity-hover)]"
+          style={{
+            mixBlendMode: 'var(--c-logo-blend)' as any,
+            filter: 'var(--c-logo-filter)'
+          }}
+        >
           <img 
             src={data.logo} 
             alt="Company Logo" 

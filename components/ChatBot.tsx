@@ -43,7 +43,7 @@ const ChatBot: React.FC = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isLoading]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -190,7 +190,7 @@ const ChatBot: React.FC = () => {
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+                className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap shadow-sm ${
                   msg.role === 'user'
                     ? 'bg-accent text-white rounded-br-none'
                     : 'bg-accent-light border border-border text-secondary rounded-bl-none'
@@ -202,11 +202,14 @@ const ChatBot: React.FC = () => {
           ))}
           
           {isLoading && (
-             <div className="flex justify-start">
-               <div className="bg-accent-light border border-border px-4 py-3 rounded-2xl rounded-bl-none flex gap-1 items-center">
-                 <div className="w-1.5 h-1.5 bg-accent/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                 <div className="w-1.5 h-1.5 bg-accent/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                 <div className="w-1.5 h-1.5 bg-accent/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+             <div className="flex justify-start w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
+               <div className="bg-accent-light border border-border px-4 py-3 rounded-2xl rounded-bl-none flex items-center gap-3 shadow-sm">
+                 <div className="flex space-x-1 items-center h-4">
+                    <div className="w-2 h-2 bg-accent rounded-full animate-bounce [animation-delay:-0.3s]" />
+                    <div className="w-2 h-2 bg-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
+                    <div className="w-2 h-2 bg-accent rounded-full animate-bounce" />
+                 </div>
+                 <span className="text-xs text-secondary font-medium animate-pulse">AI 正在思考...</span>
                </div>
              </div>
           )}

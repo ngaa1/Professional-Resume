@@ -16,6 +16,7 @@ export interface Experience {
 export interface Education {
   degree: string;
   school: string;
+  logo?: string;
   year: string;
   gpa: string;
   courses?: string;
