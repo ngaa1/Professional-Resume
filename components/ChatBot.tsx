@@ -21,21 +21,15 @@ const ChatBot: React.FC = () => {
   // Helper to safely get the current API Key
   const getApiKey = () => {
     if (AI_CONFIG.provider === 'google') {
-      try {
-        // Try process.env first (for Preview environment), then fallback to config (Local)
-        if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
-          return process.env.API_KEY;
-        }
-      } catch (e) {
-        // Ignore reference errors if process is not defined
-      }
-      return AI_CONFIG.google.apiKey;
+      // Per guidelines, the API key must be obtained exclusively from process.env.API_KEY
+      return process.env.API_KEY;
     } else {
       return AI_CONFIG.volcano.apiKey;
     }
   };
 
   const apiKey = getApiKey();
+  // Ensure we have a key (for Google this depends on process.env.API_KEY being set)
   const hasKey = !!apiKey;
 
   // Auto-scroll to bottom
@@ -61,7 +55,8 @@ const ChatBot: React.FC = () => {
 
       if (AI_CONFIG.provider === 'google') {
         // --- Google Gemini Logic ---
-        const ai = new GoogleGenAI({ apiKey: apiKey });
+        // Per guidelines, must use process.env.API_KEY directly in initialization
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         
         // Convert history to Gemini format (roles: 'user' and 'model')
         // OpenAI 'assistant' maps to Gemini 'model'
