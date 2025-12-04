@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import OpenAI from 'openai';
 import { GoogleGenAI } from "@google/genai";
@@ -9,12 +10,22 @@ interface Message {
   content: string;
 }
 
+const PRESET_QUESTIONS = [
+  "简单介绍一下你的工作经历",
+  "T-STARS 系统有哪些技术亮点？",
+  "你擅长哪些结构分析软件？",
+  "你的教育背景如何？"
+];
+
+const INITIAL_MESSAGE: Message = { 
+  role: 'assistant', 
+  content: '你好！我是李楚龙的AI助手。关于他的工作经历、技能或项目，您有什么想了解的吗？' 
+};
+
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: '你好！我是李楚龙的AI助手。关于他的工作经历、技能或项目，您有什么想了解的吗？' }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -39,14 +50,11 @@ const ChatBot: React.FC = () => {
     }
   }, [messages, isOpen, isLoading]);
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  const sendMessage = async (text: string) => {
+    if (!text.trim()) return;
 
-    const userMessage = input.trim();
-    setInput('');
-    
     // Optimistically add user message
-    const newHistory: Message[] = [...messages, { role: 'user', content: userMessage }];
+    const newHistory: Message[] = [...messages, { role: 'user', content: text }];
     setMessages(newHistory);
     setIsLoading(true);
 
@@ -101,6 +109,21 @@ const ChatBot: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+    sendMessage(input.trim());
+    setInput('');
+  };
+
+  const handleClearChat = () => {
+    setMessages([INITIAL_MESSAGE]);
+    setInput('');
+  };
+
+  const handlePresetClick = (question: string) => {
+    sendMessage(question);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -233,12 +256,23 @@ const ChatBot: React.FC = () => {
               </p>
             </div>
           </div>
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="text-secondary hover:text-primary transition-colors"
-          >
-            <Icons.ChevronDown className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+                onClick={handleClearChat}
+                className="text-secondary hover:text-accent transition-colors p-1.5 rounded-lg hover:bg-surface/50"
+                title="重新开始对话"
+                aria-label="Restart chat"
+            >
+                <Icons.RotateCcw className="w-4 h-4" />
+            </button>
+            <button 
+                onClick={() => setIsOpen(false)}
+                className="text-secondary hover:text-primary transition-colors p-1 rounded-lg hover:bg-surface/50"
+                aria-label="Close chat"
+            >
+                <Icons.ChevronDown className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Messages Area */}
@@ -260,6 +294,24 @@ const ChatBot: React.FC = () => {
             </div>
           ))}
           
+          {/* Preset Questions - Shown when there is only the initial greeting */}
+          {messages.length === 1 && !isLoading && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+               <p className="text-xs text-secondary/60 font-bold mb-2 ml-1">您可以尝试询问：</p>
+               <div className="flex flex-col gap-2">
+                 {PRESET_QUESTIONS.map((question, index) => (
+                   <button
+                     key={index}
+                     onClick={() => handlePresetClick(question)}
+                     className="text-left text-sm bg-surface hover:bg-accent hover:text-white border border-border hover:border-accent text-secondary py-2 px-3 rounded-xl transition-all shadow-sm active:scale-95"
+                   >
+                     {question}
+                   </button>
+                 ))}
+               </div>
+            </div>
+          )}
+
           {isLoading && (
              <div className="flex justify-start w-full animate-in fade-in slide-in-from-bottom-2 duration-300">
                <div className="bg-accent-light border border-border px-4 py-3 rounded-2xl rounded-bl-none flex items-center gap-3 shadow-sm">

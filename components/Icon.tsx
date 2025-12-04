@@ -1,3 +1,4 @@
+
 // React导入已移除，因为使用了新的JSX转换
 import { 
   Mail, 
@@ -15,7 +16,8 @@ import {
   User,
   ArrowUp,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  RotateCcw
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
@@ -35,5 +37,6 @@ export const Icons = {
   User,
   ArrowUp,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  RotateCcw
 };
