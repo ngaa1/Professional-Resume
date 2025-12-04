@@ -28,6 +28,7 @@ const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Helper to safely get the current API Key
@@ -43,6 +44,14 @@ const ChatBot: React.FC = () => {
   const apiKey = getApiKey();
   // Ensure we have a key (for Google this depends on process.env.API_KEY being set)
   const hasKey = !!apiKey;
+
+  // Initial Prompt Logic
+  useEffect(() => {
+    // Show prompt immediately on wide screens
+    if (window.innerWidth >= 768) {
+        setShowPrompt(true);
+    }
+  }, []);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -280,18 +289,60 @@ const ChatBot: React.FC = () => {
 
   return (
     <>
-      {/* Floating Action Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-24 right-8 p-4 rounded-full shadow-lg z-50 transition-all duration-300 print:hidden ${
-          isOpen 
-            ? 'bg-secondary text-surface rotate-90' 
-            : 'bg-accent text-white hover:bg-accent-hover hover:scale-110 shadow-glow'
-        }`}
-        aria-label="Toggle AI Assistant"
-      >
-        {isOpen ? <Icons.MessageSquare className="w-6 h-6" /> : <Icons.MessageSquare className="w-6 h-6" />}
-      </button>
+      {/* Floating Elements Container (Aligned Vertically) */}
+      <div className="fixed bottom-24 right-8 z-50 flex flex-row-reverse items-center gap-5 pointer-events-none print:hidden">
+
+        {/* Floating Action Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`p-4 rounded-full shadow-lg transition-all duration-300 pointer-events-auto ${
+            isOpen 
+              ? 'bg-secondary text-surface rotate-90' 
+              : 'bg-accent text-white hover:bg-accent-hover hover:scale-110 shadow-glow animate-bounce-slow'
+          }`}
+          aria-label="Toggle AI Assistant"
+        >
+          {isOpen ? <Icons.MessageSquare className="w-6 h-6" /> : <Icons.MessageSquare className="w-6 h-6" />}
+        </button>
+
+        {/* Floating Prompt Bubble (Only on large screens) */}
+        {showPrompt && !isOpen && (
+          <div 
+            className="hidden md:flex animate-in fade-in slide-in-from-right-8 duration-500 cursor-pointer group pointer-events-auto relative"
+            onClick={() => setIsOpen(true)}
+          >
+            <div className="bg-surface border border-border p-4 rounded-xl shadow-lg shadow-glow relative max-w-[220px] hover:scale-105 transition-transform">
+               {/* Speech Bubble Arrow - Centered Vertically */}
+               <div className="absolute top-1/2 -right-1.5 w-3 h-3 bg-surface border-t border-r border-border rotate-45 transform -translate-y-1/2 rounded-sm"></div>
+               
+               <div className="flex items-start gap-3 relative z-10">
+                  <div className="p-2 bg-accent-light rounded-full shrink-0">
+                    <Icons.MessageSquare className="w-4 h-4 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-primary mb-1">Hi!</p>
+                    <p className="text-xs text-secondary leading-relaxed">
+                      对我的经历感兴趣？<br/>点击这里可以让 AI 为您解答！
+                    </p>
+                  </div>
+               </div>
+
+               {/* Close Button */}
+               <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowPrompt(false);
+                  }}
+                  className="absolute -top-2 -left-2 bg-surface border border-border rounded-full p-1 text-secondary/60 hover:text-red-500 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="关闭提示"
+               >
+                  <Icons.X className="w-3 h-3" />
+               </button>
+            </div>
+          </div>
+        )}
+      
+      </div>
 
       {/* Chat Window */}
       <div

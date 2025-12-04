@@ -17,14 +17,15 @@ import {
   ArrowUp,
   ChevronLeft,
   ChevronRight,
-  RotateCcw
+  RotateCcw,
+  X
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
 export const Icons = {
   Mail,
   Phone,
-  MapPin,
+  MapPin, 
   ExternalLink,
   ChevronDown,
   ChevronUp,
@@ -38,5 +39,6 @@ export const Icons = {
   ArrowUp,
   ChevronLeft,
   ChevronRight,
-  RotateCcw
+  RotateCcw,
+  X
 };
