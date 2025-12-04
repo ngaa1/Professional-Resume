@@ -37,12 +37,10 @@ const WaveParticles: React.FC = () => {
       row: number;
     }
 
-    const init = () => {
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+    const initParticles = () => {
       particles = [];
       // Refresh color on resize/init in case theme changed
-      particleColor = getParticleColor(); 
+      particleColor = getParticleColor();
 
       const cols = Math.floor(width / spacing) + 1;
       const rows = Math.floor(height / spacing) + 1;
@@ -60,17 +58,37 @@ const WaveParticles: React.FC = () => {
       }
     };
 
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const displayWidth = canvas.clientWidth;
+      const displayHeight = canvas.clientHeight;
+
+      // Check if the canvas size needs to be updated
+      if (canvas.width !== displayWidth * dpr || canvas.height !== displayHeight * dpr) {
+        canvas.width = displayWidth * dpr;
+        canvas.height = displayHeight * dpr;
+        
+        // Scale the context to match the device pixel ratio
+        // This ensures 1 CSS pixel = 1 Canvas unit, but drawn with high res
+        ctx.scale(dpr, dpr);
+        
+        width = displayWidth;
+        height = displayHeight;
+        
+        initParticles();
+      }
+    };
+
     let time = 0;
 
     const animate = () => {
       if (!ctx) return;
+      
+      // Clear the canvas (using CSS dimensions, as context is scaled)
       ctx.clearRect(0, 0, width, height);
       
       time += waveSpeed;
 
-      // Extract RGB values for alpha manipulation if needed, or just use the variable
-      // For simplicity with variable opacity, we will parse the color or assume rgba
-      
       particles.forEach((p) => {
         const offset = (p.col * 0.5 + p.row * 0.2) * 0.5;
         const wave = Math.sin(time + p.x * waveFrequency + offset) + 
@@ -85,7 +103,6 @@ const WaveParticles: React.FC = () => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, radius > 0 ? radius : 0, 0, Math.PI * 2);
         
-        // We replace the alpha in the color string if possible, or just use the global color with globalAlpha
         ctx.globalAlpha = alpha;
         ctx.fillStyle = particleColor;
         ctx.fill();
@@ -95,28 +112,25 @@ const WaveParticles: React.FC = () => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    init();
+    // Initial setup
+    resize();
     animate();
 
-    const handleResize = () => {
-      init();
-    };
+    // Watch for size changes using ResizeObserver
+    const resizeObserver = new ResizeObserver(() => {
+        resize();
+    });
+    resizeObserver.observe(canvas);
 
-    // Watch for theme changes via a simplified observer on body style if needed,
-    // but typically a re-render or resize triggers this.
-    // For now, we'll rely on the initial load and resize. 
-    // To support instant theme switching, we can listen to attribute changes.
-    const observer = new MutationObserver(() => {
+    // Watch for theme changes
+    const themeObserver = new MutationObserver(() => {
         particleColor = getParticleColor();
     });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
-
-
-    window.addEventListener('resize', handleResize);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      observer.disconnect();
+      resizeObserver.disconnect();
+      themeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
