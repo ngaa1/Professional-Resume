@@ -110,23 +110,87 @@ const ChatBot: React.FC = () => {
     }
   };
 
-  // Simple Markdown Parser for Bold text
-  const renderMessageContent = (content: string) => {
-    // Split by bold syntax (**text**)
-    const parts = content.split(/(\*\*.*?\*\*)/g);
-    
-    return parts.map((part, index) => {
-      // Check if this part is a bold section
-      if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
-        return (
-          <strong key={index} className="font-bold text-primary">
-            {part.slice(2, -2)}
-          </strong>
-        );
-      }
-      // Return normal text
-      return <span key={index}>{part}</span>;
-    });
+  // Improved Markdown Parser to handle Headings, Lists, and Bold text
+  const renderMessageContent = (content: string, role: 'user' | 'assistant') => {
+    const isUser = role === 'user';
+    const lines = content.split('\n');
+
+    const parseInline = (text: string) => {
+      // Bold: **text**
+      const parts = text.split(/(\*\*.*?\*\*)/g);
+      return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+          return (
+            <strong 
+              key={index} 
+              className={`font-bold ${isUser ? 'text-inherit' : 'text-primary'}`}
+            >
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return part;
+      });
+    };
+
+    return (
+      <div className={`space-y-2 ${isUser ? 'text-inherit' : 'text-secondary'} text-left`}>
+        {lines.map((line, i) => {
+          const trimmed = line.trim();
+          if (!trimmed) return <div key={i} className="h-1"></div>;
+
+          // Heading 3: ### Title
+          if (trimmed.startsWith('### ')) {
+            return (
+              <h4 key={i} className={`font-bold text-sm md:text-base mt-3 -mb-1 ${isUser ? 'text-inherit' : 'text-primary'}`}>
+                {parseInline(trimmed.slice(4))}
+              </h4>
+            );
+          }
+          
+           // Heading 2: ## Title
+          if (trimmed.startsWith('## ')) {
+            return (
+              <h3 key={i} className={`font-bold text-base md:text-lg mt-4 -mb-1 ${isUser ? 'text-inherit' : 'text-primary'}`}>
+                {parseInline(trimmed.slice(3))}
+              </h3>
+            );
+          }
+
+          // Unordered List: - Item or * Item
+          if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+            return (
+              <div key={i} className="flex items-start gap-2 pl-1">
+                 <span className={`mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isUser ? 'bg-white' : 'bg-accent'}`} />
+                 <span className="flex-1 leading-relaxed">
+                   {parseInline(trimmed.slice(2))}
+                 </span>
+              </div>
+            );
+          }
+
+          // Numbered List: 1. Item
+          const numMatch = trimmed.match(/^(\d+)\.\s/);
+          if (numMatch) {
+             return (
+              <div key={i} className="flex items-start gap-2 pl-1">
+                 <span className={`font-bold ${isUser ? 'text-inherit' : 'text-accent'}`}>{numMatch[1]}.</span>
+                 <span className="flex-1 leading-relaxed">
+                   {parseInline(trimmed.replace(/^(\d+)\.\s/, ''))}
+                 </span>
+              </div>
+            );
+          }
+
+          // Standard Paragraph
+          return (
+            <p key={i} className="leading-relaxed">
+              {parseInline(line)}
+            </p>
+          );
+        })}
+      </div>
+    );
   };
 
   // If no API Key is configured for the active provider, don't render
@@ -185,13 +249,13 @@ const ChatBot: React.FC = () => {
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap shadow-sm ${
+                className={`max-w-[85%] p-3 rounded-2xl text-sm shadow-sm ${
                   msg.role === 'user'
                     ? 'bg-accent text-white rounded-br-none'
                     : 'bg-accent-light border border-border text-secondary rounded-bl-none'
                 }`}
               >
-                {renderMessageContent(msg.content)}
+                {renderMessageContent(msg.content, msg.role)}
               </div>
             </div>
           ))}

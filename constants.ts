@@ -267,7 +267,7 @@ export const AI_CONFIG = {
   volcano: {
     apiKey: "b88edfc8-b121-4035-bcd4-8d923668c1c1", 
     baseURL: "https://ark.cn-beijing.volces.com/api/v3",
-    model: "ep-20251202142426-x6chd",
+    model: "ep-20251204131532-pnw24",
   },
 
   // Automatically generates a system prompt based on the resume data above.
