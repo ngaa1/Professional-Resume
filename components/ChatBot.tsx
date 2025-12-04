@@ -27,6 +27,7 @@ const ChatBot: React.FC = () => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Helper to safely get the current API Key
@@ -48,7 +49,7 @@ const ChatBot: React.FC = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen, isLoading]);
+  }, [messages, isOpen, isLoading, isStreaming]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -57,9 +58,11 @@ const ChatBot: React.FC = () => {
     const newHistory: Message[] = [...messages, { role: 'user', content: text }];
     setMessages(newHistory);
     setIsLoading(true);
+    setIsStreaming(true);
 
     try {
-      let responseText = '';
+      let fullResponseText = '';
+      let isFirstChunk = true;
 
       if (AI_CONFIG.provider === 'google') {
         // --- Google Gemini Logic ---
@@ -73,7 +76,7 @@ const ChatBot: React.FC = () => {
           parts: [{ text: msg.content }]
         }));
 
-        const response = await ai.models.generateContent({
+        const streamResult = await ai.models.generateContentStream({
           model: AI_CONFIG.google.model,
           contents: contents,
           config: {
@@ -81,7 +84,27 @@ const ChatBot: React.FC = () => {
           },
         });
         
-        responseText = response.text || "抱歉，我没有从服务器收到有效的回复。";
+        for await (const chunk of streamResult) {
+          const chunkText = chunk.text || "";
+          fullResponseText += chunkText;
+
+          if (isFirstChunk) {
+            setIsLoading(false); // Stop "thinking" animation
+            setMessages(prev => [...prev, { role: 'assistant', content: fullResponseText }]);
+            isFirstChunk = false;
+          } else {
+            setMessages(prev => {
+                const updated = [...prev];
+                if (updated.length > 0) {
+                    updated[updated.length - 1] = {
+                        ...updated[updated.length - 1],
+                        content: fullResponseText
+                    };
+                }
+                return updated;
+            });
+          }
+        }
 
       } else {
         // --- Volcano Engine (OpenAI Compatible) Logic ---
@@ -91,25 +114,59 @@ const ChatBot: React.FC = () => {
           dangerouslyAllowBrowser: true 
         });
 
-        const completion = await openai.chat.completions.create({
+        const stream = await openai.chat.completions.create({
           messages: [
             { role: 'system', content: AI_CONFIG.getSystemInstruction() },
-            ...newHistory.map(msg => ({ role: msg.role, content: msg.content }))
+            ...newHistory.map(msg => ({ role: msg.role as 'user' | 'assistant' | 'system', content: msg.content }))
           ],
           model: AI_CONFIG.volcano.model,
+          stream: true,
         });
 
-        responseText = completion.choices[0]?.message?.content || "抱歉，我没有从服务器收到有效的回复。";
+        for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content || "";
+            if (content) {
+                fullResponseText += content;
+                
+                if (isFirstChunk) {
+                    setIsLoading(false); // Stop "thinking" animation
+                    setMessages(prev => [...prev, { role: 'assistant', content: fullResponseText }]);
+                    isFirstChunk = false;
+                } else {
+                    setMessages(prev => {
+                        const updated = [...prev];
+                        if (updated.length > 0) {
+                            updated[updated.length - 1] = {
+                                ...updated[updated.length - 1],
+                                content: fullResponseText
+                            };
+                        }
+                        return updated;
+                    });
+                }
+            }
+        }
       }
       
-      setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
     } catch (error) {
       console.error("Chat Error:", error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "抱歉，我现在无法连接到服务器。请检查配置（API Key/网络）稍后再试。" }]);
+      // Only append error message if we haven't started streaming yet (or just let the partial response stay)
+      setMessages(prev => {
+          const lastMsg =SX(prev[prev.length - 1]);
+          // If the last message is user, we failed before first chunk
+          if (lastMsg && lastMsg.role === 'user') {
+               return [...prev, { role: 'assistant', content: "抱歉，我现在无法连接到服务器。请检查配置（API Key/网络）稍后再试。" }];
+          }
+          return prev;
+      });
     } finally {
       setIsLoading(false);
+      setIsStreaming(false);
     }
   };
+
+  // Helper type guard
+  function SX<T>(item: T | undefined): T | undefined { return item; }
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -219,6 +276,8 @@ const ChatBot: React.FC = () => {
   // If no API Key is configured for the active provider, don't render
   if (!hasKey) return null; 
 
+  const isBusy = isLoading || isStreaming;
+
   return (
     <>
       {/* Floating Action Button */}
@@ -294,8 +353,8 @@ const ChatBot: React.FC = () => {
             </div>
           ))}
           
-          {/* Preset Questions - Shown when there is only the initial greeting */}
-          {messages.length === 1 && !isLoading && (
+          {/* Preset Questions - Only shown when idle and fresh */}
+          {messages.length === 1 && !isBusy && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
                <p className="text-xs text-secondary/60 font-bold mb-2 ml-1">您可以尝试询问：</p>
                <div className="flex flex-col gap-2">
@@ -337,11 +396,11 @@ const ChatBot: React.FC = () => {
               onKeyDown={handleKeyPress}
               placeholder="询问关于李楚龙的经历..."
               className="w-full bg-accent-light border border-border rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-accent text-primary placeholder:text-secondary transition-all"
-              disabled={isLoading}
+              disabled={isBusy}
             />
             <button
               onClick={handleSend}
-              disabled={!input.trim() || isLoading}
+              disabled={!input.trim() || isBusy}
               className="absolute right-2 p-1.5 bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50 disabled:hover:bg-accent transition-colors"
             >
               <Icons.ArrowUp className="w-4 h-4" />
