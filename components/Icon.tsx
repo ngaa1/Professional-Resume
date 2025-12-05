@@ -18,7 +18,8 @@ import {
   ChevronLeft,
   ChevronRight,
   RotateCcw,
-  X
+  X,
+  MoveDiagonal
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
@@ -40,5 +41,6 @@ export const Icons = {
   ChevronLeft,
   ChevronRight,
   RotateCcw,
-  X
+  X,
+  MoveDiagonal
 };

@@ -29,7 +29,17 @@ const ChatBot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+  
+  // Track resizing state for UI updates (disabling blur/transitions)
+  const [isResizingMode, setIsResizingMode] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+
+  // Resize State (Using Ref for performance, avoiding re-renders)
+  const isResizing = useRef(false);
+  const resizeStart = useRef({ x: 0, y: 0, w: 0, h: 0 });
+  const animationFrameId = useRef<number | null>(null);
 
   // Helper to safely get the current API Key
   const getApiKey = () => {
@@ -59,6 +69,80 @@ const ChatBot: React.FC = () => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, isOpen, isLoading, isStreaming]);
+
+  // Resize Handlers
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing.current) return;
+      
+      // Cancel previous frame if exists to prevent stacking
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+
+      // Use requestAnimationFrame for smooth 60fps performance
+      animationFrameId.current = requestAnimationFrame(() => {
+        if (!chatWindowRef.current) return;
+
+        // Calculate delta: Moving Left/Up increases size because element is anchored Bottom-Right
+        const deltaX = resizeStart.current.x - e.clientX;
+        const deltaY = resizeStart.current.y - e.clientY;
+
+        const newWidth = Math.max(300, resizeStart.current.w + deltaX); // Min width 300
+        const newHeight = Math.max(400, resizeStart.current.h + deltaY); // Min height 400
+        
+        // Max constraints
+        const maxWidth = window.innerWidth - 32; 
+        const maxHeight = window.innerHeight - 100;
+
+        // Directly update DOM style to avoid React Re-renders
+        chatWindowRef.current.style.width = `${Math.min(newWidth, maxWidth)}px`;
+        chatWindowRef.current.style.height = `${Math.min(newHeight, maxHeight)}px`;
+      });
+    };
+
+    const handleMouseUp = () => {
+      if (isResizing.current) {
+        isResizing.current = false;
+        setIsResizingMode(false); // Re-enable effects
+        document.body.style.cursor = 'default';
+        document.body.style.userSelect = 'auto';
+        if (animationFrameId.current) {
+            cancelAnimationFrame(animationFrameId.current);
+            animationFrameId.current = null;
+        }
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+    };
+  }, []);
+
+  const startResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isResizing.current = true;
+    setIsResizingMode(true); // Disable effects for performance
+    
+    if (chatWindowRef.current) {
+        const rect = chatWindowRef.current.getBoundingClientRect();
+        resizeStart.current = {
+            x: e.clientX,
+            y: e.clientY,
+            w: rect.width,
+            h: rect.height
+        };
+    }
+    
+    document.body.style.cursor = 'nwse-resize';
+    document.body.style.userSelect = 'none';
+  };
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -346,15 +430,31 @@ const ChatBot: React.FC = () => {
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-40 right-4 md:right-8 w-[calc(100vw-2rem)] md:w-96 bg-surface/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl z-50 overflow-hidden transition-all duration-300 origin-bottom-right flex flex-col ${
-          isOpen 
+        id="chat-window"
+        ref={chatWindowRef}
+        className={`fixed bottom-40 right-4 md:right-8 border border-border rounded-2xl shadow-2xl z-50 overflow-hidden origin-bottom-right flex flex-col 
+          ${isResizingMode ? 'bg-surface' : 'bg-surface/95 backdrop-blur-md transition-all duration-300'}
+          ${isOpen 
             ? 'opacity-100 scale-100 translate-y-0' 
             : 'opacity-0 scale-90 translate-y-10 pointer-events-none'
-        }`}
-        style={{ height: '500px', maxHeight: '70vh' }}
+          } w-[calc(100vw-2rem)] md:w-[500px] h-[600px]`}
+        style={{ 
+          maxHeight: '85vh' 
+        }}
       >
+        {/* Resize Handle (Top-Left) */}
+        {isOpen && (
+            <div
+                onMouseDown={startResize}
+                className="absolute top-0 left-0 w-6 h-6 cursor-nwse-resize z-50 flex items-center justify-center group"
+                title="按住拖动调整大小"
+            >
+                <Icons.MoveDiagonal className="w-3.5 h-3.5 text-secondary/40 group-hover:text-accent transition-colors rotate-90" />
+            </div>
+        )}
+
         {/* Header */}
-        <div className="bg-primary/5 p-4 border-b border-border flex justify-between items-center">
+        <div className="bg-primary/5 p-4 border-b border-border flex justify-between items-center pl-8">
           <div className="flex items-center gap-2">
             <div className="p-1.5 bg-accent rounded-lg text-white">
               <Icons.Code className="w-4 h-4" />
