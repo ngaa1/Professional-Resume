@@ -90,7 +90,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
             onClick={() => setActiveIndex(idx)}
             className={`px-4 py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border ${
               idx === activeIndex 
-                ? 'bg-accent text-white border-accent shadow-md shadow-glow scale-105' 
+                ? 'bg-accent text-on-accent border-accent shadow-md shadow-glow scale-105' 
                 : 'bg-surface text-secondary border-border hover:border-accent hover:text-accent hover:bg-accent-light'
             }`}
           >

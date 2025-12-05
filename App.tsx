@@ -212,7 +212,7 @@ function App() {
       {/* Simple Scroll Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 p-4 bg-accent text-white rounded-full shadow-lg hover:bg-accent-hover hover:shadow-glow hover:scale-110 transition-all duration-300 transform z-50 print:hidden flex items-center justify-center gap-2 ${
+        className={`fixed bottom-8 right-8 p-4 bg-accent text-on-accent rounded-full shadow-lg hover:bg-accent-hover hover:shadow-glow hover:scale-110 transition-all duration-300 transform z-50 print:hidden flex items-center justify-center gap-2 ${
           showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'
         }`}
         aria-label="Scroll to top"

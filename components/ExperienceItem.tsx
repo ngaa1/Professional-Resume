@@ -84,7 +84,7 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
             <h4 className="text-xs font-bold text-secondary/60 uppercase tracking-wider flex items-center gap-2 group-hover/projects:text-accent transition-colors">
               <Icons.Briefcase className="w-4 h-4" />
               {labels.projects}
-              <span className="ml-2 px-2 py-0.5 text-[10px] bg-border text-secondary rounded group-hover/projects:bg-accent group-hover/projects:text-white transition-colors">
+              <span className="ml-2 px-2 py-0.5 text-[10px] bg-border text-secondary rounded group-hover/projects:bg-accent group-hover/projects:text-on-accent transition-colors">
                 {expanded ? labels.collapse : labels.expand}
               </span>
             </h4>

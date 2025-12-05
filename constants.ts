@@ -5,7 +5,7 @@ import { ResumeData } from './types';
 // ============================================================================
 
 // Automatic Theme Switching Configuration
-export const ENABLE_AUTO_THEME_SWITCH = true; // Set to true \ false to force use of SELECTED_THEME below
+export const ENABLE_AUTO_THEME_SWITCH = false; // Set to true \ false to force use of SELECTED_THEME below
 export const DAY_START_HOUR = 6;  // Hour when day mode starts (e.g., 6 for 06:00)
 export const DAY_END_HOUR = 18;   // Hour when night mode starts (e.g., 18 for 18:00)
 
@@ -22,6 +22,7 @@ export const THEMES = {
     '--c-secondary': '#475569',      // Slate 600
     '--c-accent': '#0ea5e9',         // Sky 500
     '--c-accent-hover': '#0284c7',   // Sky 600
+    '--c-on-accent': '#ffffff',      // White text on blue accent
     '--c-surface': '#ffffff',        // White
     '--c-surface-hover': '#ffffff',  // White
     '--c-border': '#e2e8f0',         // Slate 200
@@ -38,24 +39,26 @@ export const THEMES = {
     '--c-logo-filter': 'grayscale(10%)',
   },
   'github-dark': {
-    '--c-primary': '#e6edf3',        // GitHub FG Default
-    '--c-secondary': '#848d97',      // GitHub FG Muted
-    '--c-accent': '#2f81f7',         // GitHub Accent Blue
-    '--c-accent-hover': '#58a6ff',   // GitHub Accent Blue Hover
-    '--c-surface': '#161b22',        // GitHub Canvas Overlay
-    '--c-surface-hover': '#1f242c',  // Slightly lighter
-    '--c-border': '#30363d',         // GitHub Border Default
-    '--c-bg-page': '#0d1117',        // GitHub Canvas Default
-    '--c-accent-light': 'rgba(56, 139, 253, 0.15)', // Accent Subtle
-    '--c-shadow-text': 'rgba(255, 255, 255, 0.05)', // Very subtle background text
-    '--c-shadow-glow': 'rgba(0, 0, 0, 0.5)',        // Darker shadows
-    '--c-particle': 'rgba(47, 129, 247, 1)',
+    '--c-primary': '#ffffff',        // Pure White for high contrast text
+    '--c-secondary': '#9198a1',      // Muted gray
+    '--c-accent': '#3fb950',         // GitHub Green for icons/highlights
+    '--c-accent-hover': '#2ea043',   // Darker green for hover
+    '--c-on-accent': '#ffffff',      // White text on green accent
+    '--c-surface': '#0d1117',        // Very dark gray (almost black) for cards
+    '--c-surface-hover': '#161b22',  // Slightly lighter
+    '--c-border': '#30363d',         // Dark border
+    // Radial gradient simulating the blue top glow fading to pure black
+    '--c-bg-page': 'radial-gradient(circle at 50% 0%, #1c2333 0%, #000000 100%)',
+    '--c-accent-light': 'rgba(63, 185, 80, 0.15)', // Green tint
+    '--c-shadow-text': 'rgba(255, 255, 255, 0.05)', 
+    '--c-shadow-glow': 'rgba(63, 185, 80, 0.2)',   // Greenish glow
+    '--c-particle': 'rgba(255, 255, 255, 0.4)',      // Subtle white particles
 
     // Logo Watermark (Inverted for visibility on dark background)
     '--c-logo-blend': 'normal',
     '--c-logo-opacity': '0.1',
     '--c-logo-opacity-hover': '0.15',
-    '--c-logo-filter': 'grayscale(100%) invert(1) brightness(0.8)',
+    '--c-logo-filter': 'grayscale(100%) invert(1) brightness(1)',
   }
 };
 
@@ -87,7 +90,7 @@ export const RESUME_DATA: ResumeData = {
     "email": "nglichulong@outlook.com",
     "phone": "13865379680",
     "wechat": "nglichulong",
-    "summary": "拥有设计院和光伏行业双重工作经验的结构工程师。在GAD杰地设计集团期间参与多个公建、商业和住宅项目的结构设计，积累了扎实的建筑结构设计基础和参数化建模能力；现于天合光能跟踪支架工程技术中心工作，成功支持50+全球项目，实施20个项目（总容量600MW），独立开发智能支架分析系统（T-STARS）并获得公司专利。两份工作体现了从建筑结构设计到新能源支架专业领域的技术深化，以及从单一项目执行到全球项目管理和工具创新的职业发展。",
+    "summary": "拥有设计院和光伏行业双重工作经验的结构工程师。在GAD杰地设计集团期间参与多个公建、商业和住宅项目的结构设计，积累了扎实的建筑结构设计基础和参数化建模能力；现于天合光能跟踪支架工程技术中心工作，成功支持50+全球项目，实施20个重点项目（总容量600MW），独立开发智能支架分析系统（T-STARS）并获得公司专利。两份工作体现了从建筑结构设计到新能源支架专业领域的技术深化，以及从单一项目执行到全球项目管理和工具创新的职业发展。",
     "tags": [
         "土木工程", "结构力学", "代尔夫特理工硕士", "雅思7.5", 
         "GAD绿城设计院", "住宅公建项目", "参数化设计", "天合光能", 

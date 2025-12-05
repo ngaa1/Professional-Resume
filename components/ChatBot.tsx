@@ -418,7 +418,7 @@ const ChatBot: React.FC = () => {
           className={`p-4 rounded-full shadow-lg transition-all duration-300 pointer-events-auto ${
             isOpen 
               ? 'bg-secondary text-surface rotate-90' 
-              : 'bg-accent text-white hover:bg-accent-hover hover:scale-110 shadow-glow animate-bounce-slow'
+              : 'bg-accent text-on-accent hover:bg-accent-hover hover:scale-110 shadow-glow animate-bounce-slow'
           }`}
           aria-label="Toggle AI Assistant"
         >
@@ -531,7 +531,7 @@ const ChatBot: React.FC = () => {
               <div
                 className={`max-w-[85%] p-3 rounded-2xl text-sm shadow-sm ${
                   msg.role === 'user'
-                    ? 'bg-accent text-white rounded-br-none'
+                    ? 'bg-accent text-on-accent rounded-br-none'
                     : 'bg-accent-light border border-border text-secondary rounded-bl-none'
                 }`}
               >
@@ -549,7 +549,7 @@ const ChatBot: React.FC = () => {
                    <button
                      key={index}
                      onClick={() => handlePresetClick(question)}
-                     className="text-left text-sm bg-surface hover:bg-accent hover:text-white border border-border hover:border-accent text-secondary py-2 px-3 rounded-xl transition-all shadow-sm active:scale-95"
+                     className="text-left text-sm bg-surface hover:bg-accent hover:text-on-accent border border-border hover:border-accent text-secondary py-2 px-3 rounded-xl transition-all shadow-sm active:scale-95"
                    >
                      {question}
                    </button>
@@ -588,7 +588,7 @@ const ChatBot: React.FC = () => {
             <button
               onClick={handleSend}
               disabled={!input.trim() || isBusy}
-              className="absolute right-2 p-1.5 bg-accent text-white rounded-lg hover:bg-accent-hover disabled:opacity-50 disabled:hover:bg-accent transition-colors"
+              className="absolute right-2 p-1.5 bg-accent text-on-accent rounded-lg hover:bg-accent-hover disabled:opacity-50 disabled:hover:bg-accent transition-colors"
             >
               <Icons.ArrowUp className="w-4 h-4" />
             </button>

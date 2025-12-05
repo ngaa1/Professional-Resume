@@ -65,13 +65,13 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
 
               <div className="flex flex-wrap gap-3 text-sm text-secondary font-medium">
                 <a href={`mailto:${data.email}`} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm hover:border-accent hover:text-accent transition-all group backdrop-blur-sm">
-                  <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
+                  <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-on-accent transition-colors">
                     <Icons.Mail className="w-3.5 h-3.5" />
                   </div>
                   <span>{data.email}</span>
                 </a>
                 <a href={`tel:${data.phone}`} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm hover:border-accent hover:text-accent transition-all group backdrop-blur-sm">
-                  <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
+                  <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-on-accent transition-colors">
                     <Icons.Phone className="w-3.5 h-3.5" />
                   </div>
                   <span>{data.phone}</span>
@@ -83,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
                   className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface/80 border border-border shadow-sm text-secondary group hover:border-accent hover:text-accent transition-all backdrop-blur-sm relative cursor-pointer"
                   title="点击复制微信号"
                 >
-                   <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-white transition-colors">
+                   <div className="p-1 bg-accent-light rounded-md group-hover:bg-accent group-hover:text-on-accent transition-colors">
                     <Icons.MessageSquare className="w-3.5 h-3.5" />
                   </div>
                   <span>WeChat: {data.wechat}</span>
