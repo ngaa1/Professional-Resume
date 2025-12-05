@@ -26,7 +26,7 @@ export const THEMES = {
     '--c-surface': '#ffffff',        // White
     '--c-surface-hover': '#ffffff',  // White
     '--c-border': '#e2e8f0',         // Slate 200
-    '--c-bg-page': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+    '--c-bg-page': 'radial-gradient(circle at 50% 0%, #eff6ff 0%, #60a5fa 100%)', // Stronger radial light blue
     '--c-accent-light': '#f0f9ff',   // Sky 50
     '--c-shadow-text': '#bae6fd',    // Sky 200
     '--c-shadow-glow': 'rgba(14, 165, 233, 0.15)',
