@@ -70,7 +70,43 @@ const ChatBot: React.FC = () => {
     }
   }, [messages, isOpen, isLoading, isStreaming]);
 
-  // Resize Handlers
+  // Window Resize Handler to constrain dimensions
+  useEffect(() => {
+    let resizeFrameId: number;
+
+    const handleWindowResize = () => {
+      cancelAnimationFrame(resizeFrameId);
+      resizeFrameId = requestAnimationFrame(() => {
+        if (!chatWindowRef.current) return;
+
+        // Calculate safe maximum dimensions based on viewport
+        // bottom-40 is 160px (10rem). We add top margin of ~20px.
+        // Horizontal padding ~32px total.
+        const safeMaxWidth = window.innerWidth - 32; 
+        const safeMaxHeight = window.innerHeight - 180; 
+
+        const currentRect = chatWindowRef.current.getBoundingClientRect();
+
+        // If current dimensions exceed the safe area, clamp them
+        // This ensures if the user shrinks the window, the chat window shrinks with it
+        if (currentRect.width > safeMaxWidth) {
+          chatWindowRef.current.style.width = `${safeMaxWidth}px`;
+        }
+        
+        if (currentRect.height > safeMaxHeight) {
+          chatWindowRef.current.style.height = `${safeMaxHeight}px`;
+        }
+      });
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+        window.removeEventListener('resize', handleWindowResize);
+        cancelAnimationFrame(resizeFrameId);
+    };
+  }, []);
+
+  // Drag Resize Handlers
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing.current) return;
@@ -93,7 +129,7 @@ const ChatBot: React.FC = () => {
         
         // Max constraints
         const maxWidth = window.innerWidth - 32; 
-        const maxHeight = window.innerHeight - 100;
+        const maxHeight = window.innerHeight - 180;
 
         // Directly update DOM style to avoid React Re-renders
         chatWindowRef.current.style.width = `${Math.min(newWidth, maxWidth)}px`;
