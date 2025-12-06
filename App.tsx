@@ -24,7 +24,7 @@ function App() {
 
   // Apply Theme Function
   const applyTheme = (themeKey: 'light' | 'github-dark') => {
-    const fontKey: 'default' | 'github' = themeKey === 'light' ? 'default' : 'github';
+    const fontKey: 'default' | 'github' = SELECTED_FONT_THEME;
     const root = document.documentElement;
 
     // Apply Color Theme
