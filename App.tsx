@@ -14,6 +14,7 @@ import SectionTitle from './components/SectionTitle';
 import ExperienceItem from './components/ExperienceItem';
 import SkillsSection from './components/SkillsSection'; 
 import ChatBot from './components/ChatBot';
+import WorldMapSection from './components/WorldMapSection';
 import { Icons } from './components/Icon';
 
 function App() {
@@ -217,6 +218,9 @@ function App() {
            <SectionTitle title={labels.skills} icon={Icons.Code} />
            <SkillsSection skills={skills} />
         </section>
+
+        {/* World Map Section */}
+        <WorldMapSection />
 
       </main>
 
