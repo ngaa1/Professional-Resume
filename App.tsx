@@ -19,51 +19,73 @@ import { Icons } from './components/Icon';
 function App() {
   const { labels, experience, education, honors, skills } = RESUME_DATA;
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<'light' | 'github-dark'>('light');
+  const [isAutoTheme, setIsAutoTheme] = useState(ENABLE_AUTO_THEME_SWITCH);
+
+  // Apply Theme Function
+  const applyTheme = (themeKey: 'light' | 'github-dark') => {
+    const fontKey: 'default' | 'github' = themeKey === 'light' ? 'default' : 'github';
+    const root = document.documentElement;
+
+    // Apply Color Theme
+    const themeParams = THEMES[themeKey];
+    Object.entries(themeParams).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+
+    // Apply Font Theme
+    const fontParams = FONT_THEMES[fontKey];
+    Object.entries(fontParams).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+
+    setCurrentTheme(themeKey);
+  };
+
+  // Toggle Theme Function
+  const toggleTheme = () => {
+    setIsAutoTheme(false);
+    const newTheme = currentTheme === 'light' ? 'github-dark' : 'light';
+    applyTheme(newTheme);
+  };
 
   // Automatic Theme Switching Logic based on Time of Day
   useEffect(() => {
-    const applyTheme = () => {
-      let themeKey: 'light' | 'github-dark';
-      let fontKey: 'default' | 'github';
-
-      if (ENABLE_AUTO_THEME_SWITCH) {
+    if (ENABLE_AUTO_THEME_SWITCH && isAutoTheme) {
+      const checkTheme = () => {
         const hour = new Date().getHours();
         
         // Define Daytime based on constants
-        // Example: 6 to 18 (6 AM inclusive to 6 PM exclusive)
         const isDayTime = hour >= DAY_START_HOUR && hour < DAY_END_HOUR;
+        const newTheme = isDayTime ? 'light' : 'github-dark';
+        
+        if (newTheme !== currentTheme) {
+          applyTheme(newTheme);
+        }
+      };
 
-        // Select themes based on time
-        themeKey = isDayTime ? 'light' : 'github-dark';
-        fontKey = isDayTime ? 'default' : 'github';
-      } else {
-        // Fallback to manual selection if auto-switch is disabled
-        themeKey = SELECTED_THEME;
-        fontKey = SELECTED_FONT_THEME;
-      }
+      // Apply immediately on mount
+      checkTheme();
 
-      const root = document.documentElement;
+      // Check every minute to update if the time boundary is crossed while open
+      const intervalId = setInterval(checkTheme, 60000);
 
-      // Apply Color Theme
-      const themeParams = THEMES[themeKey];
-      Object.entries(themeParams).forEach(([key, value]) => {
-        root.style.setProperty(key, value);
-      });
+      return () => clearInterval(intervalId);
+    } else {
+      // Apply selected theme if auto-switch is disabled or overridden
+      applyTheme(currentTheme);
+    }
+  }, [isAutoTheme, currentTheme]);
 
-      // Apply Font Theme
-      const fontParams = FONT_THEMES[fontKey];
-      Object.entries(fontParams).forEach(([key, value]) => {
-        root.style.setProperty(key, value);
-      });
-    };
-
-    // Apply immediately on mount
-    applyTheme();
-
-    // Check every minute to update if the time boundary is crossed while open
-    const intervalId = setInterval(applyTheme, 60000);
-
-    return () => clearInterval(intervalId);
+  // Initialize theme on mount
+  useEffect(() => {
+    if (ENABLE_AUTO_THEME_SWITCH) {
+      const hour = new Date().getHours();
+      const isDayTime = hour >= DAY_START_HOUR && hour < DAY_END_HOUR;
+      applyTheme(isDayTime ? 'light' : 'github-dark');
+    } else {
+      applyTheme(SELECTED_THEME);
+    }
   }, []);
 
   useEffect(() => {
@@ -84,7 +106,7 @@ function App() {
 
   return (
     <div className="min-h-screen pb-20 print:bg-white print:pb-0 relative transition-colors duration-300">
-      <Header data={RESUME_DATA} />
+      <Header data={RESUME_DATA} toggleTheme={toggleTheme} currentTheme={currentTheme} />
 
       <main className="max-w-5xl mx-auto px-4 md:px-8 space-y-12 relative z-20 print:mt-0 print:px-0">
         
@@ -101,12 +123,6 @@ function App() {
               />
             ))}
           </div>
-        </section>
-
-        {/* Skills Section */}
-        <section className="page-break">
-           <SectionTitle title={labels.skills} icon={Icons.Code} />
-           <SkillsSection skills={skills} />
         </section>
 
         {/* Education & Honors Grid */}
@@ -195,6 +211,12 @@ function App() {
             </div>
           </section>
         </div>
+
+        {/* Skills Section */}
+        <section className="page-break">
+           <SectionTitle title={labels.skills} icon={Icons.Code} />
+           <SkillsSection skills={skills} />
+        </section>
 
       </main>
 

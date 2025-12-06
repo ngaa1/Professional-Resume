@@ -431,7 +431,7 @@ const ChatBot: React.FC = () => {
             className="hidden md:flex animate-in fade-in slide-in-from-right-8 duration-500 cursor-pointer group pointer-events-auto relative"
             onClick={() => setIsOpen(true)}
           >
-            <div className="bg-surface border border-border p-4 rounded-xl shadow-lg shadow-glow relative max-w-[220px] hover:scale-105 transition-transform">
+            <div className="bg-surface border border-border p-4 rounded-xl shadow-lg shadow-glow relative max-w-[300px] hover:scale-105 transition-transform">
                {/* Speech Bubble Arrow - Centered Vertically */}
                <div className="absolute top-1/2 -right-1.5 w-3 h-3 bg-surface border-t border-r border-border rotate-45 transform -translate-y-1/2 rounded-sm"></div>
                
@@ -441,7 +441,7 @@ const ChatBot: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-primary mb-1">Hi!</p>
-                    <p className="text-xs text-secondary leading-relaxed">
+                    <p className="text-xs text-secondary leading-relaxed line-clamp-2">
                       对我的经历感兴趣？<br/>点击这里可以让 AI 为您解答！
                     </p>
                   </div>

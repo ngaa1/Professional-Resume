@@ -5,9 +5,11 @@ import WaveParticles from './WaveParticles';
 
 interface HeaderProps {
   data: ResumeData;
+  toggleTheme: () => void;
+  currentTheme: 'light' | 'github-dark';
 }
 
-const Header: React.FC<HeaderProps> = ({ data }) => {
+const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
   const [showCopied, setShowCopied] = useState(false);
 
   const handleCopyWechat = () => {
@@ -27,6 +29,26 @@ const Header: React.FC<HeaderProps> = ({ data }) => {
         
         {/* Main Card */}
         <div className="bg-surface rounded-2xl p-8 md:p-10 border border-border shadow-xl shadow-glow relative overflow-hidden print:shadow-none print:border-none print:p-0 transition-colors duration-300">
+          
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="absolute top-4 right-4 z-30 px-4 py-2 rounded-xl bg-surface border border-border shadow-lg hover:bg-accent-light hover:text-accent transition-all duration-300 print:hidden flex items-center gap-2"
+            aria-label="切换主题"
+            title="切换主题"
+          >
+            {currentTheme === 'light' ? (
+              <>
+                <Icons.Sun className="w-5 h-5 text-primary" />
+                <Icons.Moon className="w-5 h-5 text-secondary opacity-50" />
+              </>
+            ) : (
+              <>
+                <Icons.Moon className="w-5 h-5 text-primary" />
+                <Icons.Sun className="w-5 h-5 text-secondary opacity-50" />
+              </>
+            )}
+          </button>
           
           {/* Dynamic Particle Background */}
           <WaveParticles />
