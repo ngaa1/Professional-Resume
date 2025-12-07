@@ -21,7 +21,8 @@ import {
   X,
   MoveDiagonal,
   Moon,
-  Sun
+  Sun,
+  Download
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
@@ -46,5 +47,6 @@ export const Icons = {
   X,
   MoveDiagonal,
   Moon,
-  Sun
+  Sun,
+  Download
 };

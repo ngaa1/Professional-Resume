@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ResumeData } from '../types';
 import { Icons } from './Icon';
@@ -23,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
     }
   };
 
-  const handlePrint = () => {
+  const handleDownload = () => {
     window.print();
   };
 
@@ -37,12 +38,12 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
           {/* Action Buttons (Theme + Print) - Hidden in Print */}
           <div className="absolute top-4 right-4 z-30 flex gap-2 print:hidden">
             <button
-              onClick={handlePrint}
+              onClick={handleDownload}
               className="px-4 py-2 rounded-xl bg-surface border border-border shadow-lg hover:bg-accent-light hover:text-accent transition-all duration-300 flex items-center gap-2"
-              aria-label="打印简历"
-              title="打印简历 / 另存为 PDF"
+              aria-label="下载简历 PDF"
+              title="下载简历 (PDF) / 另存为 PDF"
             >
-              <Icons.Printer className="w-5 h-5 text-secondary" />
+              <Icons.Download className="w-5 h-5 text-secondary" />
             </button>
             
             <button
