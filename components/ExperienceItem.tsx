@@ -17,13 +17,30 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
     ? "w-[160px] md:w-[180px]" 
     : "w-[240px] md:w-[280px]";
 
+  // Render Projects Grid (Reused for interactive expansion and print view)
+  const DetailedProjectsGrid = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {data.projects.map((project, idx) => (
+        <div key={idx} className="bg-surface-hover p-5 rounded-xl border border-border hover:border-accent hover:shadow-md hover:shadow-glow transition-all print:border-none print:p-0 print:mb-2 print:bg-transparent print:shadow-none">
+          <h5 className="font-bold text-primary mb-2 text-sm flex items-center gap-2 print:text-black">
+            <span className="w-1 h-3 bg-accent rounded-full print:bg-black"></span>
+            {project.name}
+          </h5>
+          <p className="text-secondary text-sm leading-relaxed text-justify print:text-gray-700">
+            {project.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div className={`relative overflow-hidden bg-surface rounded-2xl border border-border p-6 md:p-8 hover:shadow-glow hover:border-accent/30 transition-all duration-300 mb-6 group`}>
+    <div className={`relative overflow-hidden bg-surface rounded-2xl border border-border p-6 md:p-8 hover:shadow-glow hover:border-accent/30 transition-all duration-300 mb-6 group print:border-none print:shadow-none print:p-0 print:mb-8 page-break`}>
         
-      {/* Watermark Logo */}
+      {/* Watermark Logo - Reduced opacity in print */}
       {data.logo && (
         <div 
-          className="absolute right-6 top-6 pointer-events-none select-none z-0 transition-all duration-300 opacity-[var(--c-logo-opacity)] group-hover:opacity-[var(--c-logo-opacity-hover)]"
+          className="absolute right-6 top-6 pointer-events-none select-none z-0 transition-all duration-300 opacity-[var(--c-logo-opacity)] group-hover:opacity-[var(--c-logo-opacity-hover)] print:opacity-[0.05]"
           style={{
             mixBlendMode: 'var(--c-logo-blend)' as any,
             filter: 'var(--c-logo-filter)'
@@ -40,45 +57,47 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
       <div className="relative z-10">
         
         {/* Header Row */}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-2">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 gap-2 print:mb-2">
           <div>
-            <h3 className="text-2xl font-bold text-primary tracking-tight">{data.company}</h3>
+            <h3 className="text-2xl font-bold text-primary tracking-tight print:text-black">{data.company}</h3>
             <div className="flex items-center gap-2 mt-1">
-              <p className="text-lg text-accent font-bold">{data.position}</p>
+              <p className="text-lg text-accent font-bold print:text-gray-800">{data.position}</p>
             </div>
           </div>
-          <div className="flex items-center text-sm font-bold text-accent bg-accent-light border border-border px-3 py-1.5 rounded-lg whitespace-nowrap">
+          <div className="flex items-center text-sm font-bold text-accent bg-accent-light border border-border px-3 py-1.5 rounded-lg whitespace-nowrap print:bg-transparent print:border-gray-300 print:text-black print:px-0">
             {data.year}
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-secondary leading-relaxed mb-6 text-justify font-medium border-l-2 border-accent-light pl-4">
+        <p className="text-secondary leading-relaxed mb-6 text-justify font-medium border-l-2 border-accent-light pl-4 print:border-gray-200 print:text-black print:pl-0 print:mb-4">
           {data.description}
         </p>
 
         {/* Responsibilities Grid */}
-        <div className="mb-8">
-          <h4 className="text-xs font-bold text-secondary/60 uppercase tracking-wider mb-3 flex items-center gap-2">
-              <div className="p-1 bg-accent-light rounded-full">
+        <div className="mb-8 print:mb-4">
+          <h4 className="text-xs font-bold text-secondary/60 uppercase tracking-wider mb-3 flex items-center gap-2 print:text-black">
+              <div className="p-1 bg-accent-light rounded-full print:hidden">
                 <Icons.User className="w-3 h-3 text-accent" />
               </div>
               {labels.core_responsibilities}
           </h4>
           <div className="grid grid-cols-1 gap-2">
             {data.core_responsibilities.map((resp, index) => (
-              <div key={index} className="flex items-start text-secondary text-sm pl-2 hover:bg-accent-light/50 rounded py-1 transition-colors">
-                <span className="w-1.5 h-1.5 bg-accent rounded-full mt-1.5 mr-3 flex-shrink-0" />
+              <div key={index} className="flex items-start text-secondary text-sm pl-2 hover:bg-accent-light/50 rounded py-1 transition-colors print:text-black print:pl-0">
+                <span className="w-1.5 h-1.5 bg-accent rounded-full mt-1.5 mr-3 flex-shrink-0 print:bg-black" />
                 <span className="font-medium">{resp}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Projects - Simple Flat List */}
-        <div className="border-t border-border pt-6">
+        {/* Projects */}
+        <div className="border-t border-border pt-6 print:border-gray-200 print:pt-4">
+          
+          {/* Interactive Toggle Header (Hidden in Print) */}
           <div 
-            className="flex items-center justify-between cursor-pointer group/projects mb-4"
+            className="flex items-center justify-between cursor-pointer group/projects mb-4 print:hidden"
             onClick={() => setExpanded(!expanded)}
           >
             <h4 className="text-xs font-bold text-secondary/60 uppercase tracking-wider flex items-center gap-2 group-hover/projects:text-accent transition-colors">
@@ -93,32 +112,34 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
             </div>
           </div>
 
-          {expanded ? (
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {data.projects.map((project, idx) => (
-                <div key={idx} className="bg-surface-hover p-5 rounded-xl border border-border hover:border-accent hover:shadow-md hover:shadow-glow transition-all">
-                  <h5 className="font-bold text-primary mb-2 text-sm flex items-center gap-2">
-                    <span className="w-1 h-3 bg-accent rounded-full"></span>
-                    {project.name}
-                  </h5>
-                  <p className="text-secondary text-sm leading-relaxed text-justify">
-                    {project.description}
-                  </p>
-                </div>
-              ))}
+          {/* Print-Only Header */}
+          <h4 className="hidden print:flex text-xs font-bold text-black uppercase tracking-wider mb-3 items-center gap-2">
+             {labels.projects}
+          </h4>
+
+          {/* Screen Content: Interactive Switch */}
+          <div className="print:hidden">
+            {expanded ? (
+               <DetailedProjectsGrid />
+            ) : (
+              <div className="flex flex-wrap gap-x-6 gap-y-3 cursor-pointer" onClick={() => setExpanded(true)}>
+               {data.projects.map((project, idx) => (
+                 <div key={idx} className="flex items-center group/item px-3 py-1.5 rounded-lg border border-transparent hover:bg-accent-light hover:border-border transition-all">
+                    <div className="w-1.5 h-1.5 bg-secondary/40 rounded-full mr-2 group-hover/item:bg-accent transition-colors" />
+                    <span className="text-sm text-secondary font-bold group-hover/item:text-accent transition-colors">
+                      {project.name}
+                    </span>
+                 </div>
+               ))}
             </div>
-          ) : (
-            <div className="flex flex-wrap gap-x-6 gap-y-3 cursor-pointer" onClick={() => setExpanded(true)}>
-             {data.projects.map((project, idx) => (
-               <div key={idx} className="flex items-center group/item px-3 py-1.5 rounded-lg border border-transparent hover:bg-accent-light hover:border-border transition-all">
-                  <div className="w-1.5 h-1.5 bg-secondary/40 rounded-full mr-2 group-hover/item:bg-accent transition-colors" />
-                  <span className="text-sm text-secondary font-bold group-hover/item:text-accent transition-colors">
-                    {project.name}
-                  </span>
-               </div>
-             ))}
+            )}
           </div>
-          )}
+
+          {/* Print Content: Always Detailed Grid */}
+          <div className="hidden print:block">
+             <DetailedProjectsGrid />
+          </div>
+
         </div>
 
       </div>

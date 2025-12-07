@@ -28,14 +28,13 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 md:px-12">
+    <div className="max-w-3xl mx-auto px-4 md:px-12 print:px-0 print:max-w-full">
       
       {/* 
-        Wrapper for Carousel + Buttons 
-        We make this relative so the absolute positioned buttons 
-        center themselves relative to the CARDS, not the whole section (which includes tabs).
+        SCREEN VIEW: Carousel 
+        Hidden in Print
       */}
-      <div className="relative group/carousel">
+      <div className="relative group/carousel print:hidden">
         
         {/* Main Viewport */}
         <div className="overflow-hidden rounded-2xl py-2">
@@ -56,14 +55,6 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
         </div>
 
         {/* Navigation Arrows */}
-        {/* 
-           Adjusted Positioning:
-           - Vertical: top-1/2 -translate-y-1/2 (Centers relative to the card container)
-           - Horizontal: 
-             - Mobile: left-0 / right-0 (Flush with edge)
-             - Tablet (md): -left-12 / -right-12 (Moved out into padding area)
-             - Desktop (lg): -left-20 / -right-20 (Moved further out for spacious look)
-        */}
         <button 
           onClick={prevSlide}
           className="absolute top-1/2 -translate-y-1/2 left-0 md:-left-12 lg:-left-20 p-2 md:p-3 rounded-full bg-surface border border-border text-secondary hover:text-accent hover:shadow-lg hover:border-accent transition-all z-10 shadow-sm group"
@@ -82,8 +73,8 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
 
       </div>
 
-      {/* Category Tabs */}
-      <div className="flex justify-center items-center flex-wrap gap-3 mt-6">
+      {/* Screen Category Tabs */}
+      <div className="flex justify-center items-center flex-wrap gap-3 mt-6 print:hidden">
         {CATEGORY_ORDER.map((category, idx) => (
           <button
             key={idx}
@@ -97,6 +88,22 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
             {category}
           </button>
         ))}
+      </div>
+
+      {/* 
+        PRINT VIEW: Stacked Grid
+        Hidden on Screen, Visible in Print
+      */}
+      <div className="hidden print:grid grid-cols-1 gap-6">
+          {CATEGORY_ORDER.map((category) => (
+              <div key={category} className="break-inside-avoid">
+                 <SkillCard 
+                    title={category} 
+                    skills={skills[category]} 
+                    icon={ICON_MAP[category]} 
+                 />
+              </div>
+            ))}
       </div>
     </div>
   );

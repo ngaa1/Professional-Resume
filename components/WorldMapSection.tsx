@@ -246,7 +246,8 @@ const WorldMapSection: React.FC = () => {
   };
 
   return (
-    <section className="print:break-inside-avoid">
+    // Hidden in Print Mode
+    <section className="print:hidden">
       <SectionTitle title="我的足迹" icon={Icons.MapPin} />
       
       <div className="relative bg-surface rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-glow transition-all duration-300 group/map">

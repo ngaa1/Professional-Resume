@@ -90,15 +90,56 @@
       }
 
       @media print {
+        @page {
+          margin: 1cm;
+          size: auto;
+        }
+
         body {
           background: white !important;
           color: black !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
-        .no-print {
+
+        /* Reset variables for print */
+        :root {
+          --c-primary: #000000 !important;
+          --c-secondary: #333333 !important;
+          --c-accent: #000000 !important; /* Make accents dark for readability */
+          --c-accent-light: #f0f0f0 !important;
+          --c-surface: #ffffff !important;
+          --c-border: #dddddd !important;
+          --c-bg-page: #ffffff !important;
+          --c-shadow-text: transparent !important;
+          --c-shadow-glow: transparent !important;
+        }
+
+        .no-print, button, nav, footer, .chat-widget {
           display: none !important;
         }
+
         .page-break {
+          break-inside: avoid;
           page-break-inside: avoid;
+        }
+
+        /* Ensure links are readable */
+        a {
+          text-decoration: none !important;
+          color: black !important;
+        }
+        
+        /* Hide shadows and borders on cards for cleaner print */
+        .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm, .shadow-glow {
+          box-shadow: none !important;
+        }
+        
+        /* Expand layout */
+        .max-w-5xl {
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
         }
       }
     </style>
