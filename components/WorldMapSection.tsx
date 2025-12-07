@@ -195,7 +195,7 @@ const WorldMapSection: React.FC = () => {
   const VIEWBOX = "450 25 450 200";
 
   // --- Tooltip Rendering Helper ---
-  const renderTooltip = (loc: Location, isHovered: boolean) => {
+  const renderTooltip = (loc: Location) => {
     const pos = project(loc.lat, loc.lng);
     
     // Increased sizes for visibility
@@ -277,7 +277,7 @@ const WorldMapSection: React.FC = () => {
                 
                 <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 items-start md:items-stretch scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
                     {/* Render Timeline in Reverse Order (Newest First) */}
-                    {timelineLocations.map((loc, i) => (
+                    {timelineLocations.map((loc) => (
                         <div 
                             key={loc.id} 
                             onMouseEnter={() => setHoveredLocation(loc.id)}
@@ -422,7 +422,7 @@ const WorldMapSection: React.FC = () => {
                       {(() => {
                           const lastLoc = LOCATIONS[LOCATIONS.length - 1];
                           if (hoveredLocation !== lastLoc.id) {
-                              return renderTooltip(lastLoc, false);
+                              return renderTooltip(lastLoc);
                           }
                           return null;
                       })()}
@@ -431,7 +431,7 @@ const WorldMapSection: React.FC = () => {
                           if (!hoveredLocation) return null;
                           const loc = LOCATIONS.find(l => l.id === hoveredLocation);
                           if (loc) {
-                              return renderTooltip(loc, true);
+                              return renderTooltip(loc);
                           }
                           return null;
                       })()}

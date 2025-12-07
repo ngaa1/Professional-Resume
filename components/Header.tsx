@@ -25,7 +25,13 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
   };
 
   const handleDownload = () => {
-    window.print();
+    const pdfUrl = '/doc/简历.pdf';
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = '简历.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
