@@ -101,6 +101,9 @@ const WorldMapSection: React.FC = () => {
   const [geoData, setGeoData] = useState<GeoJSON | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Sorted locations for Timeline (Reverse Chronological: Newest First)
+  const timelineLocations = useMemo(() => [...LOCATIONS].reverse(), []);
+
   // Fetch GeoJSON Data on Mount
   useEffect(() => {
     fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson')
@@ -186,14 +189,13 @@ const WorldMapSection: React.FC = () => {
   }, []);
 
   // --- ViewBox Configuration for Zoom ---
-  // Adjusted to focus strictly on relevant regions to minimize empty vertical space.
+  // Adjusted for taller aspect ratio (~45%) to fit ~4 timeline items
   // X: 450 (Atlantic) to 900 (Pacific) -> Width 450
-  // Y: 60 (Scandinavia) to 195 (SE Asia) -> Height 135
-  // Aspect Ratio: 135 / 450 = 0.30 (30%)
-  const VIEWBOX = "450 60 450 135";
+  // Y: 25 (High North) to 225 (Equator) -> Height 200
+  const VIEWBOX = "450 25 450 200";
 
   // --- Tooltip Rendering Helper ---
-  const renderTooltip = (loc: Location) => {
+  const renderTooltip = (loc: Location, isHovered: boolean) => {
     const pos = project(loc.lat, loc.lng);
     
     // Increased sizes for visibility
@@ -273,7 +275,8 @@ const WorldMapSection: React.FC = () => {
                 </div>
                 
                 <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 items-start md:items-stretch scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
-                    {LOCATIONS.map((loc) => (
+                    {/* Render Timeline in Reverse Order (Newest First) */}
+                    {timelineLocations.map((loc, i) => (
                         <div 
                             key={loc.id} 
                             onMouseEnter={() => setHoveredLocation(loc.id)}
@@ -314,8 +317,8 @@ const WorldMapSection: React.FC = () => {
              bg-[#0f172a]/5 dark:bg-[#0f172a]/40 
              flex flex-col justify-center
           ">
-             {/* Aspect Ratio Box: Matches ViewBox 450/135 -> 30% */}
-             <div className="w-full relative" style={{ paddingBottom: '30%' }}>
+             {/* Aspect Ratio Box: Adjusted to ~45% to accommodate ~4 list items in height */}
+             <div className="w-full relative" style={{ paddingBottom: '45%' }}>
                <div className="absolute inset-0">
                  {loading ? (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -418,7 +421,7 @@ const WorldMapSection: React.FC = () => {
                       {(() => {
                           const lastLoc = LOCATIONS[LOCATIONS.length - 1];
                           if (hoveredLocation !== lastLoc.id) {
-                              return renderTooltip(lastLoc);
+                              return renderTooltip(lastLoc, false);
                           }
                           return null;
                       })()}
@@ -427,7 +430,7 @@ const WorldMapSection: React.FC = () => {
                           if (!hoveredLocation) return null;
                           const loc = LOCATIONS.find(l => l.id === hoveredLocation);
                           if (loc) {
-                              return renderTooltip(loc);
+                              return renderTooltip(loc, true);
                           }
                           return null;
                       })()}
