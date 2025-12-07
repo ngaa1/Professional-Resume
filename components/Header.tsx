@@ -12,6 +12,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
   const [showCopied, setShowCopied] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleCopyWechat = () => {
     if (data.wechat) {
@@ -24,14 +25,28 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
     }
   };
 
-  const handleDownload = () => {
-    const pdfUrl = '/doc/简历.pdf';
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = '简历.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async () => {
+    setIsDownloading(true);
+    
+    try {
+      // Add a reasonable delay (800ms) to improve user experience
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      const pdfUrl = '/doc/简历.pdf';
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = '简历.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Download failed:', error);
+    } finally {
+      // Ensure loading state is reset even if there's an error
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 300);
+    }
   };
 
   return (
@@ -45,11 +60,17 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
           <div className="absolute top-4 right-4 z-30 flex gap-2 print:hidden">
             <button
               onClick={handleDownload}
-              className="px-4 py-2 rounded-xl bg-surface border border-border shadow-lg hover:bg-accent-light hover:text-accent transition-all duration-300 flex items-center gap-2"
+              disabled={isDownloading}
+              className={`px-4 py-2 rounded-xl bg-surface border border-border shadow-lg transition-all duration-300 flex items-center gap-2 ${isDownloading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-accent-light hover:text-accent'}`}
               aria-label="下载简历 PDF"
-              title="下载简历 (PDF) / 另存为 PDF"
+              title={isDownloading ? "下载中..." : "下载简历 (PDF) / 另存为 PDF"}
             >
-              <Icons.Download className="w-5 h-5 text-secondary" />
+              {isDownloading ? (
+                <div className="w-5 h-5 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Icons.Download className="w-5 h-5 text-secondary" />
+              )}
+              <span className={`transition-opacity duration-300 ${isDownloading ? 'opacity-0' : 'opacity-100'}`}>下载简历</span>
             </button>
             
             <button
