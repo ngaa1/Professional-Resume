@@ -17,6 +17,7 @@ import SkillsSection from './components/SkillsSection';
 import ChatBot from './components/ChatBot';
 import WorldMapSection from './components/WorldMapSection';
 import PersonalProjectsSection from './components/PersonalProjectsSection';
+import TableOfContents from './components/TableOfContents';
 import { Icons } from './components/Icon';
 
 function App() {
@@ -109,12 +110,18 @@ function App() {
 
   return (
     <div className="min-h-screen pb-20 print:pb-0 relative transition-colors duration-300 print:min-h-0">
-      <Header data={RESUME_DATA} toggleTheme={toggleTheme} currentTheme={currentTheme} />
+      
+      {/* Table of Contents - Hidden on small screens */}
+      <TableOfContents />
+
+      <div id="profile">
+        <Header data={RESUME_DATA} toggleTheme={toggleTheme} currentTheme={currentTheme} />
+      </div>
 
       <main className="max-w-5xl mx-auto px-4 md:px-8 space-y-12 relative z-20 print:px-0 print:space-y-8 print:max-w-full">
         
         {/* Experience Section */}
-        <section>
+        <section id="experience">
           <SectionTitle title={labels.experience} icon={Icons.Briefcase} />
           <div className="mt-6 print:mt-4">
             {experience.map((item, index) => (
@@ -131,7 +138,7 @@ function App() {
         {/* Education & Honors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 page-break print:gap-4 print:block">
           {/* Education */}
-          <section className="bg-surface rounded-2xl border border-border p-6 md:p-8 h-full shadow-sm hover:shadow-glow hover:border-accent/30 transition-all duration-300 print:border-none print:p-0 print:shadow-none print:mb-8 print:h-auto">
+          <section id="education" className="bg-surface rounded-2xl border border-border p-6 md:p-8 h-full shadow-sm hover:shadow-glow hover:border-accent/30 transition-all duration-300 print:border-none print:p-0 print:shadow-none print:mb-8 print:h-auto">
             <div className="flex items-center gap-3 mb-6 print:mb-4">
                 <div className="p-2 bg-accent-light rounded-lg text-accent print:hidden">
                     <Icons.GraduationCap className="w-5 h-5" />
@@ -192,7 +199,7 @@ function App() {
           </section>
 
           {/* Honors */}
-          <section className="bg-surface rounded-2xl border border-border p-6 md:p-8 h-full shadow-sm hover:shadow-glow hover:border-accent/30 transition-all duration-300 print:border-none print:p-0 print:shadow-none print:h-auto">
+          <section id="honors" className="bg-surface rounded-2xl border border-border p-6 md:p-8 h-full shadow-sm hover:shadow-glow hover:border-accent/30 transition-all duration-300 print:border-none print:p-0 print:shadow-none print:h-auto">
              <div className="flex items-center gap-3 mb-6 print:mb-4">
                 <div className="p-2 bg-accent-light rounded-lg text-accent print:hidden">
                     <Icons.Award className="w-5 h-5" />
@@ -219,19 +226,21 @@ function App() {
         </div>
 
         {/* Skills Section */}
-        <section className="page-break">
+        <section id="skills" className="page-break">
            <SectionTitle title={labels.skills} icon={Icons.Code} />
            <SkillsSection skills={skills} />
         </section>
 
         {/* Personal Projects Section */}
-        <section className="page-break">
+        <section id="projects" className="page-break">
            <SectionTitle title={labels.personal_projects} icon={Icons.Cpu} />
            <PersonalProjectsSection projects={personal_projects} />
         </section>
 
         {/* World Map Section - Hidden in Print */}
-        <WorldMapSection />
+        <div id="map">
+          <WorldMapSection />
+        </div>
 
       </main>
 
