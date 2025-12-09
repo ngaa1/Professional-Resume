@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Project } from '../types';
 import { Icons } from './Icon';
@@ -26,7 +27,7 @@ const PersonalProjectsSection: React.FC<PersonalProjectsSectionProps> = ({ proje
   // Map specific projects to icons
   const getIcon = (name: string): LucideIcon => {
     if (name.includes("量化")) return Icons.LineChart;
-    if (name.includes("图像")) return Icons.Image;
+    if (name.includes("图像") || name.includes("图片") || name.includes("水印")) return Icons.Image;
     if (name.includes("道路")) return Icons.Map;
     return Icons.Terminal;
   };
