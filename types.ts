@@ -1,7 +1,9 @@
 
+
 export interface Project {
   name: string;
   description: string;
+  highlights?: string[];
 }
 
 export interface Experience {
