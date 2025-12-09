@@ -1,3 +1,4 @@
+
 export interface Project {
   name: string;
   description: string;
@@ -42,6 +43,7 @@ export interface Labels {
   skills: string;
   core_responsibilities: string;
   projects: string;
+  personal_projects: string;
   view_more: string;
   collapse: string;
   expand: string;
@@ -61,4 +63,5 @@ export interface ResumeData {
   experience: Experience[];
   honors: Honor[];
   skills: Skills;
+  personal_projects: Project[];
 }

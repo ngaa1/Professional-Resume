@@ -22,7 +22,12 @@ import {
   MoveDiagonal,
   Moon,
   Sun,
-  Download
+  Download,
+  Terminal,
+  LineChart,
+  Image,
+  Map,
+  Cpu
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
@@ -48,5 +53,10 @@ export const Icons = {
   MoveDiagonal,
   Moon,
   Sun,
-  Download
+  Download,
+  Terminal,
+  LineChart,
+  Image,
+  Map,
+  Cpu
 };

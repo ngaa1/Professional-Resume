@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { 
   RESUME_DATA, 
@@ -15,10 +16,11 @@ import ExperienceItem from './components/ExperienceItem';
 import SkillsSection from './components/SkillsSection'; 
 import ChatBot from './components/ChatBot';
 import WorldMapSection from './components/WorldMapSection';
+import PersonalProjectsSection from './components/PersonalProjectsSection';
 import { Icons } from './components/Icon';
 
 function App() {
-  const { labels, experience, education, honors, skills } = RESUME_DATA;
+  const { labels, experience, education, honors, skills, personal_projects } = RESUME_DATA;
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'github-dark'>('light');
   const [isAutoTheme, setIsAutoTheme] = useState(ENABLE_AUTO_THEME_SWITCH);
@@ -220,6 +222,12 @@ function App() {
         <section className="page-break">
            <SectionTitle title={labels.skills} icon={Icons.Code} />
            <SkillsSection skills={skills} />
+        </section>
+
+        {/* Personal Projects Section */}
+        <section className="page-break">
+           <SectionTitle title={labels.personal_projects} icon={Icons.Cpu} />
+           <PersonalProjectsSection projects={personal_projects} />
         </section>
 
         {/* World Map Section - Hidden in Print */}
