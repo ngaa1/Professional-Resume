@@ -89,7 +89,7 @@ export const FONT_THEMES = {
 export const RESUME_DATA: ResumeData = {
     "lang": "zh",
     "name": "李楚龙",
-    "title": "项目负责人/结构工程师",
+    "title": "项目负责人, 光伏/土木结构工程师",
     "email": "nglichulong@outlook.com",
     "phone": "13865379680",
     "wechat": "nglichulong",
@@ -143,7 +143,7 @@ export const RESUME_DATA: ResumeData = {
         {
             "company": "天合光能股份有限公司",
             "logo": "https://static.trinasolar.com/sites/default/files/logo_0.png",
-            "position": "欧洲/南美/北美区项目工程负责人&结构工程师",
+            "position": "欧美区域项目工程负责人&光伏支架结构工程师",
             "year": "2023 六月~至今",
             "description": "在跟踪支架工程技术中心工作，负责全球项目技术支持、支架结构设计与优化，以及工具开发。支持横跨欧美50多个项目，实施20个重点项目（总容量600MW），提供定制化解决方案并平衡成本与质量。熟练掌握美标、欧标等多种规范，对基础设计、施工定位等问题提供专业解决方案。",
             "core_responsibilities": [
@@ -160,11 +160,12 @@ export const RESUME_DATA: ResumeData = {
                 },
                 {
                     "name": "天合光能智能支架迅捷分析系统（T-STARS）",
-                    "description": "独立开发支架计算软件，实现计算快速高效、高度自定义、操作便捷和结果可靠。具备开放架构，支持大批量重复计算和结构优化，革新售中技术流程，已形成软件专著，成为售中工程团队首个公司专利。"
+                    "description": "独立开发支架计算软件，实现计算快速高效、高度自定义、操作便捷和结果可靠。具备开放架构，支持大批量重复计算和结构优化，革新售中技术流程，已形成软件专著，成为售中工程团队首个公司专利。实现大批量的光伏支架结构设计和计算。"
+
                 },
                 {
                     "name": "AI报价工具数据迁移程序（DT）",
-                    "description": "基于Streamlit开发的自动化数据迁移工具，用于将Excel数据批量转换并导入Access数据库，支持多版本兼容与数据库合并。具备直观GUI、实时进度监控、日志记录及错误检测功能，显著提升大量数据处理效率，降低人工操作风险。"
+                    "description": "基于Streamlit开发的自动化数据迁移工具，用于将Excel数据批量转换并导入Access数据库，支持多版本兼容与数据库合并。具备直观GUI、实时进度监控、日志记录及错误检测功能，显著提升大量数据处理效率，降低人工操作风险。提供数据给光伏AI报价系统，参与系统开发和需求设计，提高AI训练精度并实现使用少量参数对光伏支架项目实现快速精确报价。"
                 },
                 {
                     "name": "西班牙团队技术支持与交流",
