@@ -53,7 +53,7 @@ const TableOfContents: React.FC = () => {
   }, []);
 
   return (
-    <nav className="fixed xl:left-2 2xl:left-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-3 print:hidden">
+    <nav className="fixed left-2 xl:left-4 2xl:left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 print:hidden">
       {SECTIONS.map(({ id, label, icon: Icon }) => {
         const isActive = activeId === id;
         
@@ -61,10 +61,11 @@ const TableOfContents: React.FC = () => {
           <button
             key={id}
             onClick={() => scrollToSection(id)}
+            title={label}
             className={`
-              group flex items-center gap-3 xl:px-4 2xl:px-5 xl:py-2.5 2xl:py-3 rounded-2xl transition-all duration-300 text-left
+              group flex items-center gap-3 p-3 xl:px-4 2xl:px-5 xl:py-2.5 2xl:py-3 rounded-2xl transition-all duration-300 text-left
               ${isActive 
-                ? 'bg-surface border border-accent/20 text-accent shadow-lg shadow-glow scale-105 translate-x-2' 
+                ? 'bg-surface border border-accent/20 text-accent shadow-lg shadow-glow scale-105 translate-x-1 xl:translate-x-2' 
                 : 'bg-transparent border border-transparent text-secondary hover:bg-surface/60 hover:text-primary hover:shadow-sm'
               }
               backdrop-blur-sm
@@ -73,13 +74,13 @@ const TableOfContents: React.FC = () => {
           >
             <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
             
-            <span className={`text-sm font-bold tracking-wide whitespace-nowrap`}>
+            <span className={`hidden xl:block text-sm font-bold tracking-wide whitespace-nowrap opacity-0 xl:opacity-100 transition-opacity duration-300`}>
               {label}
             </span>
             
             {/* Active Dot Indicator */}
             <div className={`
-              w-1.5 h-1.5 rounded-full ml-auto transition-all duration-300
+              hidden xl:block w-1.5 h-1.5 rounded-full ml-auto transition-all duration-300
               ${isActive ? 'bg-accent opacity-100' : 'bg-transparent opacity-0'}
             `} />
           </button>
