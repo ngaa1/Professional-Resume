@@ -8,9 +8,11 @@ interface HeaderProps {
   data: ResumeData;
   toggleTheme: () => void;
   currentTheme: 'light' | 'github-dark';
+  toggleLanguage: () => void;
+  currentLang: 'zh' | 'en';
 }
 
-const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
+const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme, toggleLanguage, currentLang }) => {
   const [showCopied, setShowCopied] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -56,8 +58,20 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
         {/* Main Card */}
         <div className="bg-surface rounded-2xl p-8 md:p-10 border border-border shadow-xl shadow-glow relative overflow-hidden print:shadow-none print:border-none print:p-0 transition-colors duration-300">
           
-          {/* Action Buttons (Theme + Print) - Hidden in Print */}
+          {/* Action Buttons (Language + Theme + Print) - Hidden in Print */}
           <div className="absolute top-4 right-4 z-30 flex gap-2 print:hidden">
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLanguage}
+              className="px-4 py-2 rounded-xl bg-surface border border-border shadow-lg hover:bg-accent-light hover:text-accent transition-all duration-300 flex items-center gap-2"
+              aria-label="Toggle Language"
+              title="Switch Language / 切换语言"
+            >
+              <Icons.Languages className="w-5 h-5 text-secondary" />
+              <span className="text-sm font-bold text-primary">{currentLang === 'zh' ? 'EN' : '中'}</span>
+            </button>
+
+            {/* Download Button */}
             <button
               onClick={handleDownload}
               disabled={isDownloading}
@@ -70,9 +84,10 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
               ) : (
                 <Icons.Download className="w-5 h-5 text-secondary" />
               )}
-              <span className={`transition-opacity duration-300 ${isDownloading ? 'opacity-0' : 'opacity-100'}`}>下载简历</span>
+              <span className={`transition-opacity duration-300 hidden sm:inline ${isDownloading ? 'opacity-0' : 'opacity-100'}`}>下载简历</span>
             </button>
             
+            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="px-4 py-2 rounded-xl bg-surface border border-border shadow-lg hover:bg-accent-light hover:text-accent transition-all duration-300 flex items-center gap-2"
@@ -82,12 +97,12 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme }) => {
               {currentTheme === 'light' ? (
                 <>
                   <Icons.Sun className="w-5 h-5 text-primary" />
-                  <Icons.Moon className="w-5 h-5 text-secondary opacity-50" />
+                  <Icons.Moon className="w-5 h-5 text-secondary opacity-50 hidden sm:block" />
                 </>
               ) : (
                 <>
                   <Icons.Moon className="w-5 h-5 text-primary" />
-                  <Icons.Sun className="w-5 h-5 text-secondary opacity-50" />
+                  <Icons.Sun className="w-5 h-5 text-secondary opacity-50 hidden sm:block" />
                 </>
               )}
             </button>

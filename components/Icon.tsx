@@ -27,7 +27,8 @@ import {
   LineChart,
   Image,
   Map,
-  Cpu
+  Cpu,
+  Languages
 } from 'lucide-react';
 
 // Centralized icon export to keep imports clean
@@ -58,5 +59,6 @@ export const Icons = {
   LineChart,
   Image,
   Map,
-  Cpu
+  Cpu,
+  Languages
 };

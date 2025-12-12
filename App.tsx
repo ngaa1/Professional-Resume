@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import { 
-  RESUME_DATA, 
+  RESUME_DATA_CN,
+  RESUME_DATA_EN,
   THEMES, 
   FONT_THEMES, 
   ENABLE_AUTO_THEME_SWITCH,
@@ -19,12 +20,22 @@ import WorldMapSection from './components/WorldMapSection';
 import PersonalProjectsSection from './components/PersonalProjectsSection';
 import TableOfContents from './components/TableOfContents';
 import { Icons } from './components/Icon';
+import { ResumeData } from './types';
 
 function App() {
-  const { labels, experience, education, honors, skills, personal_projects } = RESUME_DATA;
-  const [showScrollTop, setShowScrollTop] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'light' | 'github-dark'>('light');
   const [isAutoTheme, setIsAutoTheme] = useState(ENABLE_AUTO_THEME_SWITCH);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  
+  // Language State
+  const [language, setLanguage] = useState<'zh' | 'en'>('zh');
+  const resumeData: ResumeData = language === 'zh' ? RESUME_DATA_CN : RESUME_DATA_EN;
+  const { labels, experience, education, honors, skills, personal_projects } = resumeData;
+
+  // Toggle Language Function
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'zh' ? 'en' : 'zh');
+  };
 
   // Apply Theme Function
   const applyTheme = (themeKey: 'light' | 'github-dark') => {
@@ -112,10 +123,16 @@ function App() {
     <div className="min-h-screen pb-20 print:pb-0 relative transition-colors duration-300 print:min-h-0">
       
       {/* Table of Contents - Hidden on small screens */}
-      <TableOfContents />
+      <TableOfContents labels={labels} lang={language} />
 
       <div id="profile">
-        <Header data={RESUME_DATA} toggleTheme={toggleTheme} currentTheme={currentTheme} />
+        <Header 
+            data={resumeData} 
+            toggleTheme={toggleTheme} 
+            currentTheme={currentTheme}
+            toggleLanguage={toggleLanguage}
+            currentLang={language}
+        />
       </div>
 
       <main className="max-w-5xl mx-auto px-4 md:px-8 space-y-12 relative z-20 print:px-0 print:space-y-8 print:max-w-full">
@@ -239,7 +256,7 @@ function App() {
 
         {/* World Map Section - Hidden in Print */}
         <div id="map">
-          <WorldMapSection />
+          <WorldMapSection lang={language} />
         </div>
 
       </main>
@@ -248,13 +265,13 @@ function App() {
       <footer className="max-w-5xl mx-auto px-8 mt-16 text-center print:mt-8 print:px-0">
         <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent mb-8 print:bg-gray-200"></div>
         <p className="text-secondary/60 text-sm font-bold print:text-black">
-          © {new Date().getFullYear()} {RESUME_DATA.name}
+          © {new Date().getFullYear()} {resumeData.name}
         </p>
       </footer>
 
       {/* AI ChatBot - Hidden in Print */}
       <div className="print:hidden">
-        <ChatBot />
+        <ChatBot currentData={resumeData} />
       </div>
 
       {/* Simple Scroll Button - Hidden in Print */}

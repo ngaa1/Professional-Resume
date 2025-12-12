@@ -1,19 +1,26 @@
 
 import React, { useEffect, useState } from 'react';
 import { Icons } from './Icon';
+import { Labels } from '../types';
 
-const SECTIONS = [
-  { id: 'profile', label: '个人简介', icon: Icons.User },
-  { id: 'experience', label: '工作经历', icon: Icons.Briefcase },
-  { id: 'education', label: '教育背景', icon: Icons.GraduationCap },
-  { id: 'honors', label: '荣誉激励', icon: Icons.Award },
-  { id: 'skills', label: '技能特长', icon: Icons.Code },
-  { id: 'projects', label: '个人项目', icon: Icons.Cpu },
-  { id: 'map', label: '我的足迹', icon: Icons.MapPin },
-];
+interface TableOfContentsProps {
+  labels: Labels;
+  lang: 'zh' | 'en';
+}
 
-const TableOfContents: React.FC = () => {
+const TableOfContents: React.FC<TableOfContentsProps> = ({ labels, lang }) => {
   const [activeId, setActiveId] = useState<string>('profile');
+
+  // Construct sections dynamically based on labels
+  const sections = [
+    { id: 'profile', label: labels.about_me, icon: Icons.User },
+    { id: 'experience', label: labels.experience, icon: Icons.Briefcase },
+    { id: 'education', label: labels.education, icon: Icons.GraduationCap },
+    { id: 'honors', label: labels.honors, icon: Icons.Award },
+    { id: 'skills', label: labels.skills, icon: Icons.Code },
+    { id: 'projects', label: labels.personal_projects, icon: Icons.Cpu },
+    { id: 'map', label: lang === 'zh' ? '我的足迹' : 'My Footprint', icon: Icons.MapPin },
+  ];
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -44,17 +51,17 @@ const TableOfContents: React.FC = () => {
       }
     );
 
-    SECTIONS.forEach(({ id }) => {
+    sections.forEach(({ id }) => {
       const element = document.getElementById(id);
       if (element) observer.observe(element);
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [sections]);
 
   return (
     <nav className="fixed left-2 xl:left-4 2xl:left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3 print:hidden">
-      {SECTIONS.map(({ id, label, icon: Icon }) => {
+      {sections.map(({ id, label, icon: Icon }) => {
         const isActive = activeId === id;
         
         return (

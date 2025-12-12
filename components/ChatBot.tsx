@@ -4,28 +4,45 @@ import OpenAI from 'openai';
 import { GoogleGenAI } from "@google/genai";
 import { Icons } from './Icon';
 import { AI_CONFIG } from '../constants';
+import { ResumeData } from '../types';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-const PRESET_QUESTIONS = [
-  "简单介绍一下你的工作经历",
-  "T-STARS 系统有哪些技术亮点？",
-  "你擅长哪些结构分析软件？",
-  "你的教育背景如何？"
-];
+interface ChatBotProps {
+  currentData: ResumeData;
+}
 
-const INITIAL_MESSAGE: Message = { 
-  role: 'assistant', 
-  content: '你好！我是李楚龙的AI助手。关于他的工作经历、技能或项目，您有什么想了解的吗？' 
-};
-
-const ChatBot: React.FC = () => {
+const ChatBot: React.FC<ChatBotProps> = ({ currentData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+  
+  // Set initial message based on language
+  const getInitialMessage = (): Message => {
+    return currentData.lang === 'zh' 
+      ? { role: 'assistant', content: '你好！我是李楚龙的AI助手。关于他的工作经历、技能或项目，您有什么想了解的吗？' }
+      : { role: 'assistant', content: 'Hello! I am Li Chulong\'s AI Assistant. Is there anything you would like to know about his experience, skills, or projects?' };
+  };
+
+  const getPresetQuestions = (): string[] => {
+    return currentData.lang === 'zh'
+      ? [
+          "简单介绍一下你的工作经历",
+          "T-STARS 系统有哪些技术亮点？",
+          "你擅长哪些结构分析软件？",
+          "你的教育背景如何？"
+        ]
+      : [
+          "Briefly introduce your work experience",
+          "What are the highlights of T-STARS?",
+          "Which structural analysis software do you know?",
+          "Tell me about your education"
+        ];
+  };
+
+  const [messages, setMessages] = useState<Message[]>([getInitialMessage()]);
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -40,6 +57,13 @@ const ChatBot: React.FC = () => {
   const isResizing = useRef(false);
   const resizeStart = useRef({ x: 0, y: 0, w: 0, h: 0 });
   const animationFrameId = useRef<number | null>(null);
+
+  // Update messages when language changes (reset if only initial message is present)
+  useEffect(() => {
+    if (messages.length === 1 && messages[0].role === 'assistant') {
+      setMessages([getInitialMessage()]);
+    }
+  }, [currentData.lang]);
 
   // Helper to safely get the current API Key
   const getApiKey = () => {
@@ -209,7 +233,7 @@ const ChatBot: React.FC = () => {
           model: AI_CONFIG.google.model,
           contents: contents,
           config: {
-            systemInstruction: AI_CONFIG.getSystemInstruction(),
+            systemInstruction: AI_CONFIG.getSystemInstruction(currentData),
           },
         });
         
@@ -245,7 +269,7 @@ const ChatBot: React.FC = () => {
 
         const stream = await openai.chat.completions.create({
           messages: [
-            { role: 'system', content: AI_CONFIG.getSystemInstruction() },
+            { role: 'system', content: AI_CONFIG.getSystemInstruction(currentData) },
             ...newHistory.map(msg => ({ role: msg.role as 'user' | 'assistant' | 'system', content: msg.content }))
           ],
           model: AI_CONFIG.volcano.model,
@@ -281,10 +305,13 @@ const ChatBot: React.FC = () => {
       console.error("Chat Error:", error);
       // Only append error message if we haven't started streaming yet (or just let the partial response stay)
       setMessages(prev => {
-          const lastMsg =SX(prev[prev.length - 1]);
+          const lastMsg = prev[prev.length - 1];
           // If the last message is user, we failed before first chunk
           if (lastMsg && lastMsg.role === 'user') {
-               return [...prev, { role: 'assistant', content: "抱歉，我现在无法连接到服务器。请检查配置（API Key/网络）稍后再试。" }];
+               const errorMsg = currentData.lang === 'zh' 
+                  ? "抱歉，我现在无法连接到服务器。请检查配置（API Key/网络）稍后再试。"
+                  : "Sorry, I cannot connect to the server right now. Please check your configuration (API Key/Network) and try again.";
+               return [...prev, { role: 'assistant', content: errorMsg }];
           }
           return prev;
       });
@@ -294,9 +321,6 @@ const ChatBot: React.FC = () => {
     }
   };
 
-  // Helper type guard
-  function SX<T>(item: T | undefined): T | undefined { return item; }
-
   const handleSend = () => {
     if (!input.trim()) return;
     sendMessage(input.trim());
@@ -304,7 +328,7 @@ const ChatBot: React.FC = () => {
   };
 
   const handleClearChat = () => {
-    setMessages([INITIAL_MESSAGE]);
+    setMessages([getInitialMessage()]);
     setInput('');
   };
 
@@ -406,6 +430,9 @@ const ChatBot: React.FC = () => {
   if (!hasKey) return null; 
 
   const isBusy = isLoading || isStreaming;
+  const promptText = currentData.lang === 'zh' ? '对我的经历感兴趣？<br/>点击这里可以让 AI 为您解答！' : 'Interested in my experience?<br/>Click here to ask AI!';
+  const inputPlaceholder = currentData.lang === 'zh' ? '询问关于李楚龙的经历...' : 'Ask about Li Chulong\'s experience...';
+  const thinkingText = currentData.lang === 'zh' ? 'AI 正在思考...' : 'AI is thinking...';
 
   return (
     <>
@@ -441,9 +468,7 @@ const ChatBot: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-primary mb-1">Hi!</p>
-                    <p className="text-xs text-secondary leading-relaxed line-clamp-2">
-                      对我的经历感兴趣？<br/>点击这里可以让 AI 为您解答！
-                    </p>
+                    <p className="text-xs text-secondary leading-relaxed line-clamp-2" dangerouslySetInnerHTML={{ __html: promptText }} />
                   </div>
                </div>
 
@@ -454,7 +479,7 @@ const ChatBot: React.FC = () => {
                     setShowPrompt(false);
                   }}
                   className="absolute -top-2 -left-2 bg-surface border border-border rounded-full p-1 text-secondary/60 hover:text-red-500 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                  title="关闭提示"
+                  title="Close / 关闭"
                >
                   <Icons.X className="w-3 h-3" />
                </button>
@@ -483,7 +508,7 @@ const ChatBot: React.FC = () => {
             <div
                 onMouseDown={startResize}
                 className="absolute top-0 left-0 w-6 h-6 cursor-nwse-resize z-50 flex items-center justify-center group"
-                title="按住拖动调整大小"
+                title="Resize / 调整大小"
             >
                 <Icons.MoveDiagonal className="w-3.5 h-3.5 text-secondary/40 group-hover:text-accent transition-colors rotate-90" />
             </div>
@@ -496,7 +521,7 @@ const ChatBot: React.FC = () => {
               <Icons.Code className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-primary text-sm">AI 简历助手</h3>
+              <h3 className="font-bold text-primary text-sm">AI Assistant</h3>
               <p className="text-[10px] text-secondary font-medium">
                 {AI_CONFIG.provider === 'google' ? 'Powered by Google Gemini' : 'Powered by Volcano Ark'}
               </p>
@@ -506,7 +531,7 @@ const ChatBot: React.FC = () => {
             <button
                 onClick={handleClearChat}
                 className="text-secondary hover:text-accent transition-colors p-1.5 rounded-lg hover:bg-surface/50"
-                title="重新开始对话"
+                title={currentData.lang === 'zh' ? "重新开始对话" : "Restart Chat"}
                 aria-label="Restart chat"
             >
                 <Icons.RotateCcw className="w-4 h-4" />
@@ -543,9 +568,9 @@ const ChatBot: React.FC = () => {
           {/* Preset Questions - Only shown when idle and fresh */}
           {messages.length === 1 && !isBusy && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
-               <p className="text-xs text-secondary/60 font-bold mb-2 ml-1">您可以尝试询问：</p>
+               <p className="text-xs text-secondary/60 font-bold mb-2 ml-1">{currentData.lang === 'zh' ? "您可以尝试询问：" : "You can ask:"}</p>
                <div className="flex flex-col gap-2">
-                 {PRESET_QUESTIONS.map((question, index) => (
+                 {getPresetQuestions().map((question, index) => (
                    <button
                      key={index}
                      onClick={() => handlePresetClick(question)}
@@ -566,7 +591,7 @@ const ChatBot: React.FC = () => {
                     <div className="w-2 h-2 bg-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
                     <div className="w-2 h-2 bg-accent rounded-full animate-bounce" />
                  </div>
-                 <span className="text-xs text-secondary font-medium animate-pulse">AI 正在思考...</span>
+                 <span className="text-xs text-secondary font-medium animate-pulse">{thinkingText}</span>
                </div>
              </div>
           )}
@@ -581,7 +606,7 @@ const ChatBot: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
-              placeholder="询问关于李楚龙的经历..."
+              placeholder={inputPlaceholder}
               className="w-full bg-accent-light border border-border rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-accent text-primary placeholder:text-secondary transition-all"
               disabled={isBusy}
             />

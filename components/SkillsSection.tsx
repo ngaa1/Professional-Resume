@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { Icons } from './Icon';
 import SkillCard from './SkillCard';
@@ -9,22 +10,33 @@ interface SkillsSectionProps {
 }
 
 const ICON_MAP: Record<string, LucideIcon> = {
+  // Chinese Keys
   "专业技能": Icons.Briefcase,
   "编程与开发": Icons.Code,
   "软技能": Icons.MessageSquare,
+  // English Keys
+  "Professional Skills": Icons.Briefcase,
+  "Programming & Development": Icons.Code,
+  "Soft Skills": Icons.MessageSquare,
 };
-
-const CATEGORY_ORDER = ["专业技能", "编程与开发", "软技能"];
 
 const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  
+  // Derive categories from the skills object directly to support multiple languages
+  const categories = Object.keys(skills);
+
+  // Reset active index if categories change (e.g. language switch)
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [skills]);
 
   const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % CATEGORY_ORDER.length);
+    setActiveIndex((prev) => (prev + 1) % categories.length);
   };
 
   const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + CATEGORY_ORDER.length) % CATEGORY_ORDER.length);
+    setActiveIndex((prev) => (prev - 1 + categories.length) % categories.length);
   };
 
   return (
@@ -42,12 +54,12 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
             className="flex transition-transform duration-500 ease-in-out" 
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            {CATEGORY_ORDER.map((category) => (
+            {categories.map((category) => (
               <div key={category} className="w-full flex-shrink-0 px-1">
                  <SkillCard 
                     title={category} 
-                    skills={skills[category]} 
-                    icon={ICON_MAP[category]} 
+                    skills={skills[category] || []} 
+                    icon={ICON_MAP[category] || Icons.Code} 
                  />
               </div>
             ))}
@@ -75,7 +87,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
 
       {/* Screen Category Tabs */}
       <div className="flex justify-center items-center flex-wrap gap-3 mt-6 print:hidden">
-        {CATEGORY_ORDER.map((category, idx) => (
+        {categories.map((category, idx) => (
           <button
             key={idx}
             onClick={() => setActiveIndex(idx)}
@@ -95,12 +107,12 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
         Hidden on Screen, Visible in Print
       */}
       <div className="hidden print:grid grid-cols-1 gap-6">
-          {CATEGORY_ORDER.map((category) => (
+          {categories.map((category) => (
               <div key={category} className="break-inside-avoid">
                  <SkillCard 
                     title={category} 
-                    skills={skills[category]} 
-                    icon={ICON_MAP[category]} 
+                    skills={skills[category] || []} 
+                    icon={ICON_MAP[category] || Icons.Code} 
                  />
               </div>
             ))}

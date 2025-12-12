@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Icons } from './Icon';
 import SectionTitle from './SectionTitle';
@@ -92,11 +93,15 @@ interface GeoJSON {
   features: GeoJSONFeature[];
 }
 
+interface WorldMapSectionProps {
+  lang: 'zh' | 'en';
+}
+
 // ============================================================================
 // COMPONENT
 // ============================================================================
 
-const WorldMapSection: React.FC = () => {
+const WorldMapSection: React.FC<WorldMapSectionProps> = ({ lang }) => {
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
   const [geoData, setGeoData] = useState<GeoJSON | null>(null);
   const [loading, setLoading] = useState(true);
@@ -245,10 +250,12 @@ const WorldMapSection: React.FC = () => {
     );
   };
 
+  const sectionTitle = lang === 'zh' ? '我的足迹' : 'My Footprint';
+
   return (
     // Hidden in Print Mode
     <section className="print:hidden">
-      <SectionTitle title="我的足迹" icon={Icons.MapPin} />
+      <SectionTitle title={sectionTitle} icon={Icons.MapPin} />
       
       <div className="relative bg-surface rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-glow transition-all duration-300 group/map">
         
