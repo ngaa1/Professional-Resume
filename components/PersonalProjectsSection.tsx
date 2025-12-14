@@ -14,10 +14,12 @@ const PersonalProjectsSection: React.FC<PersonalProjectsSectionProps> = ({ proje
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<string[]>([]);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const [currentProjectName, setCurrentProjectName] = useState<string>('');
 
-  const handleImageClick = (images: string[], index: number = 0) => {
+  const handleImageClick = (project: any, images: string[], index: number = 0) => {
     setViewerImages(images);
     setViewerIndex(index);
+    setCurrentProjectName(project.name);
     setIsViewerOpen(true);
   };
   
@@ -67,7 +69,7 @@ const PersonalProjectsSection: React.FC<PersonalProjectsSectionProps> = ({ proje
                 {project.images && project.images.length > 0 && (
                    <div 
                       className="w-full md:w-64 h-48 md:h-auto flex-shrink-0 cursor-pointer overflow-hidden rounded-xl border border-border group/image relative self-start"
-                      onClick={() => handleImageClick(project.images!, 0)}
+                      onClick={() => handleImageClick(project, project.images!, 0)}
                     >
                       <img 
                         src={project.images[0]} 
@@ -92,6 +94,8 @@ const PersonalProjectsSection: React.FC<PersonalProjectsSectionProps> = ({ proje
         initialIndex={viewerIndex} 
         isOpen={isViewerOpen} 
         onClose={() => setIsViewerOpen(false)} 
+        type="personal_projects"
+        projectName={currentProjectName}
       />
     </>
   );

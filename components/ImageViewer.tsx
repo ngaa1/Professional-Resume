@@ -7,9 +7,11 @@ interface ImageViewerProps {
   initialIndex?: number;
   isOpen: boolean;
   onClose: () => void;
+  type?: 'experience' | 'personal_projects';
+  projectName?: string;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ images, initialIndex = 0, isOpen, onClose }) => {
+const ImageViewer: React.FC<ImageViewerProps> = ({ images, initialIndex = 0, isOpen, onClose, type, projectName }) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,6 +55,37 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ images, initialIndex = 0, isO
     e?.stopPropagation();
     setIsLoading(true);
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  // Generate local image path
+  const getLocalImagePath = (imageUrl: string, index: number): string => {
+    if (!type || !projectName) return imageUrl;
+    
+    // Create a safe directory name from project name (replace spaces with underscores, remove special characters)
+    const safeProjectName = projectName.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+    
+    // Extract filename from URL or use index as fallback
+    const urlParts = imageUrl.split('/');
+    let filename = urlParts[urlParts.length - 1];
+    
+    // Remove query parameters from filename
+    filename = filename.split('?')[0];
+    
+    // If filename is empty or doesn't have an extension, use index with jpg extension
+    if (!filename || !filename.includes('.')) {
+      filename = `${index + 1}.jpg`;
+    }
+    
+    return `/images/${type}/${safeProjectName}/${filename}`;
+  };
+
+  // Handle image load error - fallback to original URL
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.currentTarget.src.includes('/images/')) {
+      // If we're already trying a local image, fall back to the original URL
+      const originalUrl = images[currentIndex];
+      e.currentTarget.src = originalUrl;
+    }
   };
 
   const handleImageLoad = () => {
@@ -105,10 +138,11 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ images, initialIndex = 0, isO
         )}
         
         <img 
-          src={images[currentIndex]} 
+          src={getLocalImagePath(images[currentIndex], currentIndex)} 
           alt={`Project Image ${currentIndex + 1}`} 
           className={`max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
           onLoad={handleImageLoad}
+          onError={handleImageError}
         />
 
         {/* Counter */}

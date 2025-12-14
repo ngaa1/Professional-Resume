@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme, toggle
         {/* Main Card */}
         <div className="bg-surface rounded-2xl p-8 md:p-10 border border-border shadow-xl shadow-glow relative overflow-hidden print:shadow-none print:border-none print:p-0 transition-colors duration-300">
           
-          {/* Action Buttons (Language + Theme + Print) - Hidden in Print */}
+          {/* Action Buttons (Language + Theme) - Hidden in Print */}
           <div className="absolute top-4 right-4 z-30 flex gap-2 print:hidden">
             {/* Language Toggle */}
             <button
@@ -69,22 +69,6 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme, toggle
             >
               <Icons.Languages className="w-5 h-5 text-secondary" />
               <span className="text-sm font-bold text-primary">{currentLang === 'zh' ? 'EN' : '中'}</span>
-            </button>
-
-            {/* Download Button */}
-            <button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className={`px-4 py-2 rounded-xl bg-surface border border-border shadow-lg transition-all duration-300 flex items-center gap-2 ${isDownloading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-accent-light hover:text-accent'}`}
-              aria-label="下载简历 PDF"
-              title={isDownloading ? "下载中..." : "下载简历 (PDF) / 另存为 PDF"}
-            >
-              {isDownloading ? (
-                <div className="w-5 h-5 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <Icons.Download className="w-5 h-5 text-secondary" />
-              )}
-              <span className={`transition-opacity duration-300 hidden sm:inline ${isDownloading ? 'opacity-0' : 'opacity-100'}`}>下载简历</span>
             </button>
             
             {/* Theme Toggle */}
@@ -105,6 +89,25 @@ const Header: React.FC<HeaderProps> = ({ data, toggleTheme, currentTheme, toggle
                   <Icons.Sun className="w-5 h-5 text-secondary opacity-50 hidden sm:block" />
                 </>
               )}
+            </button>
+          </div>
+          
+          {/* Download Button - Bottom Right Corner - Hidden in Print */}
+          <div className="absolute bottom-4 right-4 z-30 print:hidden">
+            {/* Download Button */}
+            <button
+              onClick={handleDownload}
+              disabled={isDownloading}
+              className={`px-4 py-2 rounded-xl bg-surface border border-border shadow-lg transition-all duration-300 flex items-center gap-2 ${isDownloading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-accent-light hover:text-accent'}`}
+              aria-label="下载简历 PDF"
+              title={isDownloading ? "下载中..." : "下载简历 (PDF) / 另存为 PDF"}
+            >
+              {isDownloading ? (
+                <div className="w-5 h-5 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Icons.Download className="w-5 h-5 text-secondary" />
+              )}
+              <span className={`transition-opacity duration-300 hidden sm:inline ${isDownloading ? 'opacity-0' : 'opacity-100'}`}>下载简历</span>
             </button>
           </div>
           

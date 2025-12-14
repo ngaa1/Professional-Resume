@@ -18,10 +18,12 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<string[]>([]);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const [currentProjectName, setCurrentProjectName] = useState<string>('');
 
-  const handleImageClick = (images: string[], index: number = 0) => {
+  const handleImageClick = (project: any, images: string[], index: number = 0) => {
     setViewerImages(images);
     setViewerIndex(index);
+    setCurrentProjectName(project.name);
     setIsViewerOpen(true);
   };
 
@@ -155,7 +157,7 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
                   {project.images && project.images.length > 0 && (
                     <div 
                       className="w-full md:w-48 h-32 md:h-auto flex-shrink-0 cursor-pointer overflow-hidden rounded-lg group/image relative border border-border print:hidden"
-                      onClick={() => handleImageClick(project.images!, 0)}
+                      onClick={() => handleImageClick(project, project.images!, 0)}
                     >
                       <img 
                         src={project.images[0]} 
@@ -205,6 +207,8 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({ data, labels }) => {
         initialIndex={viewerIndex} 
         isOpen={isViewerOpen} 
         onClose={() => setIsViewerOpen(false)} 
+        type="experience"
+        projectName={currentProjectName}
       />
     </>
   );
