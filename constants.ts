@@ -103,11 +103,11 @@ export const RESUME_DATA_CN: ResumeData = {
         "about_me": "个人简介",
         "experience": "工作经历",
         "education": "教育背景",
-        "honors": "公司荣誉与激励",
+        "honors": "荣誉成就",
         "skills": "技能特长",
         "core_responsibilities": "核心职责",
         "projects": "参与项目",
-        "personal_projects": "个人兴趣与独立开发",
+        "personal_projects": "个人项目",
         "view_more": "查看详情",
         "collapse": "收起",
         "expand": "展开"
