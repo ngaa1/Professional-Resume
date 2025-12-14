@@ -1,4 +1,5 @@
 
+
 import { ResumeData } from './types';
 
 // ============================================================================
@@ -91,7 +92,7 @@ export const RESUME_DATA_CN: ResumeData = {
     "email": "nglichulong@outlook.com",
     "phone": "13865379680",
     "wechat": "nglichulong",
-    "summary": "拥有设计院和光伏行业双重工作经验的结构工程师。在GAD杰地设计集团期间参与多个公建、商业和住宅项目的结构设计，积累了扎实的建筑结构设计基础和参数化建模能力；现于天合光能跟踪支架工程技术中心工作，成功支持50+全球项目，实施20个重点项目（总容量600MW），独立开发智能跟踪支架分析系统（T-STARS）并获得公司专利。两份工作体现了从建筑结构设计到新能源跟踪支架专业领域的技术深化，以及从单一项目执行到全球项目管理和工具创新的职业发展。",
+    "summary": "拥有设计院和光伏行业双重工作经验的结构工程师。在GAD杰地设计集团期间参与多个公建、商业和住宅项目的结构设计，积累了扎实的建筑结构设计基础和参数化建模能力；现于天合光能跟踪支架工程技术中心工作，2024年度成功支持50+全球项目，实施20个重点项目（总容量600MW）。2025年一个季度最高支持项目总容量2000MW，实施项目容量300MW+，独立开发智能跟踪支架分析系统（T-STARS）并获得公司专利。两份工作体现了从建筑结构设计到新能源跟踪支架专业领域的技术深化，以及从单一项目执行到全球项目管理和工具创新的职业发展。",
     "tags": [
         "土木工程", "结构力学", "代尔夫特理工硕士", "雅思7.5", 
         "GAD绿城设计院", "住宅公建项目", "参数化设计", "天合光能", 
@@ -143,7 +144,7 @@ export const RESUME_DATA_CN: ResumeData = {
             "logo": "https://static.trinasolar.com/sites/default/files/logo_0.png",
             "position": "欧美区域项目工程负责人&光伏支架高级结构工程师",
             "year": "2023 六月~至今",
-            "description": "在跟踪支架工程技术中心工作，负责全球项目技术支持、跟踪支架结构设计与优化，以及工具开发。支持横跨欧美50多个项目，实施20个重点项目（总容量600MW），提供定制化解决方案并平衡成本与质量。熟练掌握美标、欧标等多种规范，对基础设计、施工定位等问题提供专业解决方案。",
+            "description": "在跟踪支架工程技术中心工作，负责全球项目技术支持、跟踪支架结构设计与优化，以及工具开发。2024年度成功支持50+全球项目，实施20个重点项目（总容量600MW）。2025年一个季度最高支持项目总容量2000MW，实施项目容量300MW+。提供定制化解决方案并平衡成本与质量。熟练掌握美标、欧标等多种规范，对基础设计、施工定位等问题提供专业解决方案。",
             "core_responsibilities": [
                 "全球项目技术支持：提供技术方案设计、结构计算和规范校核",
                 "跟踪支架结构优化：针对不同项目进行结构参数调整和优化，降低成本",
@@ -154,19 +155,33 @@ export const RESUME_DATA_CN: ResumeData = {
             "projects": [
                 {
                     "name": "阿根廷 SAM FAFEAL 230MW 等大型光伏跟踪支架项目",
-                    "description": "完成大批量的光伏跟踪支架结构设计和计算，包括地形环境验证，梁柱结构、柱位布置、桩基设计，打桩方案，替代桩基设计，和现场施工的拉拔测试流程设计。同时于客户和项目经理进行沟通交流，确保项目按计划进行，客户满意度高。应对第三方审核要求，提供专业技术支持，提供专业英语计算书和当地规范计算算例。"
+                    "description": "完成大批量的光伏跟踪支架结构设计和计算，包括地形环境验证，梁柱结构、柱位布置、桩基设计，打桩方案，替代桩基设计，和现场施工的拉拔测试流程设计。同时于客户和项目经理进行沟通交流，确保项目按计划进行，客户满意度高。应对第三方审核要求，提供专业技术支持，提供专业英语计算书和当地规范计算算例。",
+                    "images": [
+                      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+                      "https://images.unsplash.com/photo-1545208942-e42b2609c122?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "天合光能智能跟踪支架迅捷分析系统（T-STARS）",
-                    "description": "独立开发支架计算软件，实现计算快速高效、对钢结构规范的高度自定义、软件操作便捷和结果可靠。具备开放架构，支持大批量重复计算和支架结构自动优化，革新售中技术流程，已形成软件专著，成为售中工程团队首个公司专利。实现大批量的光伏支架结构设计和计算。"
+                    "description": "独立开发支架计算软件，实现计算快速高效、对钢结构规范的高度自定义、软件操作便捷和结果可靠。具备开放架构，支持大批量重复计算和支架结构自动优化，革新售中技术流程，已形成软件专著，成为售中工程团队首个公司专利。实现大批量的光伏支架结构设计和计算。",
+                    "images": [
+                      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+                      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "AI报价工具数据迁移程序（DT）",
-                    "description": "基于Streamlit开发的自动化数据迁移工具，用于将Excel数据批量转换并导入Access数据库，支持多版本兼容与数据库合并。具备直观GUI、实时进度监控、日志记录及错误检测功能，显著提升大量数据处理效率，降低人工操作风险。提供数据给光伏AI报价系统，参与系统开发和需求设计，提高AI训练精度并实现使用少量参数对光伏支架项目实现快速精确报价。"
+                    "description": "基于Streamlit开发的自动化数据迁移工具，用于将Excel数据批量转换并导入Access数据库，支持多版本兼容与数据库合并。具备直观GUI、实时进度监控、日志记录及错误检测功能，显著提升大量数据处理效率，降低人工操作风险。提供数据给光伏AI报价系统，参与系统开发和需求设计，提高AI训练精度并实现使用少量参数对光伏支架项目实现快速精确报价。",
+                    "images": [
+                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "西班牙团队技术支持与交流",
-                    "description": "赴西班牙与当地销售、售前、研发及售中团队进行技术交流，推广T-STARS系统，解决V1P产品工程计算问题，赋能当地团队独立进行工程计算工作。"
+                    "description": "赴西班牙与当地销售、售前、研发及售中团队进行技术交流，推广T-STARS系统，解决V1P产品工程计算问题，赋能当地团队独立进行工程计算工作。",
+                    "images": [
+                      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80"
+                    ]
                 }
             ]
         },
@@ -187,23 +202,39 @@ export const RESUME_DATA_CN: ResumeData = {
             "projects": [
                 {
                     "name": "良渚文化中心项目",
-                    "description": "大体量公建项目，负责地上七层结构主体，框剪结构，异形楼板，包括剪力墙选型，柱位布置，负责地上结构墙板柱深化出图，以及楼板立柱配筋图。"
+                    "description": "大体量公建项目，负责地上七层结构主体，框剪结构，异形楼板，包括剪力墙选型，柱位布置，负责地上结构墙板柱深化出图，以及楼板立柱配筋图。",
+                    "images": [
+                       "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80",
+                       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "昆明俊发东海岸公园项目",
-                    "description": "异形景观平台\"花瓣\"结构选型优化，梁系生成优化，Grasshopper参数化建模和计算。"
+                    "description": "异形景观平台\"花瓣\"结构选型优化，梁系生成优化，Grasshopper参数化建模和计算。",
+                    "images": [
+                       "https://images.unsplash.com/photo-1460518451285-97b6aa326961?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "杭州小梅山会议中心项目",
-                    "description": "大跨度钢结构屋面结构设计，异形飘带钢结构屋面结构设计，运用参数化设计进行梁系布置，和工厂单位进行深化配合。"
+                    "description": "大跨度钢结构屋面结构设计，异形飘带钢结构屋面结构设计，运用参数化设计进行梁系布置，和工厂单位进行深化配合。",
+                     "images": [
+                       "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "楚肆水街书城结构优化",
-                    "description": "中庭屋盖上的钢桁架结构优化，Rhino + Grasshopper全参数化模型，优化弦杆位置，截面尺寸。"
+                    "description": "中庭屋盖上的钢桁架结构优化，Rhino + Grasshopper全参数化模型，优化弦杆位置，截面尺寸。",
+                     "images": [
+                       "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "重庆大学校企合作学术项目",
-                    "description": "土木工程学院研究生校外导师，超高层建筑环桁架/伸臂桁架，柱的综合优化，一个 Rhino 加 Grasshopper 和 YJK 联动的参数化分析，利用遗传算法进行优化，多算例检验，验证超高层建筑环桁架/伸臂桁架加强层位置的一般规律。"
+                    "description": "土木工程学院研究生校外导师，超高层建筑环桁架/伸臂桁架，柱的综合优化，一个 Rhino 加 Grasshopper 和 YJK 联动的参数化分析，利用遗传算法进行优化，多算例检验，验证超高层建筑环桁架/伸臂桁架加强层位置的一般规律。",
+                    "images": [
+                       "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=800&q=80"
+                    ]
                 },
             ]
         }
@@ -259,6 +290,9 @@ export const RESUME_DATA_CN: ResumeData = {
            "核心功能：集成数据获取、策略回测、结果分析与可视化模块，支持AKShare数据源。",
            "策略引擎：支持移动平均线交叉等策略的多股票并发回测，提供胜率、回撤等关键指标。",
            "技术实现：采用模块化设计，支持参数配置（初始资金、交易成本），便于策略验证与学习。"
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80"
         ]
       },
       {
@@ -268,6 +302,9 @@ export const RESUME_DATA_CN: ResumeData = {
             "算法应用：基于OpenCV inpaint算法实现高效修复，针对AI生成图片水印进行高效优化。",
             "交互设计：使用Streamlit构建Web界面，支持自定义路径、实时对比与批量处理。",
             "工程实践：实现设置持久化、中文路径支持与容错处理，大幅提升图片后期处理效率。"
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80"
         ]
       },
       {
@@ -277,6 +314,9 @@ export const RESUME_DATA_CN: ResumeData = {
             "数据处理：自动化处理赔偿、拆迁等多类型工程数据，支持多段桩号范围配置。",
             "图表生成：自动分类管理图标，实现Excel数据到图表的快速转换与预览。",
             "效率提升：提供参数化导出设置，辅助设计人员快速输出标准化的路书文件。"
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1494522358652-f30e61a60313?auto=format&fit=crop&w=800&q=80"
         ]
       }
     ]
@@ -352,19 +392,33 @@ export const RESUME_DATA_EN: ResumeData = {
             "projects": [
                 {
                     "name": "Argentina SAM FAFEAL 230MW & other large-scale PV tracker projects",
-                    "description": "Completed large-volume PV tracker structural design and calculation, including terrain verification, beam-column structure, column layout, pile foundation design, piling plans, alternative pile design, and on-site pull-out test process design. Communicated with clients and project managers to ensure projects proceeded as planned with high client satisfaction. Responded to third-party audit requirements, providing professional technical support, English calculation reports, and local code calculation examples."
+                    "description": "Completed large-volume PV tracker structural design and calculation, including terrain verification, beam-column structure, column layout, pile foundation design, piling plans, alternative pile design, and on-site pull-out test process design. Communicated with clients and project managers to ensure projects proceeded as planned with high client satisfaction. Responded to third-party audit requirements, providing professional technical support, English calculation reports, and local code calculation examples.",
+                    "images": [
+                      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+                      "https://images.unsplash.com/photo-1545208942-e42b2609c122?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "Trina Solar Smart Tracker Analysis & Rapid System (T-STARS)",
-                    "description": "Independently developed tracker calculation software, achieving fast and efficient calculations, highly customizable steel structure codes, user-friendly operation, and reliable results. Features an open architecture supporting batch repetitive calculations and automatic tracker structural optimization, revolutionizing the pre-sales technical process. Obtained software copyright and became the first company patent for the pre-sales engineering team. Enables large-scale PV tracker structural design and calculation."
+                    "description": "Independently developed tracker calculation software, achieving fast and efficient calculations, highly customizable steel structure codes, user-friendly operation, and reliable results. Features an open architecture supporting batch repetitive calculations and automatic tracker structural optimization, revolutionizing the pre-sales technical process. Obtained software copyright and became the first company patent for the pre-sales engineering team. Enables large-scale PV tracker structural design and calculation.",
+                    "images": [
+                      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+                      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "AI Quotation Tool Data Transfer Program (DT)",
-                    "description": "Automated data migration tool based on Streamlit for batch converting and importing Excel data into Access databases, supporting multi-version compatibility and database merging. Features intuitive GUI, real-time progress monitoring, logging, and error detection, significantly improving data processing efficiency and reducing manual risks. Supplied data for the PV AI quotation system, participated in system development and requirement design, improved AI training accuracy, and enabled fast and accurate quotation for PV tracker projects using minimal parameters."
+                    "description": "Automated data migration tool based on Streamlit for batch converting and importing Excel data into Access databases, supporting multi-version compatibility and database merging. Features intuitive GUI, real-time progress monitoring, logging, and error detection, significantly improving data processing efficiency and reducing manual risks. Supplied data for the PV AI quotation system, participated in system development and requirement design, improved AI training accuracy, and enabled fast and accurate quotation for PV tracker projects using minimal parameters.",
+                    "images": [
+                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "Spain Team Technical Support & Exchange",
-                    "description": "Traveled to Spain for technical exchanges with local sales, pre-sales, R&D, and pre-sales teams, promoting the T-STARS system, solving V1P product engineering calculation issues, and empowering the local team to conduct independent engineering calculations."
+                    "description": "Traveled to Spain for technical exchanges with local sales, pre-sales, R&D, and pre-sales teams, promoting the T-STARS system, solving V1P product engineering calculation issues, and empowering the local team to conduct independent engineering calculations.",
+                    "images": [
+                      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80"
+                    ]
                 }
             ]
         },
@@ -384,23 +438,39 @@ export const RESUME_DATA_EN: ResumeData = {
             "projects": [
                 {
                     "name": "Liangzhu Culture Center",
-                    "description": "Large-scale public building project. Responsible for the main structure of seven stories above ground, frame-shear wall structure, irregular floor slabs, including shear wall selection, column layout, deepening drawings for above-ground structural walls/slabs/columns, and floor/column reinforcement drawings."
+                    "description": "Large-scale public building project. Responsible for the main structure of seven stories above ground, frame-shear wall structure, irregular floor slabs, including shear wall selection, column layout, deepening drawings for above-ground structural walls/slabs/columns, and floor/column reinforcement drawings.",
+                    "images": [
+                       "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80",
+                       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "Kunming Junfa East Coast Park",
-                    "description": "Structural selection optimization for irregular landscape platform 'Petal', beam system generation optimization, Grasshopper parametric modeling and calculation."
+                    "description": "Structural selection optimization for irregular landscape platform 'Petal', beam system generation optimization, Grasshopper parametric modeling and calculation.",
+                    "images": [
+                       "https://images.unsplash.com/photo-1460518451285-97b6aa326961?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "Hangzhou Xiaomeishan Conference Center",
-                    "description": "Large-span steel roof structure design, irregular ribbon steel roof structure design, using parametric design for beam system layout, coordinating with factory units for deepening."
+                    "description": "Large-span steel roof structure design, irregular ribbon steel roof structure design, using parametric design for beam system layout, coordinating with factory units for deepening.",
+                    "images": [
+                       "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "Chusi Water Street Book City Structural Optimization",
-                    "description": "Optimization of steel truss structure on atrium roof, Rhino + Grasshopper fully parametric model, optimizing chord positions and section sizes."
+                    "description": "Optimization of steel truss structure on atrium roof, Rhino + Grasshopper fully parametric model, optimizing chord positions and section sizes.",
+                    "images": [
+                       "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80"
+                    ]
                 },
                 {
                     "name": "Chongqing University School-Enterprise Cooperation Academic Project",
-                    "description": "Off-campus mentor for graduate students in Civil Engineering. Comprehensive optimization of belt truss/outrigger truss and columns for super high-rise buildings. A parametric analysis linking Rhino + Grasshopper and YJK, using genetic algorithms for optimization, verified by multiple examples to validate general laws for belt/outrigger truss strengthening layer positions in super high-rise buildings."
+                    "description": "Off-campus mentor for graduate students in Civil Engineering. Comprehensive optimization of belt truss/outrigger truss and columns for super high-rise buildings. A parametric analysis linking Rhino + Grasshopper and YJK, using genetic algorithms for optimization, verified by multiple examples to validate general laws for belt/outrigger truss strengthening layer positions in super high-rise buildings.",
+                    "images": [
+                       "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=800&q=80"
+                    ]
                 },
             ]
         }
@@ -456,6 +526,9 @@ export const RESUME_DATA_EN: ResumeData = {
            "Core Functions: Integrated data acquisition, strategy backtesting, result analysis & visualization (AKShare).",
            "Strategy Engine: Supports moving average crossover strategies, etc., providing win rate, drawdown, and other key indicators.",
            "Implementation: Modular design, supports parameter configuration (initial capital, transaction costs) for easy strategy verification."
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80"
         ]
       },
       {
@@ -465,6 +538,9 @@ export const RESUME_DATA_EN: ResumeData = {
             "Algorithm: Uses OpenCV inpaint algorithm for efficient repair, optimized for AI-generated image watermarks.",
             "Interaction: Built with Streamlit Web interface, supports custom paths, real-time comparison, and batch processing.",
             "Engineering: Implemented settings persistence, Chinese path support, and error handling, significantly improving post-processing efficiency."
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80"
         ]
       },
       {
@@ -474,6 +550,9 @@ export const RESUME_DATA_EN: ResumeData = {
             "Data Processing: Automated processing of compensation/demolition data, supports multi-segment station configuration.",
             "Chart Generation: Auto-categorizes icons, enabling fast conversion and preview from Excel data to charts.",
             "Efficiency: Provides parameterized export settings, assisting designers in quickly outputting standardized roadbook files."
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1494522358652-f30e61a60313?auto=format&fit=crop&w=800&q=80"
         ]
       }
     ]

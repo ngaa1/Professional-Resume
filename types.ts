@@ -4,6 +4,7 @@ export interface Project {
   name: string;
   description: string;
   highlights?: string[];
+  images?: string[];
 }
 
 export interface Experience {
